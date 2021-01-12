@@ -17,8 +17,8 @@ FPGAEmu: A Guide to FPGA Emulation
    :numbered: 
    :caption: Emulation Environment
 
-   axi-pcie
    mig
+   axi-pcie
 
 .. toctree::
    :maxdepth: 2
@@ -44,7 +44,7 @@ to everyone that has contributed, including:
 
 Special thanks to our sponsors that made this all possible:
 
-|pic1| |blank| |pic2|
+|blank| |pic1| |blank| |pic2|
 
 .. |pic1| image:: /images/University_of_San_Diego_logo.svg
    :width: 30%
@@ -55,4 +55,4 @@ Special thanks to our sponsors that made this all possible:
    :alt: Qualcomm
 
 .. |blank| image:: /images/blank.png
-   :width: 5%
+   :width: 7%
