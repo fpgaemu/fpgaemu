@@ -1,0 +1,40 @@
+name-template: '$NEXT_VERSION'
+tag-template: '$NEXT_VERSION'
+categories:
+  - title: '📘 Content'
+    labels:
+      - 'content'
+  - title: '💻 Site'
+    labels:
+      - 'site'
+      - 'maintenance'
+      - 'chore'
+  - title: '🚀 Features'
+    labels:
+      - 'feature'
+      - 'enhancement'
+      - 'request'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+change-template: '- (#$NUMBER) | $TITLE @$AUTHOR'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+exclude-labels:
+  - 'ask'
+
+template: |
+  ## Changes
+  
+  $CHANGES
