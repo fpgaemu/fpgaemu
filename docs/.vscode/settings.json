@@ -2,6 +2,5 @@
     "restructuredtext.builtDocumentationPath": "${workspaceRoot}/_build/html",
     "restructuredtext.updateOnTextChanged": "true",
     "restructuredtext.updateDelay": 3000,
-    "restructuredtext.preview.docutil.disabled": true,
-    "restructuredtext.confPath": "${workspaceFolder}"
+    "restructuredtext.preview.docutil.disabled": true
 }
