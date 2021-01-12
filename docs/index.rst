@@ -3,16 +3,30 @@ FPGAEmu: A Guide to FPGA Emulation
 ==================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
+   :caption: Hardware Basics
+
+   emulation
+   axi
+   pcie
+   ddr
+   clocks
+
+.. toctree::
+   :maxdepth: 2
+   :numbered: 
+   :caption: Emulation Environment
+
+   axi-pcie
+   mig
+
+.. toctree::
+   :maxdepth: 2
    :numbered:
-   :caption: Table of Contents
+   :caption: Device Under Test
 
-   FPGA-Basics/index
-   Emulation-Environment/index
-   DUT/index
-   resources
+   counter
    
-
 Indices and tables
 ==================
 
@@ -30,10 +44,15 @@ to everyone that has contributed, including:
 
 Special thanks to our sponsors that made this all possible:
 
-|pic1| |pic2|
+|pic1| |blank| |pic2|
 
-.. |pic1| image:: /images/usd.png
-   :width: 45%
+.. |pic1| image:: /images/University_of_San_Diego_logo.svg
+   :width: 30%
+   :alt: University of San Diego
 
 .. |pic2| image:: /images/qualcomm.svg
    :width: 45%
+   :alt: Qualcomm
+
+.. |blank| image:: /images/blank.png
+   :width: 5%
