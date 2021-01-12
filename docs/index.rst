@@ -4,6 +4,8 @@ FPGAEmu: A Guide to FPGA Emulation
 
 .. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
 
+.. image:: /images/block_1.svg
+
 .. toctree::
    :maxdepth: 2
    :caption: Hardware Basics
