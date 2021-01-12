@@ -32,7 +32,7 @@ release = '0.1'
 # ones.
 extensions = [
 		'sphinx_rtd_theme',
-	    	'sphinx.ext.autosectionlabel',
+	    'sphinx.ext.autosectionlabel',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -70,15 +70,6 @@ master_doc = 'index'
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
 html_extra_path = ["_static/css"]
-
 html_css_files = ["css/toggle.css"]
 html_js_files = ["js/toggle.js"]
 
-##########################
-# "EDIT ON GITHUB" LINKS #
-##########################
- 
-##html_context['display_github'] = True
-##html_context['github_user'] = 'fpgaemu'
-##html_context['github_repo'] = 'fpgaemu'
-##html_context['github_version'] = 'master/docs/'

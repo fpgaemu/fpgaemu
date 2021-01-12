@@ -10,6 +10,7 @@ FPGAEmu: A Guide to FPGA Emulation
    FPGA-Basics/index
    Emulation-Environment/index
    DUT/index
+   resources
    
 
 Indices and tables
