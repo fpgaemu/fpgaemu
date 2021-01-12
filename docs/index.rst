@@ -18,7 +18,7 @@ FPGAEmu: A Guide to FPGA Emulation
    :caption: Emulation Environment
 
    mig
-   axi-pcie
+   axi_pcie
 
 .. toctree::
    :maxdepth: 2
@@ -31,7 +31,6 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 
 Acknowledegments

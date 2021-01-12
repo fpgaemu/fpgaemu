@@ -1,4 +1,4 @@
-.. _AXI-PCIe:
+.. _AXI_PCIe:
 
 ==========================
 AXI MM to PCIe IP Overview
