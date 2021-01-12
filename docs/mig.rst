@@ -4,13 +4,27 @@
 MIG 7 Series IP Overview
 ========================
 
-.. Note:: This article was tested using a Kintex-7 FPGA, although the IP works with all 7-Series FPGAs.
+.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
+
+The MIG 7 Series IP is a ubiquitous core that is compatible with all 7 Series FPGAs, adding easy memory
+management into any design. For this article, we will discuss using the MIG with both a Kintex-7 and
+Virtex-7 board, such as the KC705 and VC707 respectively.  
 
 Customizing the IP
 ------------------
 
-Create a new block diagram (BD) and use the IP catalog to add a new IP to the BD- in this case, the 
-"Memory Interface Generator (MIG 7 Series)". 
+If using a board, be sure to select it as the project's default part before moving on. 
+
+.. image:: /images/mig7/board_select.png
+
+A good board to start with is the VC707, as it has ample computational power, DDR3 memory,
+and a PCIe interface, as well as other peripherals.
+
+Create a new block diagram (BD) and use the IP catalog to add a new IP to the BD - in this case, the 
+"Memory Interface Generator (MIG 7 Series)". If using a board, a prepackaged MIG may be available. 
+We can customize it by double clicking it. 
+
+.. image:: /images/mig7/sample_ip.png
 
 .. Important:: Unless mentioned otherwise, leave all values default.
 
@@ -22,8 +36,9 @@ Create a new block diagram (BD) and use the IP catalog to add a new IP to the BD
 -  Make sure the PHY to Controller Clock Ratio is 4:1 (ensuring that the physical DDR RAM will
    operate at 400 MHz, but the controller stays at 100 MHz i.e. ui_clk = 100 MHz).
 
--  Select 8 bits as the Data Width for each address in memory. Also check that the number
-   of Bank Machines used for managing DDR banks is set to 4.
+-  For Kintex-7, select 8 bits as the Data Width for each address in memory. Also check that the number
+   of Bank Machines used for managing DDR banks is set to 4. For Virtex-7, set the Data Width to 64
+   bits to account for the larger data bandwidth. 
 
 -  At the bottom of the Controller 0 screen, make sure the memory details match 
    ``1 GB, x8, row:14, col:10, bank:3, data bits per strobe:8, with data mask, single rank, 1.5V``
@@ -33,7 +48,7 @@ Create a new block diagram (BD) and use the IP catalog to add a new IP to the BD
 -  Leave the AXI ID Width at 4, as we will not use this.
 
 -  Select the Input Clock Period for PLL input clock (CLKIN) at 5000ps for 200 MHz, so that we can
-   use the input clock as the reference clock, which must be 200 MHz.
+   use the input clock as the reference clock, which must be 200 MHz. Deselect any additional clocks.
 
 -  Make sure the Memory Address Mapping Selection is set to the default configuration of Bank/Row/Column.
 
@@ -42,7 +57,19 @@ Create a new block diagram (BD) and use the IP catalog to add a new IP to the BD
 
 -  Choose active HIGH for the System Reset Polarity.
 
--  Import and validate the Pin Configuration file (add link for Kintex-7 xdc/ucf).
+-  Import and validate the Pin Configuration file. Boards will come with preset constraints. For example,
+   the VC707's pins are as such:
+
+.. image:: /images/mig7/pin_selection.png
+
+-  If prompted, select the following HP Bank byte groups for data and address/control.
+
+   - Byte Group T0 to Address/Ctrl-0
+   - Byte Group T1 to Address/Ctrl-1
+   - Byte Group T2 to Address/Ctrl-2
+   - Byte Group T3 to DQ[0-7]
+
+.. image:: /images//mig7/byte.png 
 
 -  Assign system signals. 
 
@@ -83,9 +110,10 @@ The MIG's reset scheme is as follows:
 We can observe this behavior by running a Behavioral Simulation in Vivado. Make sure to add
 the correct AXI signals by clicking the **Scope** heading, right clicking on the ``u_ip_top`` module,
 and selecting **Add to Wave Window**. This will allow us to see the AXI read and write transactions.
-(add screenshot here ~)
 
-.. Note:: If you need a refresher on the AXI protocol or interpreting the simulation's waveforms, check here: :ref:`Axi Protocol Overview`.
+.. image:: /images/mig7/wave_window.png
+
+.. Note:: If you need a refresher on the AXI protocol or interpreting the simulation's waveforms, check here: :ref:`AXI Protocol Overview`.
 
 Since the MIG needs time to calibrate and set up, no AXI reads/writes will occur until after the ``init_calib_complete``
 pin goes HIGH after 100us.
@@ -97,6 +125,9 @@ and the AXI Data Width is 32 bits, which is expected.
 
 Simulating Read/Writes with AXI VIP
 -----------------------------------
+
+.. Note:: All further examples are implemented using a Kintex-7 FPGA. However, the most pertinent portions apply to all other FPGAs (*e.g. the VIP implementation can also be used in the VC707's provided testbench*).
+
 As mentioned before, Xilinx's implementation of their Traffic Generator is difficult to break down
 into understandable chunks. Luckily, Xilinx also provides an alternative - the AXI Verification IP
 (or AXI VIP), which can simulate an AXI master, slave, or pass-through device. You can find more
