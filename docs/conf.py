@@ -78,7 +78,7 @@ html_js_files = ["js/toggle.js"]
 # "EDIT ON GITHUB" LINKS #
 ##########################
  
-html_context['display_github'] = True
-html_context['github_user'] = 'fpgaemu'
-html_context['github_repo'] = 'fpgaemu'
-html_context['github_version'] = 'master/docs/'
+##html_context['display_github'] = True
+##html_context['github_user'] = 'fpgaemu'
+##html_context['github_repo'] = 'fpgaemu'
+##html_context['github_version'] = 'master/docs/'
