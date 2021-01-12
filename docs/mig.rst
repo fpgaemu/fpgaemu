@@ -152,7 +152,7 @@ Open the top module of the AXI VIP (``axi_vip_0``), copy all input/output signal
 *module axi_vip_0*), and paste these signals back into the ``example_top.v`` file in place of the
 commented-out TG instantiation.
 
-.. Important:: If you want to download the top file instead, go :download:`here </files/example_top_axi.v/>`. Just be sure to rename ``example_top_axi.v`` to ``example_top.v``!
+.. Important:: If you want to download the top file instead, go :download:`here </files/example_top_axi.v>`. Just be sure to rename ``example_top_axi.v`` to ``example_top.v``!
 
 .. code-block:: verilog
 
@@ -482,7 +482,7 @@ Now that we have sucessfully instantiated our new design, our two AXI Masters sh
 perform read/write requests to the MIG through the AXI SmartConnect IP. We can verify this through
 a behavioral simulation that performs two simultaneous write/read requests to two different addresses.
 
-.. Important:: The simulation top file can be found :download:`here </files/example_top_2axi.v/>`. Just be sure to rename ``example_top_2axi.v`` to ``example_top.v``!
+.. Important:: The simulation top file can be found :download:`here </files/example_top_2axi.v>`. Just be sure to rename ``example_top_2axi.v`` to ``example_top.v``!
 
 .. Note:: This testbench will only work if you named your BD instantiation as ``u_axi_vip_interconnect_bd`` and left the component names of the AXI VIPs as default.
 
