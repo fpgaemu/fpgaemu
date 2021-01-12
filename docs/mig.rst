@@ -13,15 +13,14 @@ Virtex-7 board, such as the KC705 and VC707 respectively.
 Customizing the IP
 ------------------
 
-If using a board, be sure to select it as the project's default part before moving on. 
+If using a board, be sure to select it as the project's default part before moving on. A good board to 
+start with is the VC707, as it has ample computational power, DDR3 memory, and a PCIe interface, as well 
+as other peripherals.
 
 .. image:: /images/mig7/board_select.png
 
-A good board to start with is the VC707, as it has ample computational power, DDR3 memory,
-and a PCIe interface, as well as other peripherals.
-
 Create a new block diagram (BD) and use the IP catalog to add a new IP to the BD - in this case, the 
-"Memory Interface Generator (MIG 7 Series)". If using a board, a prepackaged MIG may be available. 
+"Memory Interface Generator (MIG 7 Series)" core. If using a board, a prepackaged MIG may be available. 
 We can customize it by double clicking it. 
 
 .. image:: /images/mig7/sample_ip.png
@@ -153,7 +152,7 @@ Open the top module of the AXI VIP (``axi_vip_0``), copy all input/output signal
 *module axi_vip_0*), and paste these signals back into the ``example_top.v`` file in place of the
 commented-out TG instantiation.
 
-.. Important:: If you want to download the top file instead, go :download:`here <../files/example_top_axi.v/>`. Just be sure to rename ``example_top_axi.v`` to ``example_top.v``!
+.. Important:: If you want to download the top file instead, go :download:`here </files/example_top_axi.v/>`. Just be sure to rename ``example_top_axi.v`` to ``example_top.v``!
 
 .. code-block:: verilog
 
@@ -385,7 +384,7 @@ this, we will use an AXI SmartConnect IP.
 
 .. Error:: Xilinx now recommends that all new AXI designs use the SmartConnect v1.0 core. It is not recommended to use the AXI Interconnect v2.1 core. 
 
-.. Note:: You can read more about the SmartConnect IP here: :ref:`Axi Protocol Overview`.
+.. Note:: You can read more about the SmartConnect IP here: :ref:`AXI Protocol Overview`.
 
 Begining with our modified MIG example design with one AXI VIP, create a new block diagram (BD). Add a 
 SmartConnect IP and customize it as shown:
@@ -483,7 +482,7 @@ Now that we have sucessfully instantiated our new design, our two AXI Masters sh
 perform read/write requests to the MIG through the AXI SmartConnect IP. We can verify this through
 a behavioral simulation that performs two simultaneous write/read requests to two different addresses.
 
-.. Important:: The simulation top file can be found :download:`here <../files/example_top_2axi.v/>`. Just be sure to rename ``example_top_2axi.v`` to ``example_top.v``!
+.. Important:: The simulation top file can be found :download:`here </files/example_top_2axi.v/>`. Just be sure to rename ``example_top_2axi.v`` to ``example_top.v``!
 
 .. Note:: This testbench will only work if you named your BD instantiation as ``u_axi_vip_interconnect_bd`` and left the component names of the AXI VIPs as default.
 
@@ -626,11 +625,12 @@ If the TCL console prints a **Test Passed** message, congratulations! The test w
 successfully implemented two AXI VIPs with a MIG. 
 
 .. code-block:: TCL
+   :emphasize-lines: 5
 
    sim_tb_top.mem_rnk[0].gen_mem[0].u_comp_ddr3.data_task: at time 107027064.0 ps INFO: READ @ DQS= bank = 0 row = 0000 col = 00000006 data = 00
    sim_tb_top.mem_rnk[0].gen_mem[0].u_comp_ddr3.data_task: at time 107028314.0 ps INFO: READ @ DQS= bank = 0 row = 0000 col = 00000007 data = 00
    sim_tb_top.mem_rnk[0].gen_mem[0].u_comp_ddr3.cmd_task: at time 107048314.0 ps INFO: Precharge bank   0
-
+   
    TEST PASSED
    Executing Axi4 End of Simulation checks
    Executing Axi4 End of Simulation checks
