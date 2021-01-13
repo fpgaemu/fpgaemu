@@ -49,13 +49,13 @@ Special thanks to our sponsors that made this all possible:
 
 |blank| |pic1| |blank| |pic2|
 
-.. |pic1| image:: /images/University_of_San_Diego_logo.svg
+.. |pic1| image:: /images/logos/University_of_San_Diego_logo.svg
    :width: 30%
    :alt: University of San Diego
 
-.. |pic2| image:: /images/qualcomm.svg
+.. |pic2| image:: /images/logos/qualcomm.svg
    :width: 45%
    :alt: Qualcomm
 
-.. |blank| image:: /images/blank.png
+.. |blank| image:: /images/logos/blank.png
    :width: 7%
