@@ -1,6 +1,6 @@
-==================================
-FPGAEmu: A Guide to FPGA Emulation
-==================================
+==========================================
+FPGAEmu: An Introduction to FPGA Emulation
+==========================================
 
 .. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
 
