@@ -5,34 +5,6 @@ input[type=checkbox] {
     margin: 0;
 }
 
-.rst-versions .rst-current-version {
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.rst-versions .rst-current-version .fa-book,
-.rst-versions .rst-current-version .fa-v,
-.rst-versions .rst-current-version .fa-caret-down {
-    height: 24px;
-    line-height: 24px;
-    vertical-align: middle;
-}
-
-.rst-versions .rst-current-version .fa-element {
-    width: 80px;
-    text-align: center;
-}
-
-.rst-versions .rst-current-version .fa-book {
-    text-align: left;
-}
-
-.rst-versions .rst-current-version .fa-v {
-    color: #27AE60;
-    text-align: right;
-}
-
 * {
     box-sizing: border-box;
   }
