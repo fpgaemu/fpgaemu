@@ -44,7 +44,11 @@ label {
     text-indent: -9999px;
     width: 50px;
     height: 21px;
-    background: #000;
+    background-image: url('https://i.postimg.cc/Hn0nstVK/Screenshot-2020-04-16-at-1-07-19-PM.png');
+    background-size: cover;
+    transition: background-image .90s;
+    box-shadow: 0px 2px 5px 1px gray;
+    /*background-color: #000;*/
 }
 
 label:after {
@@ -60,7 +64,9 @@ label:after {
 }
 
 input:checked+label {
-    background: #3a7ca8;
+    /*background: #3a7ca8;*/
+    background-image: url('https://i.postimg.cc/857jHw2q/Screenshot-2020-04-16-at-1-07-06-PM.png');
+    transition: background-image .90s;
 }
 
 input:checked+label:after {
