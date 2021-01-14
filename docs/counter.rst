@@ -11,7 +11,7 @@ First IP: Counter
 Packaging Custom IP
 -------------------
 
-AXI text here
+AXI text 
 
 .. _Simple Counter:
 

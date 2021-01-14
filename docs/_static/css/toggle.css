@@ -44,9 +44,9 @@ label {
     text-indent: -9999px;
     width: 50px;
     height: 21px;
-    background-image: url('https://raw.githubusercontent.com/chadmondwu/fpgaemu/master/assets/dark.jpg');
+    background-image: url('https://im5.ezgif.com/tmp/ezgif-5-7a0261fb64c0.gif');
     background-size: cover;
-    transition: background-image .80s;
+    transition: background-image .90s;
     box-shadow: 0px 2px 5px 1px gray;
     background-color: #000;
 }
