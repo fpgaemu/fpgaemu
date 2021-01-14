@@ -104,6 +104,10 @@ implements a handshake mechanism, wherein the sender drives a VALID signal when 
 the payload for delivery and the receiver drives a READY signal in response when it is ready to
 receive the data. The data transfer is also known as a *beat*. 
 
+.. figure:: /images/axi4/axi4_channel.jpg
+    :alt: AXI Channels
+    :align: right
+
 The five AXI4 channels are as follows:
 
 -   Write Address channel (AW): Provides address where data should be written (``AWADDR``)
@@ -126,12 +130,6 @@ The five AXI4 channels are as follows:
   * Can also send back status (``RRESP``), data ID, etc. 
   * Sender will always assert a finished transfer when done (``RLAST``)
   * ``RVALID`` (Slave to Master) and ``RREADY`` (Master to Slave)
-
-.. figure:: /images/axi4/axi4_channel.jpg
-    :alt: AXI Channels
-    :align: center
-
-    All five AXI4 channels
 
 Here is an example of a typical read/write AXI transaction. 
 
