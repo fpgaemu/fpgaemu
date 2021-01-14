@@ -21,7 +21,7 @@ as other peripherals.
 
 .. figure:: /images/mig7/board_select.png
    :alt: Board select
-   :align: left
+   :align: center
 
 Create a new block diagram (BD) and use the IP catalog to add a new IP to the BD - in this case, the 
 "Memory Interface Generator (MIG 7 Series)" core. If using a board, a prepackaged MIG may be available. 

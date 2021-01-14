@@ -236,7 +236,7 @@ replacing it with instantiations of both the MIG and SmartConnect.
 
     // System Clock Ports
         .sys_clk_i                       (sys_clk_i),
-        .device_temp            (device_temp),
+        .device_temp                     (device_temp),
         
         `ifdef SKIP_CALIB
         .calib_tap_req                    (calib_tap_req),
@@ -746,7 +746,7 @@ to the project.
 .. figure:: /images/pcie/source_directory.png
    :alt: PCIe Source Directory
    :align: center
-   :width: 70%
+   :width: 40%
 
 Modify the simulation top file to properly instantiate these new modules, including
 all MIG parameters. The example simulation top file can be found :download:`here </files/example_top_axi.v>`. (Need to upload file, link doesn't work)
