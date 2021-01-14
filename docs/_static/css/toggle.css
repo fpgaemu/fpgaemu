@@ -64,7 +64,7 @@ label:after {
 }
 
 input:checked+label {
-    background-image: url('https://i.pinimg.com/originals/f9/a4/18/f9a41860623f211bcaa72bf001f0fab6.gif');
+    background-image: url('https://i.pinimg.com/originals/f4/d7/de/f4d7de6463d3ada02058a094fd6917ac.gif');
     transition: background-image .90s;
     background-size: cover;
     background-color: #3a7ca8;
