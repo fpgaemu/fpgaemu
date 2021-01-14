@@ -9,6 +9,8 @@ The AXI Memory Mapped to PCI Express IP is a useful core that is compatible with
 offering a different implementation than that offered by the 7 Series Integrated Block for 
 PCIe IP. More information can be found in the IP's documentation (`PG055`_).
 
+.. _Customizing AXI MM PCIe IP:
+
 Customizing the IP
 ------------------
 
@@ -34,6 +36,8 @@ Create a new block diagram (BD) and use the IP catalog to add a new IP to the BD
 
 -   Every other tab can be left default.
 
+.. _Simulating AXI MM PCIe IP Example:
+
 Simulating the Example Design
 -----------------------------
 
@@ -45,9 +49,13 @@ serial ports. Essentially, the example design simulates a host PC generating and
 into the FPGA through the PCIe interface. The AXI MM to PCIe IP processes the incoming traffic 
 and writes into BRAM using the AXI protocol. 
 
-.. image:: /images/pcie/example_bd.png
+.. figure:: /images/pcie/example_bd.png
+    :alt: Abstracted PCIe block diagram
+    :align: center
+    
+    Abstracted PCIe Example Design BD
 
-.. Note:: If you need a refresher on the PCIe protocol or want to learn more about the IP, check here: :ref:`PCIe`.
+.. Note:: If you need a refresher on the PCIe protocol, check here: :ref:`PCIe`.
 
 Like the MIG design, the PCIe example design must first spend 175 us calibrating and initializing
 its serial ports. It then performs a simple write to address 0x10 in BRAM and subsequently reads
@@ -78,13 +86,19 @@ has timed out. If the simulation is successful, the TCL console will also show t
     $finish called at time 213837220 ps : File "..."
 ..
 
+.. _AXI MM PCIe IP Example BD:
+
 Example IP Block Diagram
 ------------------------
 
 After running Block and Connection Automation, the AXI MM to PCIe IP example BD will look
 similar to this:
 
-.. image:: /images/pcie/example_ip_bd.png
+.. figure:: /images/pcie/example_ip_bd.png
+   :alt: Example PCIe IP BD
+   :align: center
+
+   PCIe Block Diagram
 
 -   The PCIe Reference Clock (``REFCLK``) at 100 MHz will go through an IBUFDSGTE Utility Buffer.
 
@@ -111,19 +125,24 @@ To ensure that our customized BARs are accurately reflected in our AXI Slave dev
 the correct addresses using the Address Editor. Map the ``S_AXI_CTL`` slave to address 0x00000000 and 
 the AXI VIP slave to address 0x40000000. 
 
-.. image:: /images/pcie/bd_address_editor.png
+.. figure:: /images/pcie/bd_address_editor.png
+   :alt: PCIe Address Editor
+
+.. _AXI MM PCIe MIG Replacement Design:
 
 Replacing the BRAM with DDR MIG in Example Design
 -------------------------------------------------
 
+.. figure:: /images/pcie/smartconnect_ip.png
+   :alt: PCIe SmartConnect
+   :align: right
+
 Create a new BD and insert an AXI SmartConnect with one AXI Master input, one AXI Slave output,
 64 bit Data Width, and two clock inputs. This SmartConnect will resolve the different clock domains 
-that the PCIe IP and MIG run at and will appear as so:
-
-.. image:: /images/pcie/smartconnect_ip.png
+that the PCIe IP and MIG run at.
 
 Once the SmartConnect wrapper has been added to the project, open the IP catalog and select
-the MIG 7 Series IP, customizing it like in section 1.1 here :ref:`MIG IP Overview`.
+the MIG 7 Series IP, customizing it like this :ref:`MIG IP Customization`.
 
 After the MIG has been generated, we will instanitate the MIG and SmartConnect into the example
 design top file. Open ``xilinx_axi_pcie_ep.v`` and remove the instantiation of the BRAM Controller,
@@ -698,6 +717,8 @@ have every connection, as well as initialize the debug ports and calibration log
     `endif
 ..
 
+.. _Simulating AXI MM PCIe MIG:
+
 Simulating the AXI MM PCIe MIG Example Design
 ---------------------------------------------
 
@@ -707,17 +728,25 @@ we need to import the relevant DDR3 Memory Model and Wire Delay modules.
 
 .. Note:: The MIG 7 Series IP Example Design will output these modules, so generate the design if you have not done so already.
 
-In the Source directory, select **Add Sources**, **Add or Create Simulation Sources**, and then point 
-it to the modules in the MIG Example Design folder located in the user directory. On Windows, an example
-directory would be similar to ``C:\Users\<username>\<MIG project name>\<project name>.srcs\sim_1\imports\imports``. 
-On Linux, the modules will be located in a similar fashion wherever the project was saved. The directory should look like this:
+.. figure:: /images/pcie/file_directory.png
+   :alt: PCIe File Directory
+   :align: right
 
-.. image:: /images/pcie/file_directory.png
+In the Source directory, select :guilabel:`Add Sources`, :guilabel:`Add or Create Simulation Sources`, and then point 
+it to the modules in the MIG Example Design folder located in the user directory. On Windows (or Linux), navigate to the
+directory where your MIG project is saved. 
+
+From there, locate the project's imported directory. An example directory would be similar to ``<project name>\srcs\sim_1\imports\imports``. 
+
+The directory should look similar to this:
 
 Select the ``ddr3_model.sv``, ``ddr3_model_parameters.vh``, and ``wiredly.v`` files to add them
 to the project.
 
-.. image:: /images/pcie/source_directory.png
+.. figure:: /images/pcie/source_directory.png
+   :alt: PCIe Source Directory
+   :align: center
+   :width: 70%
 
 Modify the simulation top file to properly instantiate these new modules, including
 all MIG parameters. The example simulation top file can be found :download:`here </files/example_top_axi.v>`. (Need to upload file, link doesn't work)
@@ -725,7 +754,8 @@ all MIG parameters. The example simulation top file can be found :download:`here
 Run a Behavioral Simulation, making sure to add the propery AXI signals for the DUT in the 
 Scope Window (such as the ``u_ip_top`` module). 
 
-.. image:: /images/mig7/wave_window.png
+.. figure:: /images/mig7/wave_window.png
+   :alt: PCIe Wave Window
 
 .. Important:: Remember to run the command ``run -all`` in the TCL console to allow the simulation to fully complete!
 
@@ -768,7 +798,11 @@ Like the original PCIe example design simulation, this test writes the data 0x01
 If your simulation looks like this, congratulations! You have successfully implemented a PCIe Endpoint
 with a MIG Controller.
 
-.. image:: /images/pcie/simulation.png
+.. figure:: /images/pcie/simulation.png
+   :alt: PCIe Simulation
+   :align: center
+
+   Successful PCIe Simulation
 
 ..
    comment all links

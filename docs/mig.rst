@@ -10,6 +10,8 @@ The MIG 7 Series IP is a ubiquitous core that is compatible with all 7 Series FP
 management into any design. For this article, we will discuss using the MIG with both a Kintex-7 and
 Virtex-7 board, such as the KC705 and VC707 respectively.  
 
+.. _MIG IP Customization:
+
 Customizing the IP
 ------------------
 
@@ -17,13 +19,17 @@ If using a board, be sure to select it as the project's default part before movi
 start with is the VC707, as it has ample computational power, DDR3 memory, and a PCIe interface, as well 
 as other peripherals.
 
-.. image:: /images/mig7/board_select.png
+.. figure:: /images/mig7/board_select.png
+   :alt: Board select
+   :align: left
 
 Create a new block diagram (BD) and use the IP catalog to add a new IP to the BD - in this case, the 
 "Memory Interface Generator (MIG 7 Series)" core. If using a board, a prepackaged MIG may be available. 
 We can customize it by double clicking it. 
 
-.. image:: /images/mig7/sample_ip.png
+.. figure:: /images/mig7/sample_ip.png
+   :alt: Sample MIG IP
+   :align: center
 
 .. Important:: Unless mentioned otherwise, leave all values default.
 
@@ -51,15 +57,17 @@ We can customize it by double clicking it.
 
 -  Make sure the Memory Address Mapping Selection is set to the default configuration of Bank/Row/Column.
 
--  Use **No Buffer** for the System Clock and **Use System Clock** for the Reference Clock, allowing us to use
-   the system clock to also drive the reference clock at 200 MHz. 
+-  Use :guilabel:`No Buffer` for the System Clock and :guilabel:`Use System Clock` for the Reference Clock, 
+   allowing us to use the system clock to also drive the reference clock at 200 MHz. 
 
 -  Choose active HIGH for the System Reset Polarity.
 
 -  Import and validate the Pin Configuration file. Boards will come with preset constraints. For example,
    the VC707's pins are as such:
 
-.. image:: /images/mig7/pin_selection.png
+.. figure:: /images/mig7/pin_selection.png
+   :alt: VC707 Pin select
+   :align: center
 
 -  If prompted, select the following HP Bank byte groups for data and address/control.
 
@@ -68,7 +76,9 @@ We can customize it by double clicking it.
    - Byte Group T2 to Address/Ctrl-2
    - Byte Group T3 to DQ[0-7]
 
-.. image:: /images//mig7/byte.png 
+.. figure:: /images/mig7/byte.png 
+   :alt: MIG Byte group
+   :align: center
 
 -  Assign system signals. 
 
@@ -80,19 +90,25 @@ We can customize it by double clicking it.
 
 - Accept the T&C, generate, and save.
 
+.. _Simulating MIG Example Design:
+
 Simulating the Example Design
 -----------------------------
 
-Right click the IP core under the Sources menu and click **Open IP Example Design**, which will create 
+Right click the IP core under the Sources menu and click :guilabel:`Open IP Example Design`, which will create 
 a new example Vivado project, connecting the generated MIG to a Traffic Generator IP using AXI4. 
 
 After running synthesis and implementation, your schematic should look similar to this:
 
-.. image:: /images/mig7/sch.png
+.. figure:: /images/mig7/sch.png
+   :alt: MIG 7 schematic
+   :align: center
 
 Looking at the 7 Series MIG documentation (`UG586`_), we can see an abstracted BD of the example MIG design.
 
-.. image:: /images/mig7/mig_example_bd.png
+.. figure:: /images/mig7/mig_example_bd.png
+   :alt: MIG 7 example BD
+   :align: center
 
 The example design uses a traffic generator to simulate the host PC reading/writing data
 from/to the MIG core. While useful, Xilinx's implementation is slightly obfuscated, so
@@ -107,10 +123,12 @@ The MIG's reset scheme is as follows:
    4. A LOW signal is sent from ``aresetn_reg`` (also known as ``aresetn``), which resets all AXI components (including both the traffic generator and MIG).
 
 We can observe this behavior by running a Behavioral Simulation in Vivado. Make sure to add
-the correct AXI signals by clicking the **Scope** heading, right clicking on the ``u_ip_top`` module,
-and selecting **Add to Wave Window**. This will allow us to see the AXI read and write transactions.
+the correct AXI signals by clicking the :guilabel:`Scope` heading, right clicking on the ``u_ip_top`` module,
+and selecting :guilabel:`Add to Wave Window`. This will allow us to see the AXI read and write transactions.
 
-.. image:: /images/mig7/wave_window.png
+.. figure:: /images/mig7/wave_window.png
+   :alt: MIG 7 Wave Window
+   :align: center
 
 .. Note:: If you need a refresher on the AXI protocol or interpreting the simulation's waveforms, check here: :ref:`AXI Protocol Overview`.
 
@@ -121,6 +139,8 @@ After running the MIG's Behavioral Simulation, you should observe that the AXI A
 and the AXI Data Width is 32 bits, which is expected.
 
 .. Tip:: To find AXI parameter values such as Address or Data Width and Base Address, look for the comment *AXI4 Shim parameters* in the u_mig_7series_4_mig module.
+
+.. _Simulating MIG AXI VIP:
 
 Simulating Read/Writes with AXI VIP
 -----------------------------------
@@ -135,7 +155,7 @@ manually instantiate the IP using the example design.
 
 Open the ``example_top`` module and comment out the entire traffic generator instantiation. It will have 
 a comment above it stating *The traffic generation module instantiated below drives traffic (patterns)
-on the application interface of the memory controller.*
+on the application interface of the memory controller*.
 
 Make sure to also disable all of the traffic generator-related source files: ``mig_7series_v4_2_axi4_tg.v``,
 ``mig_7series_v4_2_axi4_wrapper.v``, ``mig_7series_v4_2cmd_prbs_gen_axi.v``, ``mig_7series_v4_2_data_gen_chk.v``,
@@ -144,9 +164,13 @@ entire ``axi4_tg`` module.
 
 Using the IP Catalog, customize the AXI VIP as such: 
 
-.. image:: /images/mig7/axi_verification_1.png
+.. figure:: /images/mig7/axi_verification_1.png
+   :alt: AXI Verification 1
+   :align: center
 
 .. image:: /images/mig7/axi_verification_2.png
+   :alt: AXI Verification 2
+   :align: center
 
 Open the top module of the AXI VIP (``axi_vip_0``), copy all input/output signals (listed underneath
 *module axi_vip_0*), and paste these signals back into the ``example_top.v`` file in place of the
@@ -213,10 +237,12 @@ commented-out TG instantiation.
 If synthesis completes, the AXI VIP has been successfully instantiated into the design in place
 of the traffic generator. The file hierarchy should be similiar to this: 
 
-.. image:: /images/mig7/hierarchy.png
+.. figure:: /images/mig7/hierarchy.png
+   :alt: MIG File hierarchy
+   :align: center
 
 We can now add our AXI VIP testbench into the simulation top file ``sim_tb_top``. We will use 
-SystemVerilog to implement this testbench, so right click on the file, select **Set File Type**,
+SystemVerilog to implement this testbench, so right click on the file, select :guilabel:`Set File Type`,
 and change the simulation language to SystemVerilog.
 
 The objective of this testbench is to write some data to the DDR memory and read back from the 
@@ -342,13 +368,19 @@ Then, we perform two writes into DDR, one to address 0x0000 of data 0xC0 and the
 ..
 
 We can now run our Behavioral Simulation, but make sure to add the AXI signals by opening the Scope
-menu, right clicking on the ``ui_top`` file, and selecting **Add to Wave Window**.
+menu, right clicking on the ``ui_top`` file, and selecting :guilabel:`Add to Wave Window`.
+
+.. figure:: /images/mig7/wave_window.png
+   :alt: MIG Wave Window
+   :align: center
 
 During the simulation, ``init_calib_complete`` will go HIGH after about 100us, after which the
 reads and writes will begin. ``sys_reset`` will be held HIGH for the first 200ns, causing the
 other resets to initiate and begin calibration. Here is what a successful simulation will look like:
 
-.. image:: /images/mig7/sim.png
+.. figure:: /images/mig7/sim.png
+   :alt: MIG Simulation 1
+   :align: center
 
 As we can see, the two bytes that were read from memory (c0 and af from datar1 and datar2, respectively) 
 matched the two bytes that were initially written to those memory addresses (dataw1 and dataw2). If your
@@ -360,7 +392,9 @@ Connecting the MIG to a Custom Design
 Perhaps you wish to connect the generated MIG to any AXI master, not just the AXI VIP. Using the VIP as
 another example, using the IP Integrator (making a BD) makes this process very straightforward.
 
-.. image:: /images/mig7/mig_custom.png
+.. figure:: /images/mig7/mig_custom.png
+   :alt: MIG Custom IP
+   :align: center
 
 -  The ``ui_clk`` must be driving the AXI read/write transactions to the MIG (i.e. the ``aclk`` on the AXI VIP).
 -  The ``ui_clk_sync_rst`` must be driving the ``aresetn`` pin on the AXI master (since ``ui_clk_sync_rst`` is active HIGH 
@@ -374,6 +408,8 @@ another example, using the IP Integrator (making a BD) makes this process very s
 -  Finally, the external DDR bus connects to the physical RAM on the emulation board (bus outputs need to be assigned
    correctly using a XDC constraints file).
 
+.. _MIG Two AXI VIPs SmartConnect:
+
 Connecting the MIG to Two AXI Master VIPs using AXI SmartConnect
 ----------------------------------------------------------------
 
@@ -384,32 +420,42 @@ this, we will use an AXI SmartConnect IP.
 
 .. Error:: Xilinx now recommends that all new AXI designs use the SmartConnect v1.0 core. It is not recommended to use the AXI Interconnect v2.1 core. 
 
-.. Note:: You can read more about the SmartConnect IP here: :ref:`AXI Protocol Overview`.
+.. Note:: You can read more about the SmartConnect IP here: :ref:`AXI Interconnect SmartConnect`.
 
 Begining with our modified MIG example design with one AXI VIP, create a new block diagram (BD). Add a 
 SmartConnect IP and customize it as shown:
 
-.. image:: /images/mig7/axi_sc.png
+.. figure:: /images/mig7/axi_sc.png
+   :alt: MIG AXI SmartConnect
+   :align: center
 
 Add two Master AXI VIP IPs to the BD and customize them: 
 
-.. image:: /images/mig7/2axi_vip_1.png
+.. figure:: /images/mig7/2axi_vip_1.png
+   :alt: MIG AXI VIP 1
+   :align: center
 
-.. image:: /images/mig7/2axi_vip_2.png
+.. figure:: /images/mig7/2axi_vip_2.png
+   :alt: MIG AXI VIP 2
+   :align: center
 
 Connect them together in the BD (make ``aclk``, ``aresetn``, and ``M00_AXI`` external to instanitate them later):
 
-.. image:: /images/mig7/2axi_vip_blk.png
+.. figure:: /images/mig7/2axi_vip_blk.png
+   :alt: MIG AXI 2 VIP BD
+   :align: center
 
 If you try to Validate the BD now, a warning message about an unmapped slave will appear. To fix this, go to 
 the **Address Editor** tab and right click on the two AXI Master VIPs to map the ``M00_AXI_0`` port to 
 Offset Address 0x0000_0000 for both AXI VIPs.
 
-.. image:: /images/mig7/2axi_vip_addr.png
+.. figure:: /images/mig7/2axi_vip_addr.png
+   :alt: MIG AXI Address editor
+   :align: center
 
-Make sure your design fully validates by right clicking the BD and selecting **Validate Design**.
+Make sure your design fully validates by right clicking the BD and selecting :guilabel:`Validate Design`.
 
-Right click your BD in the Sources directory and **Create a HDL Wrapper**, which will generate the
+Right click your BD in the Sources directory and :guilabel:`Create a HDL Wrapper`, which will generate the
 RTL needed to instantiate our BD. When it is done generating, open the top file (default name is 
 similar to ``design_1_wrapper``) and copy all inputs/outputs in the module.
 
@@ -614,12 +660,16 @@ We can observe the simulation's intended behavior by running a Behavioral Simula
 Here we can see two AXI Write transactions - one writing data C0 to address 0x0000 and one writing data
 AF to address 0x0004.
 
-.. image:: /images/mig7/2axi_sim_1.png
+.. figure:: /images/mig7/2axi_sim_1.png
+   :alt: MIG 2 AXI VIP Simulation 1
+   :align: center
 
 We can also observe two AXI Read transactions, one from address 0x0000 reading data C0 and one
 from address 0x0004 reading data AF.
 
-.. image:: /images/mig7/2axi_sim_2.png
+.. figure:: /images/mig7/2axi_sim_2.png
+   :alt: MIG 2 AXI VIP Simulation 2
+   :align: center
 
 If the TCL console prints a **Test Passed** message, congratulations! The test worked and you have
 successfully implemented two AXI VIPs with a MIG. 

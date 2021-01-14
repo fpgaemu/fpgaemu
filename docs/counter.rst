@@ -6,10 +6,14 @@ First IP: Counter
 
 .. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
 
+.. _Packaging Custom IP:
+
 Packaging Custom IP
 -------------------
 
 AXI text here
+
+.. _Simple Counter:
 
 Simple 8-Bit Counter
 --------------------
@@ -34,8 +38,9 @@ Verilog text here
     endmodule
 ..
 
-Counter Testbench
------------------
+.. topic:: Counter Testbench
+
+    Example testbench
 
 SystemVerilog text here
 

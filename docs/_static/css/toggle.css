@@ -44,10 +44,9 @@ label {
     text-indent: -9999px;
     width: 50px;
     height: 21px;
-    /*background-image: url('https://i.postimg.cc/Hn0nstVK/Screenshot-2020-04-16-at-1-07-19-PM.png');
-    background-size: cover;
+    background-image: url('https://i.postimg.cc/Hn0nstVK/Screenshot-2020-04-16-at-1-07-19-PM.png');
     transition: background-image .90s;
-    box-shadow: 0px 2px 5px 1px gray;*/
+    box-shadow: 0px 2px 5px 1px gray;
     background-color: #000;
 }
 
