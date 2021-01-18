@@ -54,10 +54,12 @@ Special thanks to our sponsors that made this all possible:
 .. |pic1| image:: /images/logos/University_of_San_Diego_logo.svg
    :width: 30%
    :alt: University of San Diego
+   :target: https://www.sandiego.edu/engineering/
 
 .. |pic2| image:: /images/logos/qualcomm.svg
    :width: 45%
    :alt: Qualcomm
+   :target: https://www.qualcomm.com/
 
 .. |blank| image:: /images/logos/blank.png
    :width: 7%
