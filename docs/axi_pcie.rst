@@ -149,7 +149,7 @@ After the MIG has been generated, we will instanitate the MIG and SmartConnect i
 design top file. Open ``xilinx_axi_pcie_ep.v`` and remove the instantiation of the BRAM Controller,
 replacing it with instantiations of both the MIG and SmartConnect. 
 
-.. Important:: If you want to download the top file instead, go :download:`here </files/example_top_axi.v>`. (Need to upload file, link doesn't work)!
+.. Important:: If you want to download the top file instead, go :download:`here </files/xilinx_axi_pcie_ep.v>`.
 
 .. code-block:: verilog
 
@@ -718,6 +718,12 @@ have every connection, as well as initialize the debug ports and calibration log
     `endif
 ..
 
+.. figure:: /images/pcie/pcie_mig_schematic.png
+    :alt: PCIe MIG Schematic
+    :align: center
+
+    The complete PCIe and MIG schematic
+
 .. _Simulating AXI MM PCIe MIG:
 
 Simulating the AXI MM PCIe MIG Example Design
@@ -750,7 +756,7 @@ to the project.
    :width: 40%
 
 Modify the simulation top file to properly instantiate these new modules, including
-all MIG parameters. The example simulation top file can be found :download:`here </files/example_top_axi.v>`. (Need to upload file, link doesn't work)
+all MIG parameters. The example simulation top file can be found :download:`here </files/axi_pcie_board.v>`. Make sure to rename ``axi_pcie_board.v`` to ``board.v``!
 
 Run a Behavioral Simulation, making sure to add the propery AXI signals for the DUT in the 
 Scope Window (such as the ``u_ip_top`` module). 
