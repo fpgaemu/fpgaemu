@@ -40,7 +40,7 @@ AXI4 for the best performance-cost ratio.
 
 .. _AXI Reads Writes:
 
-AXI Reads
+AXI Reads and Writes
 --------------------
 
 .. sidebar:: Memory Addresses
