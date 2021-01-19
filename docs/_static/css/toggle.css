@@ -44,7 +44,7 @@ label {
     text-indent: -9999px;
     width: 50px;
     height: 21px;
-    background-image: url('https://acegif.com/wp-content/uploads/starfall-gif.gif');
+    background-image: url('https://raw.githubusercontent.com/chadmondwu/fpgaemu/master/assets/dark_neon.png');
     background-size: cover;
     transition: background-image .90s;
     box-shadow: 0px 2px 5px 1px gray;
@@ -64,7 +64,7 @@ label:after {
 }
 
 input:checked+label {
-    background-image: url('https://i.pinimg.com/originals/f4/d7/de/f4d7de6463d3ada02058a094fd6917ac.gif');
+    background-image: url('https://raw.githubusercontent.com/chadmondwu/fpgaemu/master/assets/light_neon.png');
     transition: background-image .90s;
     background-size: cover;
     background-color: #3a7ca8;
