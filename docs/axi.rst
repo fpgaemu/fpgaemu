@@ -12,7 +12,7 @@ The AXI Protocol
 ----------------
 
 When building your first block diagram or reading the documentation of Xilinx's IP cores, 
-you may notice one thing in common - they all use the AXI protocol. This article will 
+you may notice one thing in common -- they all use the AXI protocol. This article will 
 provide a brief explanation about what AXI is and how it functions. 
 
 The *Advanced eXtensible Interface*, or **AXI**, protocol is a royalty-free communication 
@@ -69,8 +69,8 @@ Three burst types are supported - **FIXED**, **INCR**, and **WRAP**. Each one al
 a specific way, allowing for optimal transfers in different situations. For example, a FIXED burst sets 
 every beat to have the same address, which is useful for memory transfers from the same repeated location.
 
-In general, burst addressing specifies where each read or write should be performed in which addresses. An
-example of each burst type can be found below [1]_:
+In general, burst addressing specifies where each read or write should be performed in which addresses. Each
+burst type is as follows [1]_:
 
 .. figure:: /images/axi4/AXI_Bursts.svg
     :alt: AXI Bursts 
@@ -104,15 +104,15 @@ implements a handshake mechanism, wherein the sender drives a VALID signal when 
 the payload for delivery and the receiver drives a READY signal in response when it is ready to
 receive the data. The data transfer is also known as a *beat*. 
 
-.. figure:: /images/axi4/axi4_channel.jpg
-    :alt: AXI Channels
-    :align: right
-
 The five AXI4 channels are as follows:
 
 -   Write Address channel (AW): Provides address where data should be written (``AWADDR``)
   * Can also specify burst size (``AWSIZE``), beats per burst (``AWLEN`` + 1), burst type (``AWBURST``), etc.
   * ``AWVALID`` (Master to Slave) and ``AWREADY`` (Slave to Master)
+
+.. figure:: /images/axi4/axi4_channel.jpg
+    :alt: AXI Channels
+    :align: right
 
 -   Write Data channel (W): The actual data sent (``WDATA``)
   * Can also specify data and beat ID

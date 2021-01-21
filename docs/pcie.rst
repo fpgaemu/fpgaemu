@@ -53,6 +53,12 @@ device would begin a data transaction and specify a start memory address, taking
 the data itself would take multiple cycles until the transaction finished, at which point the connection 
 was ended. 
 
+.. figure:: /images/pci/pci_legacy.png
+    :alt: PCI Core Architecture
+    :align: right
+
+    Abstraction of a computer's core architecture
+
 The PCI bus operates on a master-slave relationship, where the Bus Master is the agent that initiates the 
 transaction (either the CPU or PCI boards) and the slave is the Target Device. Many modern devices have Bus
 Mastering capabilities, so an example transaction could involve a keyboard acting as a Bus Master to write 
@@ -71,13 +77,6 @@ southbridge, Bus Masters representing a peripheral can submit a request to use a
 Each Bus Master has a pair of pins that they can request with (REQ#) or know when the bus is availale to 
 use (GNT#).  
 
-.. figure:: /images/pci/pci_legacy.png
-    :alt: PCI Core Architecture
-    :align: center
-
-    Abstraction of a computer's core architecture
-
-
 .. _Legacy PCI Bus Cycle:
 
 The Legacy PCI Bus Cycle
@@ -91,7 +90,7 @@ edges are marked with dotted lines whenever signals are driven or sampled.
 
 .. figure:: /images/pci/pci_bus.png
     :alt: PCI Bus Cycle
-    :align: center
+    :align: right
 
     Example Legacy PCI bus cycle
 
