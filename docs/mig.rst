@@ -148,7 +148,7 @@ Simulating Read/Writes with AXI VIP
 .. Note:: All further examples are implemented using a Kintex-7 FPGA. However, the most pertinent portions apply to all other FPGAs (*e.g. the VIP implementation can also be used in the VC707's provided testbench*).
 
 As mentioned before, Xilinx's implementation of their Traffic Generator is difficult to break down
-into understandable chunks. Luckily, Xilinx also provides an alternative - the AXI Verification IP
+into understandable chunks. Luckily, Xilinx also provides an alternative --- the AXI Verification IP
 (or AXI VIP), which can simulate an AXI master, slave, or pass-through device. You can find more
 information about this IP through its product guide (`PG267`_), but for our purposes, we will instead
 manually instantiate the IP using the example design.
@@ -657,7 +657,7 @@ the same procedure as our last testbench with one AXI VIP.
 
 We can observe the simulation's intended behavior by running a Behavioral Simulaton.
 
-Here we can see two AXI Write transactions - one writing data C0 to address 0x0000 and one writing data
+Here we can see two AXI Write transactions --- one writing data C0 to address 0x0000 and one writing data
 AF to address 0x0004.
 
 .. figure:: /images/mig7/2axi_sim_1.png
