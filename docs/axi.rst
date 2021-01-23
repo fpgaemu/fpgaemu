@@ -164,6 +164,30 @@ Here is an example of a typical read/write AXI transaction.
 
     A typical AXI Read transaction
 
+We can also get an idea about what an AXI read and write cycle would look like in simulation through the
+7 Series MIG documentation (`UG586`_). As we can see, an AXI write consists of a command cycle 
+(define address and burst length), data cycle (putting the data payload over the channel), and a response
+cycle (checking if the data was received). The master defines the payload specifications and rites the 
+actual data payload (``5a5aa5a5`` at address 00000000). The slave toggles ``s_axi_bvalid``, exchanging 
+a handshake that signifies the transfer was successful.
+
+.. figure:: /images/axi4/axi4_write.png
+    :alt: AXI Write in Simulation 
+    :align: center
+
+    AXI Write Cycle in Simulation
+
+Subsequently, an AXI read consists of a read command cycle (again, defining the address to read from, burst
+length, etc.) and a read data cycle (receiving the data from the requested address). The master specifies 
+the address (00000000) and other payload specs, receives the data payload from the slave (``5a5aa5a5``), 
+and exchanges a final handshake by toggling ``s_axi_rlast`` to complete the transfer. 
+
+.. figure:: /images/axi4/axi4_read.png
+    :alt: AXI Read in Simulation 
+    :align: center
+
+    AXI Read Cycle in Simulation
+
 .. _AXI Interconnect SmartConnect:
 
 AXI Interconnect vs. SmartConnect
@@ -183,3 +207,7 @@ References
 
 .. [1] AXI example images used from Wikimedia Commons and the `AXI Article <https://en.wikipedia.org/wiki/Advanced_eXtensible_Interface>`_.
 
+..
+   comment all links
+
+.. _UG586: https://www.xilinx.com/support/documentation/ip_documentation/ug586_7Series_MIS.pdf

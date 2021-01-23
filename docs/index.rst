@@ -67,6 +67,7 @@ Special thanks to our sponsors that made this all possible:
 
 .. |blank| image:: /images/logos/blank.png
    :width: 7%
+   :class: no-scaled-link
 
 .. |docs| image:: https://readthedocs.org/projects/fpgaemu/badge/?version=latest
    :target: https://fpgaemu.readthedocs.io/en/latest/?badge=latest

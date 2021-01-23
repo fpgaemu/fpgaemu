@@ -56,7 +56,7 @@ and writes into BRAM using the AXI protocol.
     
     Abstracted PCIe Example Design BD
 
-.. Note:: If you need a refresher on the PCIe protocol, check here: :ref:`PCIe`.
+.. Note:: If you need a refresher on the PCIe protocol, check :ref:`here <PCIe>`.
 
 Like the MIG design, the PCIe example design must first spend 175 us calibrating and initializing
 its serial ports. It then performs a simple write to address 0x10 in BRAM and subsequently reads
@@ -143,7 +143,7 @@ Create a new BD and insert an AXI SmartConnect with one AXI Master input, one AX
 that the PCIe IP and MIG run at.
 
 Once the SmartConnect wrapper has been added to the project, open the IP catalog and select
-the MIG 7 Series IP, customizing it like this :ref:`MIG IP Customization`.
+the MIG 7 Series IP, customizing it like :ref:`this <MIG IP Customization>`.
 
 After the MIG has been generated, we will instanitate the MIG and SmartConnect into the example
 design top file. Open ``xilinx_axi_pcie_ep.v`` and remove the instantiation of the BRAM Controller,
@@ -446,40 +446,40 @@ We will also add in the necessary MIG ports and parameters that was present in t
     input   [3:0]    pci_exp_rxp,
     input   [3:0]    pci_exp_rxn,
 
-    input                  sys_clk_p,
-    input                  sys_clk_n,
-    input                  sys_rst_n, //ACTIVE LOW
+    input            sys_clk_p,
+    input            sys_clk_n,
+    input            sys_rst_n, //ACTIVE LOW
     
     //INSERT INPUTS/OUTPUTS FOR MIG
     // Inouts
 
-    inout [7:0]                         ddr3_dq,
-    inout [0:0]                        ddr3_dqs_n,
-    inout [0:0]                        ddr3_dqs_p,
+    inout [7:0]                       ddr3_dq,
+    inout [0:0]                       ddr3_dqs_n,
+    inout [0:0]                       ddr3_dqs_p,
     
     // Outputs
-    output [13:0]                       ddr3_addr,
+    output [13:0]                     ddr3_addr,
     output [2:0]                      ddr3_ba,
-    output                                       ddr3_ras_n,
-    output                                       ddr3_cas_n,
-    output                                       ddr3_we_n,
-    output                                       ddr3_reset_n,
-    output [0:0]                        ddr3_ck_p,
-    output [0:0]                        ddr3_ck_n,
-    output [0:0]                       ddr3_cke,
-    output [0:0]                         ddr3_cs_n,
-    output [0:0]                        ddr3_dm,
-    output [0:0]                       ddr3_odt,
+    output                            ddr3_ras_n,
+    output                            ddr3_cas_n,
+    output                            ddr3_we_n,
+    output                            ddr3_reset_n,
+    output [0:0]                      ddr3_ck_p,
+    output [0:0]                      ddr3_ck_n,
+    output [0:0]                      ddr3_cke,
+    output [0:0]                      ddr3_cs_n,
+    output [0:0]                      ddr3_dm,
+    output [0:0]                      ddr3_odt,
 
     // Single-ended system clock
-    input                                        sys_clk_i,
-    output                                       tg_compare_error,
-    output                                       init_calib_complete,
+    input                             sys_clk_i,
+    output                            tg_compare_error,
+    output                            init_calib_complete,
     
     // System reset - Default polarity of sys_rst pin is Active Low.
     // System reset polarity will change based on the option 
     // selected in GUI.
-    input                                        sys_rst //Active HIGH
+    input                             sys_rst //Active HIGH
 
     );
 
@@ -596,13 +596,13 @@ We will also add in the necessary MIG ports and parameters that was present in t
     wire                              s_axi_rlast;
     wire                              s_axi_rvalid;
     wire                              cmp_data_valid;
-    wire [C_S_AXI_DATA_WIDTH-1:0]      cmp_data;     // Compare data
-    wire [C_S_AXI_DATA_WIDTH-1:0]      rdata_cmp;      // Read data
+    wire [C_S_AXI_DATA_WIDTH-1:0]     cmp_data;     // Compare data
+    wire [C_S_AXI_DATA_WIDTH-1:0]     rdata_cmp;      // Read data
     wire                              dbg_wr_sts_vld;
     wire [DBG_WR_STS_WIDTH-1:0]       dbg_wr_sts;
     wire                              dbg_rd_sts_vld;
     wire [DBG_RD_STS_WIDTH-1:0]       dbg_rd_sts;
-    wire [11:0]                           device_temp;
+    wire [11:0]                       device_temp;
 
     `ifdef SKIP_CALIB // skip calibration wires
     wire                          calib_tap_req;

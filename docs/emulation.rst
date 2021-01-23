@@ -176,6 +176,7 @@ For example, given a 4-input truth table with 16 rows, for the input ABCD = 0101
 
 .. |blank| image:: /images/logos/blank.png
    :width: 15%
+   :class: no-scaled-link
 
 A flip-flop then stores the LUT's output. One last multiplexer decides, based on the given configuration, whether the 
 output receives the value from the flip-flop or directly from the LUT itself. As a whole, all components make up a 
@@ -194,6 +195,7 @@ switching blocks to finally make up the entire FPGA floorplan [8]_.
 
 .. |blank1| image:: /images/logos/blank.png
    :width: 5%
+   :class: no-scaled-link
 
 .. _Emulation Summary:
 
