@@ -162,7 +162,7 @@ into a 16 by 1 mux. The mux also receives control inputs that determine which la
 
   Abstracted block diagram of a look-up table
 
-For example, given a 4-input truth table with 16 rows, for the input ABCD = 0101, the output Y will be 1. 
+For example, given a 4-input truth table with 16 rows, for the input ABCD = 0101, the output Y will be 1 [7]_. 
 
 |blank| |LUT1| |blank| |LUT2|
 
@@ -179,20 +179,21 @@ For example, given a 4-input truth table with 16 rows, for the input ABCD = 0101
 
 A flip-flop then stores the LUT's output. One last multiplexer decides, based on the given configuration, whether the 
 output receives the value from the flip-flop or directly from the LUT itself. As a whole, all components make up a 
-single **configurable logic block (CLB)**. Like the introductory video, these logic blocks are routed togther to finally 
-make up the entire FPGA system. 
+single **configurable logic block (CLB)**. Like the introductory video, these logic blocks are routed togther using 
+switching blocks to finally make up the entire FPGA floorplan [8]_. 
 
-|blank| |LB1| |blank| |LB2|
+|blank1| |LB1| |blank1| |LB2|
 
 .. |LB1| image:: /images/intro/LUT_structure.png
-   :width: 40%
+   :width: 30%
    :alt: LUT Structure
 
-.. |LB2| image:: /images/intro/CLB_Block_Diagram.png
+.. |LB2| image:: /images/intro/FPGA_diagram.png
+   :width: 50%
    :alt: Logic block BD
 
-.. |blank| image:: /images/logos/blank.png
-   :width: 15%
+.. |blank1| image:: /images/logos/blank.png
+   :width: 5%
 
 .. _Emulation Summary:
 
@@ -257,3 +258,4 @@ References
 .. [5] More about flip flops and their diagrams are `here <https://www.circuitstoday.com/flip-flops>`_. 
 .. [6] Latch summary from Ghada Y. Abdel-Lattif, Sameh E. Rehan, Abdel-Fattah I. Abdel-Fattah, "Optimized Single-Electron NAND-Based D-Latch /Flip-Flop", The Mediterranean Journal of Electronics and Communications (MEDJEC), Vol. 8, No. 4, pp. 472-477, October 2012. - Scientific Figure on ResearchGate. Available `here <https://www.researchgate.net/figure/a-shows-the-logic-symbol-used-to-identify-the-D-latch-The-operation-of-the-D-latch-is_fig2_249643186>`_. 
 .. [7] More about LUTs `here <https://www.allaboutcircuits.com/technical-articles/purpose-and-internal-functionality-of-fpga-look-up-tables/>`_.
+.. [8] FPGA floorplan from this info `page <https://evergreen.loyola.edu/dhhoe/www/HoeResearchFPGA.htm>`_.
