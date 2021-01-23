@@ -64,23 +64,50 @@ Make ``counter_out`` a register and add in the counter logic --code here--
 
     //timescale 1ns/1ps
 
-    module myCounter(
-        input clk, rstn,
-        output reg [7:0] count
+    module counter( 
+    input aclk,
+    input enable, //will enable or disable count
+    input aresetn, //will reset count back to start value
+    input inc_dec, //will indicate wheather increment count or decrement count. inc count is 0, dec count is 1
+    input [7:0] start_value, //value to start counting from
+    output reg [7:0] count_out //count value
     );
-
-        always @(posedge clk) begin
-            if (!rstn)
-                count <= 0;
-            else
-                count <= count++;
-        end
-    endmodule
+  
+  //local registers  
+    reg [7:0] count_next;//next count value
+    reg [7:0]prev_start_value=start_value;
+    
+    always @(posedge aclk)
+        begin
+            if(aresetn ==0 || prev_start_value!=start_value)//reset mode or new start value
+                   begin
+                    count_out =start_value;//reset count out to start value
+                    prev_start_value=start_value;//set prev start value to start value
+                   end 
+            else //reset=1, no reset
+                begin
+                    if(enable==1) //enable is high a
+                         begin
+                            if(inc_dec==0) begin//and incdec is low
+                                count_next=count_out+1; //increment next value
+                                end 
+                                else begin //inc_dec is high
+                                count_next=count_out-1;// decrement next value
+                                end
+                            count_out=count_next;// set output equal to next value
+                            end
+                    else count_out=count_out;//same value if no enable
+                    end
+                end                
+endmodule
 ..
 
 .. topic:: Counter Testbench
 
     Example testbench
+    After the project opens, go to :guilabel:`Add Sources` and select :guilabel:`Add or create simulation sources`. 
+Create a new file, select the desired HDL (we will use SystemVerilog here), and name the file as counter_tb. 
+Our new testbench ``counter_tb.sv`` will be created. Add testbench logic --code here--
 
 SystemVerilog text here
 
@@ -88,33 +115,68 @@ SystemVerilog text here
 
     //timescale 1ns/1ps
 
-    module myCounter_tb;
+    module counter_tb();
+//create necessary variables
+reg aclk; 
+reg enable;
+reg aresetn;
+reg inc_dec;
+reg [7:0]start_value;
+wire[7:0] count_out;
 
-        reg clk, rstn;
-        reg [7:0] count;
-        myCounter c0(.clk(clk), .rstn(rstn), .count(count));
+//create DUT
+counter DUT(
+.aclk(aclk),
+.enable(enable),
+.aresetn(aresetn),
+.inc_dec(inc_dec),
+.start_value (start_value),
+.count_out(count_out)
+);
 
-        always 
-            #5 clk =~clk;
+//define clk
+always begin
+    #5 //delay 5ns
+    aclk=~aclk;//should be a 100MHz clk
+end
 
-        initial 
-        begin
-            clk <= 0;
-            rstn <= 0;
+initial begin
+//will turn in after 100ns and start inc from af for 100ns
+//then reset and new start value at c0 will increment for 50
+//disbale for 50ns
+//enable again and then decrement
+    aresetn=0;//turn on reset
+    enable=0;//not enabled
+    aclk=0;
+    start_value=8'haf;//set a start value
+    inc_dec=0;//will increment
+    
+    #100 //100ns delay
+    aresetn=1;//turn off reset
+    #20
+    enable=1;//turn on enable
+    
+    #100
+    aresetn=0;
+    start_value=8'hc0;//new start value
+    aresetn=1; //lift the reset
+    #50
+    enable=0;
+    #50ns
+    enable=1;
+    inc_dec=1;
+  end
+    
+    
+endmodule
 
-            #20 rstn <= 1;
-            #50000 rstn<= 0;
-            #50 rstn<= 1;
-            #20 $finish;
-        end
-    endmodule
 ..
 
-.. figure:: /images/DUT/counter_rollover.png
+.. figure:: /images/DUT/17_behav_sim_diagram.jpg
     :alt: Working rollover
     :align: center
 
-    Working Rollover
+    Working Start Value, Increment, Decrement, and Enable
 
 .. figure:: /images/DUT/counter_reset.png
     :alt: Working reset
