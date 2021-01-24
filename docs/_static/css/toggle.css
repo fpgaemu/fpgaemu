@@ -1,3 +1,5 @@
+/* Toggle originally forked from https://github.com/nicozanf/py4web-doc */
+
 input[type=checkbox] {
     visibility: hidden;
     height: 0;

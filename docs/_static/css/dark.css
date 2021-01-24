@@ -1,3 +1,5 @@
+/* Dark theme originally forked from https://github.com/nicozanf/py4web-doc */
+
 /* links */
 
 a,
@@ -73,11 +75,11 @@ code.docutils.literal.notranslate {
 
 /* notes, warnings, hints */
 
-.hint .admonition-title {
+.note .admonition-title {
     background: #2aa87c !important;
 }
 
-.warning .admonition-title {
+.important .admonition-title {
     background: #cc4444 !important;
 }
 
@@ -618,5 +620,3 @@ code.docutils.literal.notranslate {
     color: #ae81ff
 }
 
-
-/* Literal.Number.Integer.Long */
