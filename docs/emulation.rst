@@ -20,7 +20,36 @@ what an FPGA is, start here before moving on.
    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
    gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Still confused? Read on for more details. 
+Still confused? Here's a more approachable example that may help: 
+
+Imagine you had a box of USB sticks to sell, where each stick performs some task, whether it is counting from 
+one to ten, transferring some songs to the hard drive, or even running another smaller computer. Because we 
+hope to sell them, we should test every single stick (or what is also known as a *device under test*) as much 
+as possible for maximum compatibility to avoid any future errors or refunds. But, considering how many computers 
+there are in the world, it is almost impossible to verify that every stick will work on every laptop or desktop
+aside from buying and testing on each one individually. The price for failure is high too, as a broken USB stick 
+could potentially damage a user's computer, leading to an expensive safety recall. 
+
+.. figure:: /images/intro/usb_intro.png
+  :align: center
+  :width: 25%
+  :class: no-scaled-link
+
+Now imagine if you had access to a special computer called an emulation evaluation board. From the outside, it is 
+like any other computer, as the board also has USB, Ethernet, and other standard peripherals. However, at the heart 
+of the board is what's known as an *FPGA*, a special kind of chip that can emulate every other computer in existence. 
+Although a little clunky and hard to use, this FPGA means that you can now rest assured knowing that your USB sticks can 
+be fully tested before being sold. Not to mention, you only have to set up the board once as an *emulation environment*
+before you're able to easily swap in and out DUTs for testing. Not bad, right?
+
+.. figure:: /images/intro/fpga_intro_board.jpg
+  :align: center
+  :width: 50%
+  :class: no-scaled-link
+
+  A MiSTer board with Cyclone V FPGA
+
+Ready for a (slightly) technical deep dive? Read on for more details. 
 
 .. _FPGA Summary:
 
@@ -37,11 +66,11 @@ reaching into the hundreds of millions of US dollars.
   :alt: Manufacturing cost of 5nm chip
   :align: center
 
-As a SoC iterates through each design and manufacturing step, the harder (and more expensive) 
-it becomes to correct any errors. Imagine a nightmare scenario where a manufacturer was forced
+As an SoC iterates through each design and manufacturing step, the harder (and more expensive) 
+it becomes to correct any errors. Think of a nightmare scenario where a manufacturer is forced
 to recall every single smartphone and computer due to a fatal bug with the CPU that was 
 never caught (this actually happened to Intel and their Pentium processors in
-`1994 <https://en.wikipedia.org/wiki/Pentium_FDIV_bug>`_! This is where an FPGA becomes extremely
+`1994 <https://en.wikipedia.org/wiki/Pentium_FDIV_bug>`_!) This is where an FPGA becomes extremely
 useful.
 
 Field programmable gate arrays or **FPGAs** are integrated circuits (a set of circuits layered within 
@@ -162,7 +191,7 @@ into a 16 by 1 mux. The mux also receives control inputs that determine which la
 
   Abstracted block diagram of a look-up table
 
-For example, given a 4-input truth table with 16 rows, for the input ABCD = 0101, the output Y will be 1. 
+For example, given a 4-input truth table with 16 rows, for the input ABCD = 0101, the output Y will be 1 [7]_. 
 
 |blank| |LUT1| |blank| |LUT2|
 
@@ -176,76 +205,170 @@ For example, given a 4-input truth table with 16 rows, for the input ABCD = 0101
 
 .. |blank| image:: /images/logos/blank.png
    :width: 15%
+   :class: no-scaled-link
 
 A flip-flop then stores the LUT's output. One last multiplexer decides, based on the given configuration, whether the 
 output receives the value from the flip-flop or directly from the LUT itself. As a whole, all components make up a 
-single **configurable logic block (CLB)**. Like the introductory video, these logic blocks are routed togther to finally 
-make up the entire FPGA system. 
+single **configurable logic block (CLB)**. Like the introductory video, these logic blocks are routed togther using 
+switching blocks to finally make up the entire FPGA floorplan [8]_. 
 
-|blank| |LB1| |blank| |LB2|
+|blank1| |LB1| |blank1| |LB2|
 
 .. |LB1| image:: /images/intro/LUT_structure.png
-   :width: 40%
+   :width: 30%
    :alt: LUT Structure
 
-.. |LB2| image:: /images/intro/CLB_Block_Diagram.png
+.. |LB2| image:: /images/intro/FPGA_diagram.png
+   :width: 50%
    :alt: Logic block BD
 
-.. |blank| image:: /images/logos/blank.png
-   :width: 15%
+.. |blank1| image:: /images/logos/blank.png
+   :width: 5%
+   :class: no-scaled-link
 
-.. _Emulation Summary:
+.. _Emulation HDL Summary:
 
-The Basics of Hardware Emulation
---------------------------------
+The Basics of Hardware Emulation and HDLs
+-----------------------------------------
 
+As we have discussed at length, FPGAs provide an unparalleled combination of performance and flexibility 
+that rivals even the most expensive processors (of course, industry-grade FPGAs cost quite a bit too). 
+This reprogrammability allows FPGAs to excel at one of their most interesting applications --- **hardware 
+emulation** or the method of copying the behavior of another hardware sample. Referring back to our Apple
+M1/Qualcomm 888 example, instead of manufacturing new designs on the assumption that they will work 100% 
+of the time, most if not all semiconductor companies first use FPGAs to emulate their chips. Hardware 
+emulation allows these manufacturers to debug their designs in simulated but realistic conditions before 
+undertaking the extreme cost of mass fabrication. By chaining multiple FPGAs together (sometimes up to the 
+scale of entire rooms for one chip alone), these companies are able to logically simulate even the most 
+complex integrated circuits in real time, testing both hardware performance and software compatibility. 
+Modern GPUs and CPUs have billions of transistors, so ultimately hardware emulation is and will continue 
+to be an essential part in the semiconductor industry. 
+
+.. figure:: /images/intro/tigris.jpg
+  :alt: Cadence Tigris emulator
+  :align: center
+
+  An entire room-scale Cadence Tigris emulator [9]_
+
+Hardware emulation is achieved through a number of steps. First, the design is created from **HDL** code, also 
+known as a hardware description language. Similar to traditional programming languages like C or Python, an 
+HDL like Verilog or VHDL instantiates the FPGA's physical hardware using digital code. HDLs execute 
+instructions in parallel, while software languages operate in sequential order. Designs are then 
+**synthesized**, wherein the human-understandable code is converted in a **netlist** of connected 
+logic gates or flip-flops. Essentially, synthesis acts the same as compiling software code to machine 
+assembly code. 
+
+.. figure:: /images/intro/synthesis_example.png
+  :alt: Synthesis example
+  :align: center
+
+  Simple example of HDL synthesis [10]_
+
+Place and route (**P&R**), or implementation, is a set of multiple procedures in which the list of nets is 
+physically placed and mapped to the FPGA's resources. Implementation creates a roadmap where each element can
+be placed onto the FPGA chip. At the end, the software will output a **bitstream** that designers can program
+onto the FPGA for further testing. Both synthesis and implementation are typically done with first-party 
+software, although synthesis can be completed with third-party alternatives. 
+
+.. figure:: /images/intro/pnr_example.png
+  :alt: Implementation example
+  :align: center
+
+  Simple example of P&R [11]_
+
+Finally, the tasks of **simulation** and **verification** provide useful debugging methods along the entire 
+development process. Verification is a multi-stage procedure from writing a testbench or set of tests in HDL 
+code that checks the design against a given specification to testing for timing concerns. Behavioral simulation 
+is one aspect of verification that simulates an environment based on the testbench and outputs relevant signal 
+waveforms. Do not worry if you have little experience with reading waveforms or using an oscilloscope, as we 
+will be explaining our simulation tests in every example project we provide using Vivado's ModelSim. This 
+article will not go into SystemVerilog and UVM, as that is outside the scope of this entire project. 
+
+.. figure:: /images/intro/led_simulation.png
+  :alt: Counter simulation example
+  :align: center
+
+  Simulating an 8-bit binary counter
+
+Of course, going through the entire process from synthesis to bitstream for every single hardware component 
+is time-consuming, especially if you are repeatedly working with the same FPGA. It would more efficient and 
+easier to first create the infrastructure first in the form of an **emulation environment**. This would include 
+peripherals like the board memory or PCIe pinout, which never change between designs. After all, if you end 
+up working with the same board, why start from scratch for every project? A premade environment allows us to 
+get a running start for every future project onwards, which is why setting up such an environment is our first 
+example project. 
+
+.. Note:: Don't worry if you don't have access to a physical FPGA board --- 90% of design work is done in simulation anyways! 
+
+After the environment is completed, we will continue to guide you through creating and simulating a device 
+under test (**DUT**), letting you emulate everything from a simple counter to a complex SoC. 
+
+.. Important:: Jump :ref:`here <MIG IP Overview>` to get started with your environment. Otherwise, continue to the next page for a deeper introduction into the hardware. 
+
+What is a real-world example of hardware emulation? One interesting application that has evolved in the last few years 
+is the `MiSTer project <https://github.com/MiSTer-devel/Main_MiSTer/wiki>`_, an open-source design that emulates 
+old video game consoles using nothing more than a small FPGA board. Using the same principles as software emulation, 
+the MiSTer project emulates multiple reversed-engineered consoles on a single Altera Cyclone FPGA, opening 
+the opportunity for a home arcade at a fraction of the price. Instead of paying hundreds of dollars for a new and working 
+Nintendo Famicom Disk System, which was never released in the West, the FPGA board can instead emulate the console 
+itself and play every game that was ever released with the same level of performance and compatibility. Of course, 
+different console cores from Atari to Pac-Man can be swapped out at any time, again illustrating the versatility of 
+FPGAs and serving as a good example for our emulation environment project. By building up the proper infrastructure, 
+it would become easy in the future to swap in different DUTs like the MiSTer cores for testing and debugging, 
+similar to standard industry practices in the semiconductor field. All without even touching the original hardware.
+
+.. figure:: /images/intro/game_fpga.jpg
+  :alt: FPGA game emulation example
+  :align: center
+
+  Emulating an NES game console on an FPGA [12]_
+  
 .. _Definitions Acronyms:
 
 Quick Definitions and Acronyms
 ------------------------------
 
--   IC - Integrated Circuit
-  * Collection of electronic components on a single unit, typically made from silicon, also known as a chip.
+IC : Integrated Circuit
+  Collection of electronic components on a single unit, typically made from silicon, also known as a chip.
 
--   FPGA - Field Programmable Gate Array
-  * ICs designed to be configurable by engineer after manufacturing.
+FPGA : Field Programmable Gate Array
+  ICs designed to be configurable by engineer after manufacturing.
 
--   ASIC - Application Specific Integrated Circuit
-  * Highly specialized ICs dedicated to one specific application.
+ASIC : Application Specific Integrated Circuit
+  Highly specialized ICs dedicated to one specific application.
 
--   SoC - System on a Chip
-  * IC that hosts an entire computer system by itself.
+SoC : System on a Chip
+  IC that hosts an entire computer system by itself.
 
--   P&R - Place and Route
-  * Process by which logic components are placed onto an FPGA and connected/routed together. 
+P&R : Place and Route
+  Process by which logic components are placed onto an FPGA and connected/routed together. 
 
--   DUT - Device Under Test
-  * Any electronic part currently being tested, through emulation in our case.
+DUT : Device Under Test
+  Any electronic part currently being tested, through emulation in our case.
 
--   IP - Intellectual Property
-  * Commonly used electronic parts abstracted as logic blocks, provided by external companies (not the same as a patent).
+IP : Intellectual Property
+  Commonly used electronic parts abstracted as logic blocks, provided by external companies (not the same as a patent).
 
--   AXI - Advanced eXtensible Interface
-  * Communication standard that allows chip components to send signals to each other. 
+AXI : Advanced eXtensible Interface
+  Communication standard that allows chip components to send signals to each other. 
 
--   MIG - Memory Interface Generator
-  * Xilinx IP that allows an FPGA to read/write into DDR memory.
+MIG : Memory Interface Generator
+  Xilinx IP that allows an FPGA to read/write into DDR memory.
 
--   DDR SDRAM - Double Data Rate Synchronous Dynamic Random-Access Memory
-  * Volatile memory IC typically used to store information that is lost when power is lost, common interfaces are DDR3 and DDR4.
+DDR SDRAM : Double Data Rate Synchronous Dynamic Random-Access Memory
+  Volatile memory IC typically used to store information that is lost when power is lost, common interfaces are DDR3 and DDR4.
 
--   PCIe - Peripheral Component Interconnect Express
-  * Communication network that allows an FPGA to control peripherals/communicate with a host PC.
+PCIe : Peripheral Component Interconnect Express
+  Communication network that allows an FPGA to control peripherals/communicate with a host PC.
 
--   TLP - Transaction Layer Packets
-  * Data payloads that peripherals send through the PCIe bus.
+TLP : Transaction Layer Packets
+  Data payloads that peripherals send through the PCIe bus.
 
--   DMA - Direct Memory Access
-  * Xilinx IP that allows AXI peripherals to directly access memory without the help of the processor.
+DMA : Direct Memory Access
+  Xilinx IP that allows AXI peripherals to directly access memory without the help of the processor.
 
--   ROM - Read Only Memory
-  * Flash memory that cannot be modified afterwards. 
-
+ROM : Read Only Memory
+  Flash memory that cannot be modified afterwards. 
 
 References
 ----------
@@ -257,3 +380,8 @@ References
 .. [5] More about flip flops and their diagrams are `here <https://www.circuitstoday.com/flip-flops>`_. 
 .. [6] Latch summary from Ghada Y. Abdel-Lattif, Sameh E. Rehan, Abdel-Fattah I. Abdel-Fattah, "Optimized Single-Electron NAND-Based D-Latch /Flip-Flop", The Mediterranean Journal of Electronics and Communications (MEDJEC), Vol. 8, No. 4, pp. 472-477, October 2012. - Scientific Figure on ResearchGate. Available `here <https://www.researchgate.net/figure/a-shows-the-logic-symbol-used-to-identify-the-D-latch-The-operation-of-the-D-latch-is_fig2_249643186>`_. 
 .. [7] More about LUTs `here <https://www.allaboutcircuits.com/technical-articles/purpose-and-internal-functionality-of-fpga-look-up-tables/>`_.
+.. [8] FPGA floorplan from this info `page <https://evergreen.loyola.edu/dhhoe/www/HoeResearchFPGA.htm>`_.
+.. [9] More about NVIDIA's emulation lab in this `blog post <https://blogs.nvidia.com/blog/2011/05/16/sneak-peak-inside-nvidia-emulation-lab/>`_.
+.. [10] Details about the FPGA design flow `here <https://hardwarebee.com/ultimate-guide-fpga-design-flow/>`_.
+.. [11] PnR example from Analysis of Optimization Techniques in FPGA Placement - Scientific Figure on ResearchGate. Available from `here <https://www.researchgate.net/figure/Architecture-of-FPGA-The-paper-is-organized-as-follows-FPGA-placement-problem-is-defined_fig2_317065343>`_.
+.. [12] More about the NES FPGA project `here <http://fpganes.blogspot.com/2013/01/luddes-fpga-nes.html>`_.

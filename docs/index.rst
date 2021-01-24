@@ -6,7 +6,9 @@ FPGAEmu: An Introduction to FPGA Emulation
 
 .. Note:: All pages are under construction as we work to finalize this project. Please be patient! |docs|
 
-.. figure:: /images/block_1.svg
+.. Important:: New to FPGAs or just need a refresher? Jump :ref:`here <Emulation>` first!
+
+.. figure:: /images/logos/block_1.svg
    :alt: Complete Emulation Block Diagram
    :align: right
 
@@ -65,6 +67,7 @@ Special thanks to our sponsors that made this all possible:
 
 .. |blank| image:: /images/logos/blank.png
    :width: 7%
+   :class: no-scaled-link
 
 .. |docs| image:: https://readthedocs.org/projects/fpgaemu/badge/?version=latest
    :target: https://fpgaemu.readthedocs.io/en/latest/?badge=latest
