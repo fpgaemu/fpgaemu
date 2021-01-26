@@ -28,7 +28,7 @@ A Simple 8-Bit Counter
 As the FPGA 'Hello World', a simple 8-bit counter is the perfect introductory example for a 
 custom IP block without the need for a development board. 
 
-.. figure:: /images/DUT/counter_bd.JPG
+.. figure:: /images/DUT/counter_bd.jpg
     :alt: Counter block diagram
     :align: center
 
@@ -181,7 +181,7 @@ Our new testbench ``counter_tb.sv`` will be created. Add testbench logic --code 
 
 ..
 
-.. figure:: /images/DUT/behav_sim_diagram.JPG
+.. figure:: /images/DUT/behav_sim_diagram.jpg
     :alt: Working rollover
     :align: center
 
