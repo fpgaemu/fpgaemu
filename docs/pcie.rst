@@ -67,14 +67,14 @@ motherboard's core architecture.
 
 The northbridge or host bridge represents the core logic chip on the PC's motherboard that is 'north'
 of the central PCI bus. The northbridge interfaces between the CPU, system memory, the AGP (graphics) bus, 
-and high-speed PCI bus. The northbridge's Bus Arbiter recieves requests from all initiators (Bus Masters),
+and high-speed PCI bus. The northbridge's Bus Arbiter receives requests from all initiators (Bus Masters),
 decides which requester should monopolize the PCI bus, creates the transaction channel between the initiator 
 and Target Device, and assigns a ready pin (GNT#).
 
 The southbridge serves as the I/O controller hub, hosting all system I/O and connecting the PCI bus to
 external peripherals. It also provides system signals like reset, clock, and error reporting. From the 
 southbridge, Bus Masters representing a peripheral can submit a request to use and monopolize the PCI bus. 
-Each Bus Master has a pair of pins that they can request with (REQ#) or know when the bus is availale to 
+Each Bus Master has a pair of pins that they can request with (REQ#) or know when the bus is available to 
 use (GNT#).  
 
 .. _Legacy PCI Bus Cycle:

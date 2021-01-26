@@ -1,10 +1,14 @@
-.. _DDR:
+.. _DDR Memory:
 
-==========
-DDR Memory
-==========
+====================
+DDR Memory and SDRAM
+====================
 
-DDR Protocol
-------------
+.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
+
+.. _DDR Summary:
+
+The DDR Protocol
+----------------
 
 

@@ -95,7 +95,7 @@ will now refer to, occurs over multiple channels, each one dedicated to a specif
     :alt: AXI handshake
     :align: right
 
-The sender must always assert a VALID signal before the receiver, and keep it HIGH until the 
+The sender must always assert a VALID signal before the receiver and keep it HIGH until the 
 handshake is completed. By using handshakes, the speed and regularity of any data transfer 
 can be controlled.
 
@@ -133,7 +133,7 @@ The five AXI4 channels are as follows:
 
 Here is an example of a typical read/write AXI transaction. 
 
--   To write, the master first provides the address (0x0) to write to, as well as the aformentioned 
+-   To write, the master first provides the address (0x0) to write to, as well as the 
     data specifications (4 beats of 4 bytes each, data type of INCR). Both the master and slave 
     then exchange a handshake for verification.
 
@@ -151,7 +151,7 @@ Here is an example of a typical read/write AXI transaction.
     A typical AXI Write transaction
 
 -   To read, the master first provides the first address to read from (0x0), as well as the 
-    aformentioned data specifications (4 beats of 4 bytes each, data type of INCR). The usual 
+    data specifications (4 beats of 4 bytes each, data type of INCR). The usual 
     handshake occurs. 
 
 -   The slave then provides the actual data payload, as well as the status of each beat (all 
@@ -167,7 +167,7 @@ Here is an example of a typical read/write AXI transaction.
 We can also get an idea about what an AXI read and write cycle would look like in simulation through the
 7 Series MIG documentation (`UG586`_). As we can see, an AXI write consists of a command cycle 
 (define address and burst length), data cycle (putting the data payload over the channel), and a response
-cycle (checking if the data was received). The master defines the payload specifications and rites the 
+cycle (checking if the data was received). The master defines the payload specifications and writes the 
 actual data payload (``5a5aa5a5`` at address 00000000). The slave toggles ``s_axi_bvalid``, exchanging 
 a handshake that signifies the transfer was successful.
 
@@ -193,21 +193,131 @@ and exchanges a final handshake by toggling ``s_axi_rlast`` to complete the tran
 AXI Interconnect vs. SmartConnect
 ---------------------------------
 
-Smart
+AXI is a very flexible standard in that it only outlines the interface itself, never requiring a designer 
+to memorize multiple configurations for every scenario. This characteristic is exemplified with the 
+introduction of the AXI Interconnect IP. 
+
+The AXI Interconnect IP is similar to an operating system in that both mediate data and resource 
+transactions between two independent entities. The Interconnect IP is made up of a combination of arbiters, 
+decoders/routers, multiplexers, and other logic elements that seamlessly adapts to any AXI system, whether it 
+be a multi-master system connected to one slave, a multi-slave system connected to one master, or multiple 
+masters connected to multiple slaves (up to 16 each). 
+
+.. figure:: /images/axi4/axi_interconnect.png
+    :alt: AXI Interconnect
+    :align: center
+
+    AXI Interconnect Configurations [2]_
+
+For a multi-master/slave system, the Interconnect will contain multiple arbiters and routers so that each write 
+and read channel has a dedicated connection between masters and slaves --- by doing this, both reads and writes 
+can occur simultaneously. This is also known as an **AXI Crossbar** core. A typical Interconnect transaction 
+would occur in this manner: 
+
+-   As always, the master first provides the address for a write transfer onto the AW channel. The write transaction arbiter 
+    decides which master can monopolize the Interconnect Write channel and sends the master's address to the router. 
+
+-   Using a preallocated address decoding table, the router then decodes the given address and selects the proper
+    slave to write the address to. The typical AXI write transaction then commences, with an Interconnect multiplexer 
+    mediating a data transfer between master and slave. 
+
+-   At the same time, another master can provide a different address to read from on the AR channel. The read transaction
+    arbiter can also decide which master monopolizes the Interconnect Read channel, sending that master's address to a 
+    different router. 
+
+-   This second router also decodes the given address and selects either the same or a different slave to read from. An 
+    AXI read transaction then starts with another Interconnect multiplexer as a mediator. 
+
+.. figure:: /images/axi4/axi_address.png
+    :alt: AXI Interconnect Address Decoding
+    :align: center
+
+    AXI Interconnect Address Decoding Table [3]_
+
+The Interconnect IP works on a round-robin basis, wherein the read and write channel will alternate for access 
+if multiple masters are trying to write to/read from the same slave. Since the DDR protocol allocates a few clock 
+cycles between reads and writes, the IP cannot immediately switch channels. Because slaves can queue multiple transactions 
+and this round-robin schedule allows for out of order transfers (a slave device can respond to a master whenever), 
+a deadlock risk emerges. Deadlock is a scenario where a transfer #1 cannot fully complete while transfer #2 is running. To finish,
+#2 requires transfer #1 to complete first, creating an endless loop that is never resolved. You can read more about the Dining 
+Philosophers Problem `here <https://en.wikipedia.org/wiki/Dining_philosophers_problem>`_.
+
+From the Xilinx's Interconnect Documentation [2]_, we can see how a deadlock situation can form: 
+
+1. Master *M1* reads from Slave device *S1* using *ID0*.
+2. Master *M1* then reads from Slave device *S2* using the same ID thread *ID0*.
+3. Master *M2* then reads from Slave device *S2* with a different ID *ID1*.
+4. Master *M2* then reads from Slave device *S1* using the same ID thread *ID1*.
+5. Slave *S1* responds to Master *M2* first. It is allowed to respond to *M2* before *M1* first, since the two Masters 
+   have different IDs. However, the AXI Crossbar cannot pass the response to *M2* because Master *M2* must first receive 
+   its response from Slave *S2*.
+6. Slave *S2* responds to Master *M1* first without re-ordering. But the AXI Crossbar cannot pass the response to Master 
+   *M1* because *M1* must first receive its response from Slave *S1*, resulting in a deadlock situation.
+
+Helpfully, the AXI Interconnect IP already resolves this concern by mandating the "Single Slave per ID" rule, where 
+generally only one master device can talk to any slave at any given time. With this in-order rule, the Read transaction in 
+step 2 from *M1* to *S2* is stalled until *S1* completes its response to *M1*. Similarly, the transaction between *M2* and *S1*
+in step 4 is stalled until *S2* completes its response to *M2*. This is important to keep in mind as the AXI protocol itself 
+has no in-order check between Read and Write transactions, meaning that deadlock can occur elsewhere, especially when combining 
+multiple Interconnects and SmartConnects together. 
+
+.. figure:: /images/axi4/axi_deadlock.png
+    :alt: AXI Interconnect Deadlock
+    :align: center
+
+    An Interconnect deadlock situation [4]_
+
+The Interconnect also can update AXI3 interfaces to AXI4, perform bus-width conversion, use input/output FIFOs and 
+register slices to break down timing paths, and convert between different clock domains. Simply put, the Interconnect 
+IP is a versatile core that allows a designer to utilize the AXI protocol to its fullest extent without diving deep into 
+the technical minutiae. 
+
+However, at the time of writing, the AXI Interconnect v2.1 core has been obsoleted by the new AXI SmartConnect IP. The
+SmartConnect operates on the same AXI4 principles of the Interconnect IP, providing similar performance with better optimization 
+and a more streamlined experience. The AXI SmartConnect supports wider addressing and multi-threaded traffic along with a 
+myriad of other benefits, so while Xilinx notes that pre-existing designs with the Interconnect v2.1 core do not need to upgrade, 
+new designs are recommended to use the SmartConnect core moving forward. As such, our example designs will (almost) always use
+the SmartConnect IP as opposed to the older Interconnect. For more information, read the SmartConnect v1.0 documentation (`PG247`_).
+
+.. figure:: /images/axi4/smartconnect_example.png
+    :alt: AXI SmartConnect Block Diagram
+    :align: center
+
+    Example SmartConnect IP system [5]_
 
 .. _AXI Verification IP:
 
 AXI Verification IP
 -------------------
 
-VIP
+With some of our example designs, we have chosen to use the AXI Verification IP or **AXI VIP** as a test DUT. The VIP, which is 
+provided by Xilinx, is a useful AXI4 core that allows us to debug our block designs and verify for expected behavior. It is the successor
+to the now obsolete AXI Bus Functional Model or BFM and all new designs will use the VIP moving forward, as the BFM is no longer available. 
+The VIP can be dropped into any design and simulate a master, slave, and pass-through device (connecting a Slave to Master). 
+It has one (optional) active LOW reset ``aresetn`` which is synchronous to ``aclk``. This IP is mainly for simulation and is 
+not synthesized. We will be using the VIP to verify data transactions in simulation and overall it is a good introductory method 
+for catching errors in any custom AXI IPs (although the VIP suite is prone to missing some background transfer errors). 
+While setting up the emulation environment and custom DUTs, we will be using the VIP to monitor and generate AXI transactions, as well
+as check for protocol compliance. 
+
+.. figure:: /images/axi4/axi_vip_bd.png
+    :alt: AXI VIP Block Diagram
+    :align: center
+
+    Example AXI system with VIP [6]_
 
 References
 ----------
 
 .. [1] AXI example images used from Wikimedia Commons and the `AXI Article <https://en.wikipedia.org/wiki/Advanced_eXtensible_Interface>`_.
+.. [2] AXI Interconnect documentation from Xilinx `here <https://www.xilinx.com/support/documentation/ip_documentation/axi_interconnect/v2_1/pg059-axi-interconnect.pdf>`_.
+.. [3] The example of Interconnect Addressing from Mohammadsadegh Sadri, PhD, can be found in this `post <http://www.googoolia.com/wp/2014/03/21/lesson-2-what-is-an-axi-interconnect/>`_.
+.. [4] From Chou, H. M., Chen, Y. C., Yang, K. H., Tsao, J., Chang, S. C., Jone, W. B., & Chen, T. F. (2015). High-performance deadlock-free id assignment for advanced interconnect protocols. IEEE Transactions on Very Large Scale Integration (VLSI) Systems, 24(3), 1169-1173.
+.. [5] Read more about the SmartConnect IP in this `white paper <https://www.xilinx.com/support/documentation/white_papers/wp478-smartconnect.pdf>`_.
+.. [6] More about AXI BFM architecure `here <https://www.aldec.com/en/support/resources/documentation/articles/1585>`_ (modified image).
 
 ..
    comment all links
 
 .. _UG586: https://www.xilinx.com/support/documentation/ip_documentation/ug586_7Series_MIS.pdf
+.. _PG247: https://www.xilinx.com/support/documentation/ip_documentation/smartconnect/v1_0/pg247-smartconnect.pdf

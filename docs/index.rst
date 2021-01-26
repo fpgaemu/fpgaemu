@@ -43,7 +43,7 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`search`
 
-Acknowledegments
+Acknowledgements
 ----------------
 
 FPGAEmu was created and is maintained by a small group of collaborators. Thanks

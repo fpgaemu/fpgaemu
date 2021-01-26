@@ -20,7 +20,7 @@ what an FPGA is, start here before moving on.
    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
    gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Still confused? Here's a more approachable example that may help: 
+Still confused? Here is a more approachable example that may help: 
 
 Imagine you had a box of USB sticks to sell, where each stick performs some task, whether it is counting from 
 one to ten, transferring some songs to the hard drive, or even running another smaller computer. Because we 
@@ -37,9 +37,9 @@ could potentially damage a user's computer, leading to an expensive safety recal
 
 Now imagine if you had access to a special computer called an emulation evaluation board. From the outside, it is 
 like any other computer, as the board also has USB, Ethernet, and other standard peripherals. However, at the heart 
-of the board is what's known as an *FPGA*, a special kind of chip that can emulate every other computer in existence. 
+of the board is what is known as an *FPGA*, a special kind of chip that can emulate every other computer in existence. 
 Although a little clunky and hard to use, this FPGA means that you can now rest assured knowing that your USB sticks can 
-be fully tested before being sold. Not to mention, you only have to set up the board once as an *emulation environment*
+be fully tested before being sold. Not to mention, the board only needs to be set up once as an *emulation environment*
 before you're able to easily swap in and out DUTs for testing. Not bad, right?
 
 .. figure:: /images/intro/fpga_intro_board.jpg
@@ -69,15 +69,14 @@ reaching into the hundreds of millions of US dollars.
 As an SoC iterates through each design and manufacturing step, the harder (and more expensive) 
 it becomes to correct any errors. Think of a nightmare scenario where a manufacturer is forced
 to recall every single smartphone and computer due to a fatal bug with the CPU that was 
-never caught (this actually happened to Intel and their Pentium processors in
-`1994 <https://en.wikipedia.org/wiki/Pentium_FDIV_bug>`_!) This is where an FPGA becomes extremely
-useful.
+never caught (this happened to Intel and their Pentium processors in `1994 <https://en.wikipedia.org/wiki/Pentium_FDIV_bug>`_!) 
+This is where an FPGA becomes extremely useful.
 
 Field programmable gate arrays or **FPGAs** are integrated circuits (a set of circuits layered within 
 semiconductor material like silicon, also known as chips) designed to be configured by a customer 
-or designer after manufacturing. With FPGAs, a designer is able to program features, adapt to environment 
+or designer after manufacturing. With FPGAs, a designer can program features, adapt to environment 
 and regulatory changes, and reconfigure hardware even in the field, hence the term *field programmable*. 
-An FPGA contains programmable logic elements (LEs) that either act as basic logic gates or connect together to 
+An FPGA contains programmable logic elements (LEs) that either act as basic logic gates or connect to 
 perform complex actions as logic blocks. From a top-level perspective, FPGAs consist mostly of configurable 
 memory, high speed I/O, logic blocks, and routing.
 
@@ -107,8 +106,8 @@ must load in instructions in a linear fashion, even for simple tasks such as mul
 instruction must be evaluated in order before the CPU can move onto the next one. This is fine under normal use, 
 but in real-time applications where latency must be as low as possible, having to wait for the AC to activate 
 before the brake pedal can be used is unacceptable. In contrast, an FPGA can execute multiple complex operations
-simultaneously --- with a 10 element matrix, a designer can implement 10 signal/data pipelines to use in parallel.
-While a microprocessor has sequential processing, an FPGA's concurrent processing allows it achieve better optimization 
+simultaneously --- with a 10-element matrix, a designer can implement 10 signal/data pipelines to use in parallel.
+While a microprocessor has sequential processing, an FPGA's concurrent processing allows it to achieve better optimization 
 and a more deterministic latency than even a processor running an RTOS. 
 
 In more nuanced terms, the flexibility from an FPGA allows a designer to decide which operations occur at any given
@@ -233,13 +232,13 @@ The Basics of Hardware Emulation and HDLs
 
 As we have discussed at length, FPGAs provide an unparalleled combination of performance and flexibility 
 that rivals even the most expensive processors (of course, industry-grade FPGAs cost quite a bit too). 
-This reprogrammability allows FPGAs to excel at one of their most interesting applications --- **hardware 
-emulation** or the method of copying the behavior of another hardware sample. Referring back to our Apple
+This programmability allows FPGAs to excel at one of their most interesting applications --- **hardware 
+emulation** or the method of copying the behavior of another hardware sample. Referring to our Apple
 M1/Qualcomm 888 example, instead of manufacturing new designs on the assumption that they will work 100% 
 of the time, most if not all semiconductor companies first use FPGAs to emulate their chips. Hardware 
 emulation allows these manufacturers to debug their designs in simulated but realistic conditions before 
 undertaking the extreme cost of mass fabrication. By chaining multiple FPGAs together (sometimes up to the 
-scale of entire rooms for one chip alone), these companies are able to logically simulate even the most 
+scale of entire rooms for one chip alone), these companies can logically simulate even the most 
 complex integrated circuits in real time, testing both hardware performance and software compatibility. 
 Modern GPUs and CPUs have billions of transistors, so ultimately hardware emulation is and will continue 
 to be an essential part in the semiconductor industry. 
@@ -250,8 +249,8 @@ to be an essential part in the semiconductor industry.
 
   An entire room-scale Cadence Tigris emulator [9]_
 
-Hardware emulation is achieved through a number of steps. First, the design is created from **HDL** code, also 
-known as a hardware description language. Similar to traditional programming languages like C or Python, an 
+Hardware emulation is achieved through a few steps. First, the design is created from **HDL** code, also 
+known as a hardware description language. Like traditional programming languages like C or Python, an 
 HDL like Verilog or VHDL instantiates the FPGA's physical hardware using digital code. HDLs execute 
 instructions in parallel, while software languages operate in sequential order. Designs are then 
 **synthesized**, wherein the human-understandable code is converted in a **netlist** of connected 
@@ -315,7 +314,7 @@ itself and play every game that was ever released with the same level of perform
 different console cores from Atari to Pac-Man can be swapped out at any time, again illustrating the versatility of 
 FPGAs and serving as a good example for our emulation environment project. By building up the proper infrastructure, 
 it would become easy in the future to swap in different DUTs like the MiSTer cores for testing and debugging, 
-similar to standard industry practices in the semiconductor field. All without even touching the original hardware.
+like standard industry practices in the semiconductor field. All without even touching the original hardware.
 
 .. figure:: /images/intro/game_fpga.jpg
   :alt: FPGA game emulation example
@@ -377,12 +376,12 @@ References
 .. [1] The example FPGA ADC/DAC `board <https://www.curtisswrightds.com/products/computing/io/analog/vpx3-530.html>`_ used.
 .. [2] Xilinx's automotive system is discussed in this `press release <https://www.eenewsautomotive.com/news/subaru-uses-xilinx-chips-central-driver-assistance-system/page/0/1>`_.
 .. [3] More about FPGA computational performance can be found in this `article <https://www.infoq.com/articles/fpga-computational-performance/>`_. 
-.. [4] Logic gate summary from Nucleic Acid Computing and its Potential to Transform Silicon-Based Technology - Scientific Figure on ResearchGate. Available `here <https://www.researchgate.net/figure/Summary-of-the-common-Boolean-logic-gates-with-symbols-and-truth-tables_fig3_291418819>`_.
+.. [4] From Abels, S. G., & Khisamutdinov, E. F. (2015). Nucleic Acid Computing and its Potential to Transform Silicon-Based Technology. DNA and RNA Nanotechnology, 1(open-issue), 13-22.
 .. [5] More about flip flops and their diagrams are `here <https://www.circuitstoday.com/flip-flops>`_. 
-.. [6] Latch summary from Ghada Y. Abdel-Lattif, Sameh E. Rehan, Abdel-Fattah I. Abdel-Fattah, "Optimized Single-Electron NAND-Based D-Latch /Flip-Flop", The Mediterranean Journal of Electronics and Communications (MEDJEC), Vol. 8, No. 4, pp. 472-477, October 2012. - Scientific Figure on ResearchGate. Available `here <https://www.researchgate.net/figure/a-shows-the-logic-symbol-used-to-identify-the-D-latch-The-operation-of-the-D-latch-is_fig2_249643186>`_. 
+.. [6] From Abdel-Lattif, G. Y., Rehan, S. E., & Abdel-Fattah, A. F. I. (2012). OPTIMIZED SINGLE-ELECTRON NAND-BASED D-LATCH/FLIP-FLOP. The Mediterranean Journal of Electronics and Communications, 8(4). 
 .. [7] More about LUTs `here <https://www.allaboutcircuits.com/technical-articles/purpose-and-internal-functionality-of-fpga-look-up-tables/>`_.
 .. [8] FPGA floorplan from this info `page <https://evergreen.loyola.edu/dhhoe/www/HoeResearchFPGA.htm>`_.
 .. [9] More about NVIDIA's emulation lab in this `blog post <https://blogs.nvidia.com/blog/2011/05/16/sneak-peak-inside-nvidia-emulation-lab/>`_.
 .. [10] Details about the FPGA design flow `here <https://hardwarebee.com/ultimate-guide-fpga-design-flow/>`_.
-.. [11] PnR example from Analysis of Optimization Techniques in FPGA Placement - Scientific Figure on ResearchGate. Available from `here <https://www.researchgate.net/figure/Architecture-of-FPGA-The-paper-is-organized-as-follows-FPGA-placement-problem-is-defined_fig2_317065343>`_.
+.. [11] Venugopal, N., Shobana, V., & Manimegalai, R. (2014, January). Analysis of optimization techniques in FPGA placement. In 2014 International Conference on Computer Communication and Informatics (pp. 1-5). IEEE.
 .. [12] More about the NES FPGA project `here <http://fpganes.blogspot.com/2013/01/luddes-fpga-nes.html>`_.

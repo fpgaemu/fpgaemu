@@ -18,7 +18,7 @@ advantage of the plug-and-play nature of the AXI protocol to easily connect them
 through a SmartConnect. This article will step through the process of packaging a custom 
 peripheral using the IP Integrator. 
 
-.. Note:: If you need a refresher on the AXI protocol, check here: :ref:`AXI Protocol Overview`.
+.. Note:: If you need a refresher on the AXI protocol, check :ref:`here <AXI Protocol Overview>`.
 
 .. _Simple Counter:
 
@@ -28,7 +28,7 @@ A Simple 8-Bit Counter
 As the FPGA 'Hello World', a simple 8-bit counter is the perfect introductory example for a 
 custom IP block without the need for a development board. 
 
-.. figure:: /images/DUT/counter_bd.png
+.. figure:: /images/DUT/counter_bd.jpg
     :alt: Counter block diagram
     :align: center
 
@@ -86,37 +86,37 @@ Make ``counter_out`` a register and add in the counter logic.
     );
   
   //local registers  
-    reg [7:0] count_next;//next count value
+    reg [7:0] count_next; //next count value
     reg [7:0]prev_start_value=start_value;
     
     always @(posedge aclk)
         begin
-            if(aresetn ==0 || prev_start_value!=start_value)//reset mode or new start value
-                   begin
-                    count_out =start_value;//reset count out to start value
-                    prev_start_value=start_value;//set prev start value to start value
-                   end 
-            else //reset=1, no reset
+        if(aresetn ==0 || prev_start_value!=start_value) //reset mode or new start value
+            begin
+                count_out =start_value; //reset count out to start value
+                prev_start_value=start_value; //set prev start value to start value
+            end 
+        else //reset=1, no reset
+            begin
+            if(enable==1) //enable is high a
                 begin
-                    if(enable==1) //enable is high a
-                         begin
-                            if(inc_dec==0) begin//and incdec is low
-                                count_next=count_out+1; //increment next value
-                                end 
-                                else begin //inc_dec is high
-                                count_next=count_out-1;// decrement next value
-                                end
-                            count_out=count_next;// set output equal to next value
-                            end
-                    else count_out=count_out;//same value if no enable
-                    end
-                end                
+                if(inc_dec==0) begin//and incdec is low
+                    count_next=count_out+1; //increment next value
+                end 
+                else begin //inc_dec is high
+                    count_next=count_out-1; // decrement next value
+                end
+                    count_out=count_next; // set output equal to next value
+            end
+            else count_out=count_out; //same value if no enable
+            end
+        end                
     endmodule
 ..
 
 .. topic:: Counter Testbench
 
-    Example testbench
+    Now that we have instantiated our design, we will simulate it using a simple testbench. 
 
 After the project opens, go to :guilabel:`Add Sources` and select :guilabel:`Add or create simulation sources`. 
 Create a new file, select the desired HDL (we will use SystemVerilog here), and name the file as counter_tb. 
@@ -137,12 +137,12 @@ Our new testbench ``counter_tb.sv`` will be created. Add testbench logic --code 
 
         //create DUT
         counter DUT(
-        .aclk(aclk),
-        .enable(enable),
-        .aresetn(aresetn),
-        .inc_dec(inc_dec),
-        .start_value (start_value),
-        .count_out(count_out)
+            .aclk(aclk),
+            .enable(enable),
+            .aresetn(aresetn),
+            .inc_dec(inc_dec),
+            .start_value (start_value),
+            .count_out(count_out)
         );
 
         //define clk
@@ -181,7 +181,7 @@ Our new testbench ``counter_tb.sv`` will be created. Add testbench logic --code 
 
 ..
 
-.. figure:: /images/DUT/17_behav_sim_diagram.jpg
+.. figure:: /images/DUT/behav_sim_diagram.jpg
     :alt: Working rollover
     :align: center
 
