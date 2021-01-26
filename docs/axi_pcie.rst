@@ -29,7 +29,7 @@ Create a new block diagram (BD) and use the IP catalog to add a new IP to the BD
     Link Speed for maximum performance.
 
 -   Again, depending on the application, you may change the Vendor ID and Class Code to something else.
-    For example, if you plan to use this IP in conjunction with a soft CPU like Microblaze, you would
+    For example, if you plan to use this IP in conjunction with a soft CPU like MicroBlaze, you will
     change the Class Code to 0x060400 accordingly. If not, leave the entire tab default. 
 
 -   In the PCIE:BARs tab, set BAR 0 at a size of 64 kB at offset address 0x00000000 and BAR 1 at 
@@ -139,10 +139,10 @@ Replacing the BRAM with DDR MIG in Example Design
    :align: right
 
 Create a new BD and insert an AXI SmartConnect with one AXI Master input, one AXI Slave output,
-64 bit Data Width, and two clock inputs. This SmartConnect will resolve the different clock domains 
+64-bit Data Width, and two clock inputs. This SmartConnect will resolve the different clock domains 
 that the PCIe IP and MIG run at.
 
-Once the SmartConnect wrapper has been added to the project, open the IP catalog and select
+Once the SmartConnect wrapper has been added to the project, open the IP catalog, and select
 the MIG 7 Series IP, customizing it like :ref:`this <MIG IP Customization>`.
 
 After the MIG has been generated, we will instanitate the MIG and SmartConnect into the example
@@ -730,8 +730,8 @@ Simulating the AXI MM PCIe MIG Example Design
 ---------------------------------------------
 
 After instantiating the MIG into the PCIe's example design, we also need to copy over some modules
-from the MIG's generated design in order for the PCIe MIG simulation to run properly. In particular,
-we need to import the relevant DDR3 Memory Model and Wire Delay modules. 
+from the MIG's generated design for the PCIe MIG simulation to run properly. We need to import the 
+relevant DDR3 Memory Model and Wire Delay modules. 
 
 .. Note:: The MIG 7 Series IP Example Design will output these modules, so generate the design if you have not done so already.
 
@@ -745,7 +745,7 @@ directory where your MIG project is saved.
 
 From there, locate the project's imported directory. An example directory would be similar to ``<project name>\srcs\sim_1\imports\imports``. 
 
-The directory should look similar to this:
+The directory should look like this:
 
 Select the ``ddr3_model.sv``, ``ddr3_model_parameters.vh``, and ``wiredly.v`` files to add them
 to the project.

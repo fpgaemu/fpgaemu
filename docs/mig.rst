@@ -39,7 +39,7 @@ We can customize it by double clicking it.
    this is the speed of the actual physical DDR3 RAM transactions.
 
 -  Make sure the PHY to Controller Clock Ratio is 4:1 (ensuring that the physical DDR RAM will
-   operate at 400 MHz, but the controller stays at 100 MHz i.e. ui_clk = 100 MHz).
+   operate at 400 MHz, but the controller stays at 100 MHz i.e., ui_clk = 100 MHz).
 
 -  For Kintex-7, select 8 bits as the Data Width for each address in memory. Also check that the number
    of Bank Machines used for managing DDR banks is set to 4. For Virtex-7, set the Data Width to 64
@@ -123,14 +123,14 @@ The MIG's reset scheme is as follows:
    4. A LOW signal is sent from ``aresetn_reg`` (also known as ``aresetn``), which resets all AXI components (including both the traffic generator and MIG).
 
 We can observe this behavior by running a Behavioral Simulation in Vivado. Make sure to add
-the correct AXI signals by clicking the :guilabel:`Scope` heading, right clicking on the ``u_ip_top`` module,
+the correct AXI signals by clicking the :guilabel:`Scope` heading, right clicking on the ``u_ip_top`` module
 and selecting :guilabel:`Add to Wave Window`. This will allow us to see the AXI read and write transactions.
 
 .. figure:: /images/mig7/wave_window.png
    :alt: MIG 7 Wave Window
    :align: center
 
-.. Note:: If you need a refresher on the AXI protocol or interpreting the simulation's waveforms, check here: :ref:`AXI Protocol Overview`.
+.. Note:: If you need a refresher on the AXI protocol or interpreting the simulation's waveforms, check :ref:`here <AXI Protocol Overview>`.
 
 Since the MIG needs time to calibrate and set up, no AXI reads/writes will occur until after the ``init_calib_complete``
 pin goes HIGH after 100us.
@@ -145,7 +145,7 @@ and the AXI Data Width is 32 bits, which is expected.
 Simulating Read/Writes with AXI VIP
 -----------------------------------
 
-.. Note:: All further examples are implemented using a Kintex-7 FPGA. However, the most pertinent portions apply to all other FPGAs (*e.g. the VIP implementation can also be used in the VC707's provided testbench*).
+.. Note:: All further examples are implemented using a Kintex-7 FPGA. However, the most pertinent portions apply to all other FPGAs (*e.g., the VIP implementation can also be used in the VC707's provided testbench*).
 
 As mentioned before, Xilinx's implementation of their Traffic Generator is difficult to break down
 into understandable chunks. Luckily, Xilinx also provides an alternative --- the AXI Verification IP
@@ -157,7 +157,7 @@ Open the ``example_top`` module and comment out the entire traffic generator ins
 a comment above it stating *The traffic generation module instantiated below drives traffic (patterns)
 on the application interface of the memory controller*.
 
-Make sure to also disable all of the traffic generator-related source files: ``mig_7series_v4_2_axi4_tg.v``,
+Make sure to also disable all the traffic generator-related source files: ``mig_7series_v4_2_axi4_tg.v``,
 ``mig_7series_v4_2_axi4_wrapper.v``, ``mig_7series_v4_2cmd_prbs_gen_axi.v``, ``mig_7series_v4_2_data_gen_chk.v``,
 and ``mig_7series_v4_2_tg.v``. In the abstracted block diagram (BD) above, we are essentially replacing the 
 entire ``axi4_tg`` module.
@@ -235,7 +235,7 @@ commented-out TG instantiation.
 ..
 
 If synthesis completes, the AXI VIP has been successfully instantiated into the design in place
-of the traffic generator. The file hierarchy should be similiar to this: 
+of the traffic generator. The file hierarchy should be like this: 
 
 .. figure:: /images/mig7/hierarchy.png
    :alt: MIG File hierarchy
@@ -382,7 +382,7 @@ other resets to initiate and begin calibration. Here is what a successful simula
    :alt: MIG Simulation 1
    :align: center
 
-As we can see, the two bytes that were read from memory (c0 and af from datar1 and datar2, respectively) 
+As we can see, the two bytes that were read from memory (*c0* and *af* from ``datar1`` and ``datar2``, respectively) 
 matched the two bytes that were initially written to those memory addresses (dataw1 and dataw2). If your
 simulation matches this, good job! The simulation was a success.
 
@@ -396,7 +396,7 @@ another example, using the IP Integrator (making a BD) makes this process very s
    :alt: MIG Custom IP
    :align: center
 
--  The ``ui_clk`` must be driving the AXI read/write transactions to the MIG (i.e. the ``aclk`` on the AXI VIP).
+-  The ``ui_clk`` must be driving the AXI read/write transactions to the MIG (i.e., the ``aclk`` on the AXI VIP).
 -  The ``ui_clk_sync_rst`` must be driving the ``aresetn`` pin on the AXI master (since ``ui_clk_sync_rst`` is active HIGH 
    and ``aresetn`` is active LOW, we use a Processor System Reset IP for easy conversion)
 -  The ``sys_clk_i`` is the 200 MHz input clock that we defined in our MIG customization (which is also
@@ -420,7 +420,7 @@ this, we will use an AXI SmartConnect IP.
 
 .. Error:: Xilinx now recommends that all new AXI designs use the SmartConnect v1.0 core. It is not recommended to use the AXI Interconnect v2.1 core. 
 
-.. Note:: You can read more about the SmartConnect IP here: :ref:`AXI Interconnect SmartConnect`.
+.. Note:: You can read more about the SmartConnect IP :ref: `here <AXI Interconnect SmartConnect>`.
 
 Begining with our modified MIG example design with one AXI VIP, create a new block diagram (BD). Add a 
 SmartConnect IP and customize it as shown:
@@ -524,7 +524,7 @@ and insert the new instantiation with the ports from ``design_1_wrapper``. It wi
 Now we can run synthesis to verify that the top file compiles. There may be a small syntax error,
 which we can ignore. 
 
-Now that we have sucessfully instantiated our new design, our two AXI Masters should be able to 
+Now that we have successfully instantiated our new design, our two AXI Masters should be able to 
 perform read/write requests to the MIG through the AXI SmartConnect IP. We can verify this through
 a behavioral simulation that performs two simultaneous write/read requests to two different addresses.
 
@@ -655,7 +655,7 @@ the same procedure as our last testbench with one AXI VIP.
 
 ..
 
-We can observe the simulation's intended behavior by running a Behavioral Simulaton.
+We can observe the simulation's intended behavior by running a Behavioral Simulation.
 
 Here we can see two AXI Write transactions --- one writing data C0 to address 0x0000 and one writing data
 AF to address 0x0004.
