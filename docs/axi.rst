@@ -209,6 +209,20 @@ masters connected to multiple slaves (up to 16 each).
 
     AXI Interconnect Configurations [2]_
 
+The AXI Interconnect is also known as a network-on-chip (NoC). There are many technical details about NoCs that we 
+will not go into here, such as topology and routing strategies, but the only characteristic to keep in mind 
+is that NoCs use packets, not wires, to route data from the source to the destination. While traditional Verilog 
+instantiates connections between modules as wires and sends electrical signals as communication, NoCs like the Interconnect 
+or SmartConnect utilize the AXI protocol to route signals and data payloads from the master to the appropriate slave device. 
+The NoC architecture has multiple routers connnected by wires or links with an array of processing elements or PEs built on 
+a mesh topology. This creates a scalable architecure that has a higher bandwidth than connecting each module individually. 
+
+.. figure:: /images/axi4/axi_noc.png
+    :alt: AXI Network on Chip
+    :align: center
+
+    AXI Interconnect NoC topology [3]_
+
 For a multi-master/slave system, the Interconnect will contain multiple arbiters and routers so that each write 
 and read channel has a dedicated connection between masters and slaves --- by doing this, both reads and writes 
 can occur simultaneously. This is also known as an **AXI Crossbar** core. A typical Interconnect transaction 
@@ -232,7 +246,7 @@ would occur in this manner:
     :alt: AXI Interconnect Address Decoding
     :align: center
 
-    AXI Interconnect Address Decoding Table [3]_
+    AXI Interconnect Address Decoding Table [4]_
 
 The Interconnect IP works on a round-robin basis, wherein the read and write channel will alternate for access 
 if multiple masters are trying to write to/read from the same slave. Since the DDR protocol allocates a few clock 
@@ -265,7 +279,7 @@ multiple Interconnects and SmartConnects together.
     :alt: AXI Interconnect Deadlock
     :align: center
 
-    An Interconnect deadlock situation [4]_
+    An Interconnect deadlock situation [5]_
 
 The Interconnect also can update AXI3 interfaces to AXI4, perform bus-width conversion, use input/output FIFOs and 
 register slices to break down timing paths, and convert between different clock domains. Simply put, the Interconnect 
@@ -283,7 +297,7 @@ the SmartConnect IP as opposed to the older Interconnect. For more information, 
     :alt: AXI SmartConnect Block Diagram
     :align: center
 
-    Example SmartConnect IP system [5]_
+    Example SmartConnect IP system [6]_
 
 .. _AXI Verification IP:
 
@@ -304,17 +318,18 @@ as check for protocol compliance.
     :alt: AXI VIP Block Diagram
     :align: center
 
-    Example AXI system with VIP [6]_
+    Example AXI system with VIP [7]_
 
 References
 ----------
 
 .. [1] AXI example images used from Wikimedia Commons and the `AXI Article <https://en.wikipedia.org/wiki/Advanced_eXtensible_Interface>`_.
 .. [2] AXI Interconnect documentation from Xilinx `here <https://www.xilinx.com/support/documentation/ip_documentation/axi_interconnect/v2_1/pg059-axi-interconnect.pdf>`_.
-.. [3] The example of Interconnect Addressing from Mohammadsadegh Sadri, PhD, can be found in this `post <http://www.googoolia.com/wp/2014/03/21/lesson-2-what-is-an-axi-interconnect/>`_.
-.. [4] From Chou, H. M., Chen, Y. C., Yang, K. H., Tsao, J., Chang, S. C., Jone, W. B., & Chen, T. F. (2015). High-performance deadlock-free id assignment for advanced interconnect protocols. IEEE Transactions on Very Large Scale Integration (VLSI) Systems, 24(3), 1169-1173.
-.. [5] Read more about the SmartConnect IP in this `white paper <https://www.xilinx.com/support/documentation/white_papers/wp478-smartconnect.pdf>`_.
-.. [6] More about AXI BFM architecure `here <https://www.aldec.com/en/support/resources/documentation/articles/1585>`_ (modified image).
+.. [3] From Sudeep Pasricha (Colorado State), Nikil Dutt (UC Irvine) “On-Chip Communication Architectures”, Morgan Kaufmann, 2008 
+.. [4] The example of Interconnect Addressing from Mohammadsadegh Sadri, PhD, can be found in this `post <http://www.googoolia.com/wp/2014/03/21/lesson-2-what-is-an-axi-interconnect/>`_.
+.. [5] From Chou, H. M., Chen, Y. C., Yang, K. H., Tsao, J., Chang, S. C., Jone, W. B., & Chen, T. F. (2015). High-performance deadlock-free id assignment for advanced interconnect protocols. IEEE Transactions on Very Large Scale Integration (VLSI) Systems, 24(3), 1169-1173.
+.. [6] Read more about the SmartConnect IP in this `white paper <https://www.xilinx.com/support/documentation/white_papers/wp478-smartconnect.pdf>`_.
+.. [7] More about AXI BFM architecure `here <https://www.aldec.com/en/support/resources/documentation/articles/1585>`_ (modified image).
 
 ..
    comment all links
