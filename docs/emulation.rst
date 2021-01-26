@@ -233,7 +233,7 @@ The Basics of Hardware Emulation and HDLs
 As we have discussed at length, FPGAs provide an unparalleled combination of performance and flexibility 
 that rivals even the most expensive processors (of course, industry-grade FPGAs cost quite a bit too). 
 This reprogrammability allows FPGAs to excel at one of their most interesting applications --- **hardware 
-emulation** or the method of copying the behavior of another hardware sample. Referring back to our Apple
+emulation** or the method of copying the behavior of another hardware sample. Referring to our Apple
 M1/Qualcomm 888 example, instead of manufacturing new designs on the assumption that they will work 100% 
 of the time, most if not all semiconductor companies first use FPGAs to emulate their chips. Hardware 
 emulation allows these manufacturers to debug their designs in simulated but realistic conditions before 
