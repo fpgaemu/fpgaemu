@@ -11,7 +11,7 @@ FPGAEmu: An Introduction to FPGA Emulation
 .. figure:: /images/logos/board_bd.png
    :alt: Complete Emulation Block Diagram
    :align: right
-   :width: 70%
+   :width: 80%
 
    Complete Block Diagram of FPGA Board
 
