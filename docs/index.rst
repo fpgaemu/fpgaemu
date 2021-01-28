@@ -8,9 +8,12 @@ FPGAEmu: An Introduction to FPGA Emulation
 
 .. Important:: New to FPGAs or just need a refresher? Jump :ref:`here <Emulation>` first!
 
-.. figure:: /images/logos/block_1.svg
+.. figure:: /images/logos/board_bd.png
    :alt: Complete Emulation Block Diagram
    :align: right
+   :width: 70%
+
+   Complete Block Diagram of FPGA Board
 
 .. toctree::
    :maxdepth: 2
