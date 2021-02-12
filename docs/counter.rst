@@ -28,7 +28,7 @@ A Simple 8-Bit Counter
 As the FPGA 'Hello World', a simple 8-bit counter is the perfect introductory example for a 
 custom IP block without the need for a development board. 
 
-.. figure:: /images/DUT/counter_bd.jpg
+.. figure:: /images/DUT/counter_bd.JPG
     :alt: Counter block diagram
     :align: center
 
@@ -181,7 +181,7 @@ Our new testbench ``counter_tb.sv`` will be created. Add testbench logic --code 
 
 ..
 
-.. figure:: /images/DUT/behav_sim_diagram.jpg
+.. figure:: /images/DUT/behav_sim_diagram.JPG
     :alt: Working rollover
     :align: center
 
@@ -192,3 +192,46 @@ Our new testbench ``counter_tb.sv`` will be created. Add testbench logic --code 
     :align: center
 
     Working Reset
+
+    .. _Packaging Counter:
+
+Packaging a Custom AXI4Lite IP
+----------------------
+
+This section focuses on how to create a custom AXI4Lite IP and how to correctly instantiate the DUT, which is the
+ counter in this specific example. Referring to the Counter block diagram, this is where the enable, 
+ increment/decrement, and start value will be mapped to the AXI4Lite slave registers. In addition, the inputs of 
+ aclk and aresetn will be connected to the AXI clock and reset. And lastly add a sanity check for slave register3 
+ and add an output port count_out. It is important to note that because the reset and registers will be tied to the 
+ AXI4Lite slave registers and that a  reset will reset all the slave register values. This means that once a reset 
+ is performed, the enable, inc/dec, start value, and count out will all be set back to 0. An AXI Write is required 
+ to change any values from 0 after a reset has occurred.
+
+Create a new project, and go to 'Tools' and select 'Create and Package New IP..'. A new window will open and explain 
+the features. Click 'Next' and select 'Create AXI4Peripheral'. Name the IP as desired and select 'Next'. Adding and 
+subtracting interfaces can be done with the '+' and '-' buttons. Select desired 'interface type', 'interface mode', 
+'data width', and 'number of registers'. 
+For the counter, select the parameters shown in the image below. These parameters mean that there will be only one 
+interface and it will be an AXI4Lite slave. There will be 4 registers, each with a data width 32 bits. Click 'next'.
+
+.. figure:: /images/DUT/23_add_interfaces.JPG
+    :alt: Counter IP Parameters
+    :align: center
+
+    Add Interfaces to AXI4 peripheral
+
+Select 'Edit IP' and click 'Finish'. A new design source and IP Packager will open. The next step is to add our dut 
+(counter) into this project. In order to do this select 'Add Sources' and select 'add or create design sources'. 
+Select 'next'. Select 'Add files' and select your dut. Once you have correctly selected your DUT then it will appear 
+in the window. Select 'Finish'. The file will successfully add to your sources window.
+
+.. figure:: /images/DUT/25_new_windoe.JPG
+    :alt: Counter Source Design
+    :align: center
+
+    Dut successfully added to Design Sources
+
+The DUT needs to be correctly instantiated into the custom AXI IP. In order to do this open the file with “_S00_AXI” 
+in the name. When we created this AXI Peripheral, we selected 4 registers with 32 bits of data. Those registers are 
+shown in this file as slv_reg0-3. These are where we are going to store the necessary data for our instantiated DUT. 
+ 
