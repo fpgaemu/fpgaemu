@@ -207,12 +207,13 @@ This section focuses on how to create a custom AXI4Lite IP and how to correctly 
  is performed, the enable, inc/dec, start value, and count out will all be set back to 0. An AXI Write is required 
  to change any values from 0 after a reset has occurred.
 
-Create a new project, and go to 'Tools' and select 'Create and Package New IP..'. A new window will open and explain 
-the features. Click 'Next' and select 'Create AXI4Peripheral'. Name the IP as desired and select 'Next'. Adding and 
-subtracting interfaces can be done with the '+' and '-' buttons. Select desired 'interface type', 'interface mode', 
-'data width', and 'number of registers'. 
+Create a new project, and go to :guilabel:`Tools` and select :guilabel:`Create and Package New IP...` A new window 
+will open and explain the features. Click :guilabel:`Next` and select :guilabel:`Create AXI4Peripheral`. Name the 
+IP as desired and select :guilabel:`Next`. Adding and subtracting interfaces can be done with the :guilabel:`+` and 
+:guilabel:`-` buttons. Select desired 'interface type', 'interface mode', 'data width', and 'number of registers'. 
 For the counter, select the parameters shown in the image below. These parameters mean that there will be only one 
-interface and it will be an AXI4Lite slave. There will be 4 registers, each with a data width 32 bits. Click 'next'.
+interface and it will be an AXI4Lite slave. There will be 4 registers, each with a data width 32 bits. 
+Click :guilabel:`next`.
 
 .. figure:: /images/DUT/23_add_interfaces.JPG
     :alt: Counter IP Parameters
@@ -220,10 +221,11 @@ interface and it will be an AXI4Lite slave. There will be 4 registers, each with
 
     Add Interfaces to AXI4 peripheral
 
-Select 'Edit IP' and click 'Finish'. A new design source and IP Packager will open. The next step is to add our dut 
-(counter) into this project. In order to do this select 'Add Sources' and select 'add or create design sources'. 
-Select 'next'. Select 'Add files' and select your dut. Once you have correctly selected your DUT then it will appear 
-in the window. Select 'Finish'. The file will successfully add to your sources window.
+Select :guilabel:`Edit IP` and click :guilabel:`Finish`. A new design source and IP Packager will open. The next step 
+is to add our DUT (counter) into this project. In order to do this select :guilabel:`Add Sources` and select 
+:guilabel:`add or create design sources`. Select :guilabel:`next`,:guilabel:`Add files`and select your dut. Once you 
+have correctly selected your DUT then it will appear in the window. Select :guilabel:`Finish`. The file will 
+successfully add to your sources window.
 
 .. figure:: /images/DUT/25_new_windoe.JPG
     :alt: Counter Source Design
@@ -233,5 +235,187 @@ in the window. Select 'Finish'. The file will successfully add to your sources w
 
 The DUT needs to be correctly instantiated into the custom AXI IP. In order to do this open the file with “_S00_AXI” 
 in the name. When we created this AXI Peripheral, we selected 4 registers with 32 bits of data. Those registers are 
-shown in this file as slv_reg0-3. These are where we are going to store the necessary data for our instantiated DUT. 
- 
+shown in this file as slv_reg0-3. These are where we are going to store the necessary data for our instantiated DUT.
+The changes that should be made are listed below: 
+ -   Create a User Defined output port, which will be a wire and 8 bits wide, called count_out. 
+  .. figure:: /images/DUT/29_user_defined_port.JPG
+    :alt: Instansiation Define Ports
+    :align: center
+    Add Output Port to the Slave File
+-   Scroll down and instantiate the DUT under where it says :guilabel:`add user logic here`. Include the necessary parameters. 
+    In this counter, tie slv_reg0 bit 0 to enable, increment/decrement to slv_reg0 bit 1 and start value to 
+    slv_reg1 bits 7-0. Tie the clock and reset to the slave axi clock and reset. 
+    .. figure:: /images/DUT/30_user_logic.JPG
+    :alt: Add User Logic
+    :align: center
+    Add User Logic DUT to the Slave File
+
+-   Use slv_reg3 as a sanity check. Set slv_reg3 to abcd1234. This means that everytime slv_reg3 is read it will 
+    always be abcd1234. 
+    .. figure:: /images/DUT/31_sanity_check.JPG
+    :alt: Sanity Check
+    :align: center
+    Add Sanity Check to the Slave File
+
+.. Important:: If you want to download the top file instead, go :download:`here </files/DUT_counter/myip_counter_v1_0_S00_AXI.v>`. 
+
+The custom counter is correctly instantiated into the file ending in “_S00_AXI”. Now it is necessary to instantiate
+ this counter into the top file. There are two steps necessary to do this:
+ -   It is necessary to add our output port  count_out in the ports of axi slave bus interface S00_AXI.  
+ .. figure:: /images/DUT/32_top_file_output.JPG
+    :alt: Top File Add Ports
+    :align: center
+    Add Output Port to Top File
+-   Add the ports to the instancation of axi bus interface s00_AXI.  
+ .. figure:: /images/DUT/33_instanciate_top.JPG
+    :alt: Add ports to AXI Bus Interface Top File
+    :align: center
+    Add ports to AXI Bus Interface in the Top File
+
+.. Important:: If you want to download the top file instead, go :download:`here </files/DUT_counter/myip_counter_v1_0.v>`. 
+
+Now that the DUT is correctly instantiated, the next step is to open the Package IP tab. Under :guilabel:`Packaging steps`
+ you want every category to have a green check mark next to it. In order to get this click on a category such as
+ :guilabel:`File Groups` and select :guilabel:`Merge changes from File Groups Wizard`. This will automatically merge the changes 
+ made. Continue this with all of the necessary categories. 
+
+Once at the :guilabel:`Review and Package` category, click :guilabel:`IP has been modified` and then click Re-Package IP at the 
+ bottom of the window. 
+    A new window will pop up and tell you the directory of your IP. Keep note of this directory just in case 
+    you will need to add the repository to a new project.
+
+.. _Add Custom IP to a Design:
+
+Add Custom IP to a Design
+----------------------
+This section will walk through how to add the packages custom IP to a block diagram and test its functionality with AXI VIP.
+
+Now the Custom IP is correctly Packaged! The Project made earlier in this tutorial should still be open. The repository 
+for our IP was automatically added to this project, so integrating it into a block design is very straightforward. 
+-   Select :guilabel:`Create New Block Design` and name it as desired.  Select :guilabel:`OK`.
+
+-   A new window will open. Select the :guilabel:`+` to add IP into the block design. Look for the custom IP that was just 
+    created and add it to the block design. 
+.. figure:: /images/DUT/37_add_custom_ip.JPG
+    :alt: Add Custom IP to BD
+    :align: center
+    Add Custom IP to Block Diagram
+-   Add the AXI VIP from the IP catalog. Double click on the AXI VIP and make it a "Master" and change the interface mode 
+    to "manual" for protocol, and change it to "AXI4LITE". Select :guilabel:`OK`.
+.. figure:: /images/DUT/38_axi_vip.JPG
+    :alt: AXI VIP Parameters
+    :align: center
+    Add AXI VIP Parameters
+-   Connect the Master port of the VIP to the slave of the Counter. Make the clock, reset, and count_out ports external 
+    and hook up as required.
+-   Go to the :guilabel:`Address Editor` tab and "right click" on the custom AXI IP. Click :guilabel:`Assign`. This will
+    assign address range for this IP. Keep note of it for the test bench, for example the assigned base address may be 
+    something like “0x44A0_0000”.
+-   Go back to the block Diagram and "right click" on a blank spot in the design. Select :guilabel:`Validate Design`. 
+    Once the validation is successful click :guilabel:`OK`.
+-   The next step is to create a wrapper file which turns the block diagram into HDL. To do this go to the :guilabel:`Sources`
+     and "right click" on the source for your block diagram. Select :guilabel:`Create DL Wrapper`. 
+-   A new window will pop up.  Ensure :guilabel:`Let Vivado manage wrapper and auto-update` is selected and then click :guilabel:`OK`.
+-   The next step is to create a testbench to ensure the Custom AXI IP works as intended. Follow steps 12-18 to create a testbench. 
+    The necessary testbench to test the counter custom AXI IP can be found below.
+
+    .. Important:: If you want to download the top file instead, go :download:`here </files/DUT_counter/counter_ip_tb.sv>`. 
+    
+    .. code-block:: SystemVerilog
+`timescale 1ns / 1ps
+
+//import necessary packages
+import axi_vip_pkg::*;
+import design_1_axi_vip_0_0_pkg::*;
+
+module counter_ip_tb();
+
+bit aclk = 0;
+bit aresetn = 0;
+logic[7:0] count_out;
+
+xil_axi_ulong base_reg=32'h44A00000; //slv_reg0 is base reg enable bit is LSB, reg increment/decrement setting is bit 1
+xil_axi_ulong start_value_reg = 32'h44A00004; //reg for start value. slv_reg1 is 4 away from base
+xil_axi_ulong sanity_check_reg = 32'h44A000C; //sanity check reg. slv_reg3 which is 12 away from base reg
+xil_axi_prot_t prot = 0;
+xil_axi_resp_t resp;
+//data to set settings
+bit[31:0] enable_data = 32'h00000001; //bit 0 is tied to enable. high will enable. this data will also set inc/dec to increment (0001)
+bit[31:0] disable_data=32'h00000000;//disable the enable and inc/dec set back to increment (0010)
+bit[31:0] inc_dec =32'h00000003;//bit 1 is tied to inc/dec. high is decrement. this will set decrement and enable (0011)
+//test data
+bit[31:0] test_data1 = 32'h000000C0; 
+bit[31:0] test_data2 = 32'h000000AF;
+bit[31:0] test_data3 = 32'h00000011;
+bit[31:0] sanity_data;
+
+//instantiate block design//
+design_1_wrapper DUT(
+.aclk_0(aclk),
+.aresetn_0(aresetn),
+.count_out_0(count_out)
+);
+
+//initialize AXI Master Agent
+//create master agent vip
+    design_1_axi_vip_0_0_mst_t      master_agent;
+    
+    always begin
+    #5
+    aclk=~aclk;//100mhz clk
+    end
+  //create agent and start
+    initial begin 
+    master_agent=new("master vip agent",DUT.design_1_i.axi_vip_0.inst.IF); 
+    master_agent.start_master();
+    
+    #100
+    aresetn = 1; //turn off reset
+    
+    //enable
+    #50
+    master_agent.AXI4LITE_WRITE_BURST(base_reg, prot, enable_data, resp); //write to enable. increment mode
+    
+    //test read and write
+    #100
+    master_agent.AXI4LITE_WRITE_BURST(start_value_reg, prot, test_data1, resp); //write data c0 into start value register
+    #50
+    master_agent.AXI4LITE_READ_BURST(start_value_reg, prot, sanity_data, resp); //read start value reg
+    #100
+    master_agent.AXI4LITE_WRITE_BURST(start_value_reg, prot, test_data2, resp); //write data2 AF into start reg. still increment mode
+  
+  //test enable/disable
+     #50
+     master_agent.AXI4LITE_WRITE_BURST(base_reg, prot, disable_data, resp); //disable. increment mode
+     #50
+    master_agent.AXI4LITE_WRITE_BURST(base_reg, prot, enable_data, resp); //write to enable. increment mode
+    
+    //test decrement
+    #100
+    master_agent.AXI4LITE_WRITE_BURST(base_reg, prot, inc_dec, resp); //write to change to decrement mode
+    #100
+    master_agent.AXI4LITE_WRITE_BURST(start_value_reg, prot, test_data3, resp); //write data3 11 into start value
+    
+    //sanity check
+    #100
+    master_agent.AXI4LITE_READ_BURST(sanity_check_reg, prot, sanity_data, resp); //read sanity check register. should be abcd1234
+    
+    //test reset
+    #100
+    aresetn=0;//enable reset
+    #100
+    aresetn=1;//turn off reset
+    
+    //enable and read start reg, should be 0 after reset
+    #100
+    master_agent.AXI4LITE_WRITE_BURST(base_reg, prot, enable_data, resp); //write to enable. increment mode
+    #100
+    master_agent.AXI4LITE_READ_BURST(start_value_reg, prot, sanity_data, resp); //read start value register
+   
+    end
+    
+endmodule
+
+    
+
+..
