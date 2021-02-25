@@ -1,4 +1,4 @@
-.. _AXI_PCIe:
+.. _AXI PCIe Overview:
 
 ==========================
 AXI MM to PCIe IP Overview
@@ -811,7 +811,6 @@ with a MIG Controller.
 
    Successful PCIe Simulation
 
-..
-   comment all links
+.. all links
 
 .. _PG055: https://www.xilinx.com/support/documentation/ip_documentation/axi_pcie/v2_8/pg055-axi-bridge-pcie.pdf

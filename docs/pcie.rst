@@ -6,6 +6,8 @@ Legacy PCI and PCI Express
 
 .. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
 
+.. Important:: This article covers the PCI and PCIe buses. You can read about the specific AXI PCIe MM IP :ref:`here <AXI PCIe Overview>`.
+
 .. _PCI Introduction:
 
 Peripheral Component Interconnect
@@ -127,11 +129,4 @@ edges are marked with dotted lines whenever signals are driven or sampled.
 -   CLK Edge 8 - Third data set is transferred, FRAME# is de-asserted so transaction is finished, at 
     CLK edge 9 all control lines are turned off and bus becomes idle again
 
-.. _AXI PCIe IP Overview:
-
-The AXI PCIe IP
----------------
-
-
-AXI PCIe IP :ref:`AXI_PCIe`
 

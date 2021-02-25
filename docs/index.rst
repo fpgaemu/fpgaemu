@@ -32,6 +32,7 @@ FPGAEmu: An Introduction to FPGA Emulation
 
    mig
    axi_pcie
+   infrastructure
 
 .. toctree::
    :maxdepth: 2
