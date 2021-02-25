@@ -687,8 +687,7 @@ successfully implemented two AXI VIPs with a MIG.
    $finish called at time : 108227500 ps : File "..."
 ..
 
-..
-   comment all links
+.. all links
 
 .. _UG586: https://www.xilinx.com/support/documentation/ip_documentation/ug586_7Series_MIS.pdf
 .. _PG267: https://www.xilinx.com/support/documentation/ip_documentation/axi_vip/v1_0/pg267-axi-vip.pdf

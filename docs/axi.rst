@@ -331,8 +331,7 @@ References
 .. [6] Read more about the SmartConnect IP in this `white paper <https://www.xilinx.com/support/documentation/white_papers/wp478-smartconnect.pdf>`_.
 .. [7] More about AXI BFM architecure `here <https://www.aldec.com/en/support/resources/documentation/articles/1585>`_ (modified image).
 
-..
-   comment all links
+.. all links
 
 .. _UG586: https://www.xilinx.com/support/documentation/ip_documentation/ug586_7Series_MIS.pdf
 .. _PG247: https://www.xilinx.com/support/documentation/ip_documentation/smartconnect/v1_0/pg247-smartconnect.pdf
