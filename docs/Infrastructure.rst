@@ -314,6 +314,146 @@ the Root Port simulation model.
 To test the MIG, the sample data *0xABCD_BEEF* was written to address ``0x0000_0010``, which corresponds to address ``0x0000_00010``
 on the MIG.  If the read data equals the written data, then the message *MIG Test Passed* will appear in the TCL console.
 
+.. figure:: /images/infrastructure/custom_mig_test.PNG 
+   :alt: MIG Test Passed
+   :align: center 
+
+   MIG Test Passed [replace with code]
+
+In order to test the BRAM controller (aka the DUT), I sent the data ``0x1234_4321`` to address 0x0000_2000, which should correspond 
+to address ``0x0000_0000`` on the BRAM controller.  If the read data equals the written data, then the message “BRAM Test Passed” will 
+appear in the TCL Console.
+
+.. figure:: /images/infrastructure/bram_custom_test.PNG 
+   :alt: BRAM custom test
+   :align: center 
+
+   BRAM Custom Test [replace with code]
+
+Now that we have built our simulation environment, we can go ahead and Run Behavioral Simulation.  
+
+.. Note::  If the simulation fails to launch, the TCL console will direct you to the location of a log file that will provide more 
+specific error-related information for debugging.
+
+The simulation should automatically pause itself after 1 nanosecond, and this is a good time to add the desired waveform signals 
+into the simulation window.  This can be done by navigating to the :guilabel:`Scope` window, right clicking on the signals you 
+would like to see, and then clicking :guilabel:`Add to Wave Window`.  I would personally recommend adding the signals from the 
+:guilabel:`XILINX_AXIPCIE_EP` file, the :guilabel:`axi_bram_ctrl_0` file, and the :guilabel:`mig_7series_0` file as shown in the image below.
+
+.. figure:: /images/infrastructure/vc707_mig_bram_scope.PNG 
+   :alt: BRAM Scope
+   :align: center 
+
+   BRAM Scope
+
+Once we’ve added the correct signals, we can click on the green play button at the top left corner of the screen to resume the simulation.
+
+.. Note::If the simulation stops early (before 100us) due to a timeout error from one of the PCIE root port files, we can go ahead and just 
+click the green play button to force the simulation to resume anyways.  If this becomes bothersome, we can comment out the timeout error 
+from occurring like this:
+.. figure:: /images/infrastructure/Inkedcomment_out_simulation_timeout_LI.PNG 
+   :alt: Comment out timeout error
+   :align: center 
+
+   Comment out timeout error
+
+Finally, the simulation should conclude around 110 us, and if you see the following messages in the TCL console, then the simulation was a success!
+.. figure:: /images/infrastructure/mig_test_passed.PNG 
+   :alt: MIG test Passed
+   :align: center 
+
+   MIG Test Passed
+
+.. figure:: /images/infrastructure/bram_test_passed.PNG 
+   :alt: BRAM Test Passed
+   :align: center 
+
+   BRAM Test Passed
+
+Additionally, we can view the AXI transactions in the simulation window.  One important thing to notice is that the PCIE sent a write transaction 
+to address ``0x0000_2000`` for the BRAM test, but because of the address offset that we specified for the BRAM controller back in the block diagram 
+stage, the BRAM received this write request at address ``0x0000_0000``.  This is how we will be able to use the PCIE to read and write to multiple 
+slave devices simultaneously.
+
+.. figure:: /images/infrastructure/vc707_bram_mig_waveform.PNG 
+   :alt: BRAM MIG Waveform
+   :align: center 
+
+   BRAM MIG Waveform
+
+.. _Checking Timing, Viewing Power Reports, Monitoring I/O Placement::
+
+Checking Timing, Viewing Power Reports, Monitoring I/O Placement:
+--------------------------------------------------- 
+After running through synthesis and implementation, Vivado provides us with several tools that we can use to monitor important factors of our 
+design such as timing, power, and I/O placement.
+
+The first category that we can take a look at is the Timing section.  In this Design Timing Summary, we can see several aspects of our timing 
+report, such as the total number of endpoints, worst negative slack, and most importantly, whether our device meets timing or not.  
+In this example, we can see that our device successfully meets all of the timing requirements as shown in the figure below.
+
+.. figure:: /images/infrastructure/timing_constraints_met.PNG 
+   :alt: Timing Summary Met
+   :align: center 
+
+   Timing Summary Met
+
+If we click on the :guilabel:`Check Timing` tab on the left side of the screen, it will show us a more detailed layout of the timing summary
+
+.. figure:: /images/infrastructure/check_timing_summary.PNG 
+   :alt: Check Timing Summary
+   :align: center 
+
+   Check Timing Summary
+
+In this case, we can see that there are 4 total errors with our timing:  2 ``no_input_delays`` and 2 ``no_output_delays``.  If we click on 
+those respective sections on the left side of the screen, we can see which exact ports are afflicted by these errors.  However, since all 
+of the timing constraints are still met within the design, it is alright to ignore these errors.
+
+This is also the place where we would see if any clocks were not properly constrained.  If this were the case, we would usually see a large 
+amount of errors under the no_clock category.
+
+If any of these errors were preventing our design from meeting timing, we can use the :guilabel:`Vivado Timing Constraints Wizard` to help us 
+write clock constraints to fix these errors.  In order to access the wizard, open up the implemented design, click on the :guilabel:`Tools` menu 
+at the very top of the screen, and then click on ``Timing`` → ``Constraints Wizard``.  
+
+.. Note:: If you do decide to use the timing constraints wizard, it will automatically write the constraints for you based on the clocks you need 
+to define, and it will **OVERWRITE** any constraints that you already have in your target constraints file.  Personally, I would recommend copying 
+and pasting the text from your target constraints file somewhere safe before running the wizard.
+
+To check the :guilabel:`Vivado Power Report` for our design, click on the ``Power`` tab within the implemented design.
+
+From here, we can see additional information relevant to the on-chip power required for implementation, as well as the power distribution for each 
+FPGA primitive used in order to build the design (clocks, PLLs, I/O, BRAM, etc.)
+
+.. figure:: /images/infrastructure/power_summary.PNG 
+   :alt: Power Summary
+   :align: center 
+
+   Check Power Summary
+
+In this case, we can see that the total on-chip power required is 4.512 Watts, which is broken down into the individual FPGA components in the 
+diagram to the right.
+
+One other very handy tool that Vivado provides for us is the ability to view and modify the I/O planning of the design.  In order to access the 
+I/O planning page, open up the implemented design, select the `:guilabel:`Layout` menu at the very top of the screen, and then select :guilabel:`I/O Planning`
+
+This should open up a new tab on the Implemented design called ``I/O Ports``, and navigating through this tab allows you to view all of the pin 
+locations defined within your constraints, as well as their respective location within the FPGA
+
+.. figure:: /images/infrastructure/io_pin_planning.PNG 
+   :alt: IO Pin Planning
+   :align: center 
+
+   IO Pin Planning
+
+Similar to the `:guilabel:`Timing Constraints Wizard`, we can manually assign the input/output ports of our designs to any respective package 
+pin port, and the Vivado tool will write the constraints for us.  However, it will also overwrite any previously written constraints, so always 
+make sure to copy and paste your top level constraints somewhere safe before saving any edits.
+
+Other things that we can do within this window include setting the I/O Std type and enabling/disabling pullup resistors.
+
+
 .. all links 
 
 .. _UG885: https://www.xilinx.com/support/documentation/boards_and_kits/vc707/ug885_VC707_Eval_Bd.pdf
