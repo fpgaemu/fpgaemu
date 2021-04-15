@@ -1,12 +1,12 @@
-.. _Basic Infrastructure Environment Overview:
+.. _Basic Environment Overview:
 
-======================================================
-Building a Basic Infrastructure Simulation Environment
-======================================================
+===============================================
+Building a Basic Simulation Environment (VC707)
+===============================================
 
 .. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
 
-.. _PCIe and MIG Example Designs:
+.. _BASIC PCIe and MIG Example Designs:
 
 Generating PCIe and MIG Example Designs
 ---------------------------------------
@@ -16,7 +16,7 @@ the pieces together - that is, building the basic infrastructure behind our FPGA
 The infrastructure will begin modifying Xilinx's PCIe example design, as this will allow us to perform 
 reads and writes to both DDR memory and a replaceable Device Under Test (DUT), as well as other on-board
 peripherals. This can be accomplished through the use of an AXI SmartConnect, or what is known as a
-a "NoC" in industry. You can read more about the SmartConnect IP and the AXI protocol :ref:`here <AXI Protocol Overview>`. 
+a "NoC" in industry. You can read more about the SmartConnect IP and the AXI protocol :ref:`here <AXI Interconnect SmartConnect>`. 
 We will give the DDR memory and the Device Under Test different offset addresses in the AXI memory space, and then 
 we can decide which device the PCIe will read or write to by specifying the address of the transaction.
 
@@ -35,7 +35,7 @@ generate a MIG 7 Series or equivalent IP using Xilinx's IP integrator. For the M
 
 .. Important:: Unless mentioned otherwise, leave all values default.
 
--  Desired Clock Period → 2500ps (400MHz)-
+-  Desired Clock Period → 2500ps (400MHz)
 -  Data Width → 64 bit (default)
 -  AXI Data Width → 64 bit
 -  Input Clock Period → 5000ps (200MHz)
@@ -90,7 +90,7 @@ Make the following changes to the core:
 Once this core has been generated, generate an example design for this IP as well. Now that the example 
 designs have been generated for both the MIG and the PCIE IPs, we are ready to move onto the next section.
 
-.. _PCIe MIG Block Diagramn:
+.. _BASIC PCIe MIG Block Diagramn:
 
 Creating the Block Diagram
 --------------------------
@@ -169,7 +169,7 @@ Once Validation is successful, we will need to right-click on the block design u
 and select :guilabel:`Create HDL Wrapper`.  Just like before, this will generate an RTL wrapper file for this 
 block diagram, which we can instantiate into our PCIe example design in the next section.
 
-.. _Connecting MIG PCIe BRAM:
+.. _BASIC Connecting MIG PCIe BRAM:
 
 Connecting it All Together
 --------------------------   
@@ -235,10 +235,10 @@ implementation are complete, we can now move on to the next section.
 
    Example schematic of infrastructure BD
 
-.. _Modifying and Running the Simulation:
+.. _BASIC Modifying Simulation:
 
-Modifying and Running the Infrastructure Simulation
---------------------------------------------------- 
+Modifying and Running the Simulation
+------------------------------------
 
 Just like the example in :ref:`section 2.5 <Simulating AXI MM PCIe MIG>` of the AXI MM to PCIE IP Overview, the first step 
 to running our simulation is to import the correct simulation files from the MIG example project (``ddr3_model.sv``, 
@@ -436,7 +436,7 @@ In this case, we can see that the total on-chip power required is 4.512 Watts, w
 diagram to the right.
 
 One other very handy tool that Vivado provides for us is the ability to view and modify the I/O planning of the design.  In order to access the 
-I/O planning page, open up the implemented design, select the `:guilabel:`Layout` menu at the very top of the screen, and then select :guilabel:`I/O Planning`
+I/O planning page, open up the implemented design, select the :guilabel:`Layout` menu at the very top of the screen, and then select :guilabel:`I/O Planning`.
 
 This should open up a new tab on the Implemented design called ``I/O Ports``, and navigating through this tab allows you to view all of the pin 
 locations defined within your constraints, as well as their respective location within the FPGA
