@@ -27,12 +27,32 @@ FPGAEmu: An Introduction to FPGA Emulation
 
 .. toctree::
    :maxdepth: 2
+   :caption: Software Basics
+
+   drivers
+   gui
+   interface
+
+
+.. toctree::
+   :maxdepth: 2
    :numbered: 
-   :caption: Emulation Environment
+   :caption: Basic Environment Infrastructure
 
    mig
    axi_pcie
+<<<<<<< HEAD
+   dma_pcie
    infrastructure
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Emulation Environment
+
+   environment
+=======
+   infrastructure
+>>>>>>> master
 
 .. toctree::
    :maxdepth: 2

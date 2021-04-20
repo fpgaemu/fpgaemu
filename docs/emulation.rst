@@ -75,7 +75,7 @@ This is where an FPGA becomes extremely useful.
 Field programmable gate arrays or **FPGAs** are integrated circuits (a set of circuits layered within 
 semiconductor material like silicon, also known as chips) designed to be configured by a customer 
 or designer after manufacturing. With FPGAs, a designer can program features, adapt to environment 
-and regulatory changes, and reconfigure hardware even in the field, hence the term *field programmable*. 
+and regulatory changes, and reconfigure hardware even in the field - hence the term *field programmable*. 
 An FPGA contains programmable logic elements (LEs) that either act as basic logic gates or connect to 
 perform complex actions as logic blocks. From a top-level perspective, FPGAs consist mostly of configurable 
 memory, high speed I/O, logic blocks, and routing.
@@ -309,9 +309,10 @@ is the `MiSTer project <https://github.com/MiSTer-devel/Main_MiSTer/wiki>`_, an 
 old video game consoles using nothing more than a small FPGA board. Using the same principles as software emulation, 
 the MiSTer project emulates multiple reversed-engineered consoles on a single Altera Cyclone FPGA, opening 
 the opportunity for a home arcade at a fraction of the price. Instead of paying hundreds of dollars for a new and working 
-Nintendo Famicom Disk System, which was never released in the West, the FPGA board can instead emulate the console 
-itself and play every game that was ever released with the same level of performance and compatibility. Of course, 
-different console cores from Atari to Pac-Man can be swapped out at any time, again illustrating the versatility of 
+Nintendo Famicom Disk System, which was never released in the West, or use software emulation to run code in a similar fashion,
+the FPGA board can instead emulate the console hardware itself and play every game that was ever released with the same level of 
+performance and compatibility. Of course, since FPGAs are flexible, an FPGA can reconfigure itself through LUTs to emulate other hardware.
+This means that different console cores from Atari to Pac-Man can be swapped out at any time, again illustrating the versatility of 
 FPGAs and serving as a good example for our emulation environment project. By building up the proper infrastructure, 
 it would become easy in the future to swap in different DUTs like the MiSTer cores for testing and debugging, 
 similar to standard industry practices in the semiconductor field. All without even touching the original hardware.
