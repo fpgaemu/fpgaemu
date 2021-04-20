@@ -232,13 +232,13 @@ The Basics of Hardware Emulation and HDLs
 
 As we have discussed at length, FPGAs provide an unparalleled combination of performance and flexibility 
 that rivals even the most expensive processors (of course, industry-grade FPGAs cost quite a bit too). 
-This programmability allows FPGAs to excel at one of their most interesting applications --- **hardware 
+This reprogrammability allows FPGAs to excel at one of their most interesting applications --- **hardware 
 emulation** or the method of copying the behavior of another hardware sample. Referring to our Apple
 M1/Qualcomm 888 example, instead of manufacturing new designs on the assumption that they will work 100% 
 of the time, most if not all semiconductor companies first use FPGAs to emulate their chips. Hardware 
 emulation allows these manufacturers to debug their designs in simulated but realistic conditions before 
 undertaking the extreme cost of mass fabrication. By chaining multiple FPGAs together (sometimes up to the 
-scale of entire rooms for one chip alone), these companies can logically simulate even the most 
+scale of entire rooms for one chip alone), these companies are able to logically simulate even the most 
 complex integrated circuits in real time, testing both hardware performance and software compatibility. 
 Modern GPUs and CPUs have billions of transistors, so ultimately hardware emulation is and will continue 
 to be an essential part in the semiconductor industry. 
@@ -249,8 +249,8 @@ to be an essential part in the semiconductor industry.
 
   An entire room-scale Cadence Tigris emulator [9]_
 
-Hardware emulation is achieved through a few steps. First, the design is created from **HDL** code, also 
-known as a hardware description language. Like traditional programming languages like C or Python, an 
+Hardware emulation is achieved through a number of steps. First, the design is created from **HDL** code, also 
+known as a hardware description language. Similar to traditional programming languages like C or Python, an 
 HDL like Verilog or VHDL instantiates the FPGA's physical hardware using digital code. HDLs execute 
 instructions in parallel, while software languages operate in sequential order. Designs are then 
 **synthesized**, wherein the human-understandable code is converted in a **netlist** of connected 
@@ -315,14 +315,14 @@ performance and compatibility. Of course, since FPGAs are flexible, an FPGA can 
 This means that different console cores from Atari to Pac-Man can be swapped out at any time, again illustrating the versatility of 
 FPGAs and serving as a good example for our emulation environment project. By building up the proper infrastructure, 
 it would become easy in the future to swap in different DUTs like the MiSTer cores for testing and debugging, 
-like standard industry practices in the semiconductor field. All without even touching the original hardware.
+similar to standard industry practices in the semiconductor field. All without even touching the original hardware.
 
 .. figure:: /images/intro/game_fpga.jpg
   :alt: FPGA game emulation example
   :align: center
 
   Emulating an NES game console on an FPGA [12]_
-
+  
 .. _Definitions Acronyms:
 
 Quick Definitions and Acronyms
@@ -369,7 +369,6 @@ DMA : Direct Memory Access
 
 ROM : Read Only Memory
   Flash memory that cannot be modified afterwards. 
-
 
 References
 ----------

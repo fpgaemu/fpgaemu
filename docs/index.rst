@@ -41,6 +41,7 @@ FPGAEmu: An Introduction to FPGA Emulation
 
    mig
    axi_pcie
+<<<<<<< HEAD
    dma_pcie
    infrastructure
 
@@ -49,6 +50,9 @@ FPGAEmu: An Introduction to FPGA Emulation
    :caption: Emulation Environment
 
    environment
+=======
+   infrastructure
+>>>>>>> master
 
 .. toctree::
    :maxdepth: 2
