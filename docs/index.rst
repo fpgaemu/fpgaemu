@@ -47,7 +47,7 @@ FPGAEmu: An Introduction to FPGA Emulation
    :maxdepth: 2
    :caption: Emulation Environment
 
-   Infrastructure
+   infrastructure
    environment
 
 .. toctree::
