@@ -1,8 +1,8 @@
 .. _Environment Overview:
 
-========================================================
-Building a Basic Emulation Environment (without a Board)
-========================================================
+===================================================
+Building an Emulation Environment (without a Board)
+===================================================
 
 .. Note:: All pages are under construction as we work to finalize this project. Please be patient!
 
