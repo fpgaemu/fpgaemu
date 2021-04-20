@@ -69,24 +69,7 @@ We can customize it by double clicking it.
    :alt: VC707 Pin select
    :align: center
 
--  If prompted, select the following HP Bank byte groups for data and address/control.
-
-   - Byte Group T0 to Address/Ctrl-0
-   - Byte Group T1 to Address/Ctrl-1
-   - Byte Group T2 to Address/Ctrl-2
-   - Byte Group T3 to DQ[0-7]
-
-.. figure:: /images/mig7/byte.png 
-   :alt: MIG Byte group
-   :align: center
-
--  Assign system signals. 
-
-   - ``sys_clk_p/n`` to Bank 33 as Pin U10/V9(CC_P/N)
-   - ``clk_ref_p/n`` as the same as sys_clk_p/n
-   - ``sys_rst`` to Bank 33 as Pin AA10
-   - ``init_calib_complete`` to Bank 33 as Pin AA11
-   - ``tg_compare_error`` to Bank 33 as Pin AA5
+- After specifying the pinout, leave all system signals to their default values on the final page.
 
 - Accept the T&C, generate, and save.
 
