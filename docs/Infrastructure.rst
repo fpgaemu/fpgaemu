@@ -90,7 +90,7 @@ Make the following changes to the core:
 Once this core has been generated, generate an example design for this IP as well. Now that the example 
 designs have been generated for both the MIG and the PCIE IPs, we are ready to move onto the next section.
 
-.. _BASIC PCIe MIG Block Diagramn:
+.. _BASIC PCIe MIG Block Diagram:
 
 Creating the Block Diagram
 --------------------------
@@ -381,10 +381,10 @@ slave devices simultaneously.
 
    BRAM MIG Waveform
 
-.. _Checking Timing, Viewing Power Reports, Monitoring I/O Placement::
+.. _BASIC Timing Power IO:
 
 Checking Timing, Viewing Power Reports, Monitoring I/O Placement:
---------------------------------------------------- 
+-----------------------------------------------------------------
 After running through synthesis and implementation, Vivado provides us with several tools that we can use to monitor important factors of our 
 design such as timing, power, and I/O placement.
 
@@ -447,7 +447,7 @@ locations defined within your constraints, as well as their respective location 
 
    IO Pin Planning
 
-Similar to the `:guilabel:`Timing Constraints Wizard`, we can manually assign the input/output ports of our designs to any respective package 
+Similar to the :guilabel:`Timing Constraints Wizard`, we can manually assign the input/output ports of our designs to any respective package 
 pin port, and the Vivado tool will write the constraints for us.  However, it will also overwrite any previously written constraints, so always 
 make sure to copy and paste your top level constraints somewhere safe before saving any edits.
 
