@@ -500,4 +500,54 @@ Here is a quick outline of the testbench logic:
             
         endmodule
 
+.. _Interpreting Simulation Waveforms For a Custom DUT:
 
+Interpreting Simulation Waveforms For a Custom DUT
+----------------------
+This section will walk through how to understand the waveforms created from running your testbench for your custom DUT.
+
+    1. Run the Behavioral Simulation
+    2. The waveform should have automatically opened. Add the desired signals that you would like to analyze to the waveform.
+        For the simple counter simulation, there are some signals we want to add to the waveform. These are found in the left column under :guilabel:`Scope`. 
+        The first signal is “axi_vip_0”, this will show the reads and writes that we initiate from the axi_vip in our testbench. 
+        In order to add a signal to the waveform, right click on the desired signal and choose “ Add to Wave Window”. 
+        The next group of signals necessary to add to the waveform are for our custom DUT, in this example labeled “myip_counter_0”. 
+
+.. figure:: /images/DUT/54_add_waveform.JPG
+    :alt: Add signals
+    :align: center
+
+    Add Desired Signals to Waveform
+
+    3. Once these signals are added to the waveform, zoom out of the waveform so you can see several clock cycles on the screen. 
+    4. On the waveform, if you hover over the M_AXI it will tell you what master axi it is referring to (this will be important 
+        once you create more advanced DUTs). The M_AXI in this case is referring to the axi_vip. This means that in the testbench 
+        whenever you use the master agent to perform write or a read it will show up here in the waveform.
+    5. For this simple counter DUT, the first command we had the axi_vip perform was to enable the counter. You can see in the 
+        that the axi_vip initiated a write to the address of 44a0_0000 and the data it sent was a 1, as shown in the figure below 
+        outlined in red.
+
+.. figure:: /images/DUT/read_waveform.JPG
+    :alt: Read Waveform
+    :align: center
+
+    Simple Counter Waveform of Enable
+
+    6. From there, you can scroll down on the waveform to see the S_00 signals. These are the signals for the slave simple counter. 
+        It shows that in the slave, the write address is 0 and the data is 1, which is completed at about 220ns. This is what we 
+        expect because that is what we need to do to start this simple counter IP. If you return to the previous image you can see 
+        that the counter began counting at about 240ns. You can continue to read the waveforms in this manner. 
+        
+        .. Note:: Ensure you are running the simulation long enough to see all actions performed in the testbench!
+
+.. figure:: /images/DUT/read_waveform_2.JPG
+    :alt: Read Waveform
+    :align: center
+
+    Simple Counter Waveform of Enable pt.2
+
+        
+        
+        .. Note:: If you need a refresher on the AXI protocol, check :ref:`here <AXI Protocol Overview>`.
+
+        Note! Ensure you are running the simulation long enough to see all actions performed in the testbench! 
