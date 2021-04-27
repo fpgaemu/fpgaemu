@@ -24,7 +24,7 @@ Still confused? Here is a more approachable example that may help:
 
 Imagine you had a box of USB sticks to sell, where each stick performs some task, whether it is counting from 
 one to ten, transferring some songs to the hard drive, or even running another smaller computer. Because we 
-hope to sell them, we should test every single stick (or what is also known as a *device under test*) as much 
+hope to sell them, we should test every single stick (what we will refer to as a *device under test*) as much 
 as possible for maximum compatibility to avoid any future errors or refunds. But, considering how many computers 
 there are in the world, it is almost impossible to verify that every stick will work on every laptop or desktop
 aside from buying and testing on each one individually. The price for failure is high too, as a broken USB stick 
@@ -37,10 +37,10 @@ could potentially damage a user's computer, leading to an expensive safety recal
 
 Now imagine if you had access to a special computer called an emulation evaluation board. From the outside, it is 
 like any other computer, as the board also has USB, Ethernet, and other standard peripherals. However, at the heart 
-of the board is what is known as an *FPGA*, a special kind of chip that can emulate every other computer in existence. 
+of the board is what is known as an *FPGA*, a special kind of chip that can replicate/emulate every other computer in existence. 
 Although a little clunky and hard to use, this FPGA means that you can now rest assured knowing that your USB sticks can 
-be fully tested before being sold. Not to mention, the board only needs to be set up once as an *emulation environment*
-before you're able to easily swap in and out DUTs for testing. Not bad, right?
+be fully tested on every possible configuration before being sold. Not to mention, the board only needs to be set up 
+once as an *emulation environment* before you're able to easily swap in and out DUTs for testing. Not bad, right?
 
 .. figure:: /images/intro/fpga_intro_board.jpg
   :align: center

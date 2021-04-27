@@ -56,6 +56,7 @@ FPGAEmu: An Introduction to FPGA Emulation
    :caption: Device Under Test
 
    counter
+   descriptor_counter
    
 Indices and tables
 ==================
