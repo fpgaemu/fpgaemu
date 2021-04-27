@@ -69,9 +69,11 @@ To edit the counter IP, we will directly edit the top file.
 
 .. Important:: If you wish to download the top file directly, go :download:`here </files/DUT2/mycounter_descriptor_v1_0.v>`. 
 
-1. Add port “output port [7:0] count_out,”
-2. Comment out line port for master “input wire  m00_axi_init_axi_txn,” because we want this to 
-    be controlled manually from an external port by user
+1. Add port ``output port [7:0] count_out``.
+   
+2. Comment out line port for master ``input wire  m00_axi_init_axi_txn`` because we want this to 
+be controlled manually from an external port by user.
+
 3. Before the slave instantiation, add the following wires. These are necessary because they are used in the instantiation below so we need to create 
 them before using them.
    
@@ -84,6 +86,7 @@ them before using them.
     wire m00_axi_init_read_txn;
 
 ..
+
 4. In the slave instantiation insert the following:
    
 .. code-block:: verilog
@@ -113,10 +116,11 @@ Slave File:
 1. Add the following user ports:
    
 .. code-block:: verilog
-        output wire[7:0] count_out_i,
-        output wire init_txn,
-        output wire init_txn_read, //make it an external port
-        input wire[7:0] initial_count_value_in, //initial count value sent from rdata
+
+    output wire[7:0] count_out_i,
+    output wire init_txn,
+    output wire init_txn_read, //make it an external port
+    input wire[7:0] initial_count_value_in, //initial count value sent from rdata
 
 ..
 
@@ -137,9 +141,11 @@ Slave File:
 ..
         
 Master File:
-        .. Important:: If you wish to download the top file directly, go :download:`here </files/DUT2/mycounter_descriptor_v1_0_M00_AXI.v>`. 
 
-1. Insert the following ports
+.. Important:: If you wish to download the top file directly, go :download:`here </files/DUT2/mycounter_descriptor_v1_0_M00_AXI.v>`. 
+
+1. Insert the following ports:
+   
 .. code-block:: verilog
 
     input wire [7:0] count_out_i,//intermediate count value
@@ -153,9 +159,10 @@ Master File:
 that will operate separate from initiating a write txn. The code is below and the changes made are highlighted:
 
 .. code-block:: verilog
-    `timescale 1 ns / 1 ps
-    module myip_counter_master_read_v1_0_M00_AXI #
-    (
+
+        `timescale 1 ns / 1 ps
+        module myip_counter_master_read_v1_0_M00_AXI #
+        (
             // Users to add parameters here
 
             // User parameters ends
@@ -895,41 +902,41 @@ that will operate separate from initiating a write txn. The code is below and th
             // User logic ends
 
             endmodule
-
-    ..
+..
        
 .. _Creating the Master DUT Simulation Environment:
 
 Creating the Master DUT Simulation Environment
--------------------        
+----------------------------------------------        
 
-    1. Package the custom IP and import it into the project. This was previously explained with the 
-    simple counter, but for a refresher refer to adding a custom IP to a design.
-    2. Create a block diagram with an AXI VIP, two AXI Smart Connects, AXI BRAM Controller, and 
-    Clock Memory Generator connected as shown.
+1. Package the custom IP and import it into the project. This was previously explained with the 
+simple counter, but for a refresher refer to adding a custom IP to a design.
+
+2. Create a block diagram with an AXI VIP, two AXI Smart Connects, AXI BRAM Controller, and 
+Clock Memory Generator connected as shown.
+    
+.. figure:: /images/DUT2/2_bd.png
+    :alt: Block Diagram Setup
+    :align: center
+
+    Block Diagram Setup
+
+3. Navigate to the address editor and assign addresses to the custom DUT and the BRAM. In this 
+example we assigned the BRAM to address 0 and the DUT to 0x4000_0000.
         
-        .. figure:: /images/DUT2/2_bd.png
-        :alt: Block Diagram Setup
-        :align: center
+.. figure:: /images/DUT2/3_bd.JPG
+    :alt: Address Editor
+    :align: center
 
-        Block Diagram Setup
+    Address Editor
 
-    3. Navigate to the address editor and assign addresses to the custom DUT and the BRAM. In this 
-    example we assigned the BRAM to address 0 and the DUT to 0x4000_0000.
-        
-        .. figure:: /images/DUT2/3_bd.JPG
-        :alt: Address Editor
-        :align: center
+4. Go back to the block diagram and right-click on a blank spot in the design. Select :guilabel:`Validate Design`. 
 
-        Address Editor
+5. The next step is to create a wrapper file which turns the block diagram into HDL. To do this go to the :guilabel:`Sources`
+and right-click on the source for your block diagram (the default name is ``design_1`` or something similar). Select 
+:guilabel:`Create HDL Wrapper` and then :guilabel:`Let Vivado manage wrapper and auto-update`. 
 
-    4. Go back to the block diagram and right-click on a blank spot in the design. Select :guilabel:`Validate Design`. 
-
-    5. The next step is to create a wrapper file which turns the block diagram into HDL. To do this go to the :guilabel:`Sources`
-    and right-click on the source for your block diagram (the default name is ``design_1`` or something similar). Select 
-    :guilabel:`Create HDL Wrapper` and then :guilabel:`Let Vivado manage wrapper and auto-update`. 
-
-    6. The next step is to create a testbench to ensure the custom AXI IP works as intended. 
+6. The next step is to create a testbench to ensure the custom AXI IP works as intended. 
 
 
 .. _Testbench for a Master Custom DUT:
@@ -949,16 +956,16 @@ logic to test all aspects of the advanced descriptor DUT.
 
 A brief description of my testbench logic is stated below, the parentheses include the address that the command is sent to:
 
-    - Write the start value and counting mode directly into memory (addr:0000_0204)
-	- Initiate the counter to read the start value into the DUT (addr: 4000_0008)
-	- Enable the counter (addr:4000_0000)
-	- After a delay, initiate the DUT to send the current count out value to memory(4000_0008)
-	- Disable counter (4000_0000)
-	- Read count value that was sent previously directly from memory (0000_0200)
-	- Write a new start value into memory, this time decrement mode (0000_0204)
-	- Initiate the counter to read in the start value into the DUT (4000_0008)
-	- Enable the counter
-	- After a delay, disable the counter
+    -  Write the start value and counting mode directly into memory (addr:0000_0204)
+    -  Initiate the counter to read the start value into the DUT (addr: 4000_0008)
+    -  Enable the counter (addr:4000_0000)
+    -  After a delay, initiate the DUT to send the current count out value to memory(4000_0008)
+    -  Disable counter (4000_0000)
+    -  Read count value that was sent previously directly from memory (0000_0200)
+    -  Write a new start value into memory, this time decrement mode (0000_0204)
+    -  Initiate the counter to read in the start value into the DUT (4000_0008)
+    -  Enable the counter
+    -  After a delay, disable the counter
 
 .. Important:: If you want to download the testbench file directly, go :download:`here </files/DUT2/descriptor_tb.sv>`. 
 
