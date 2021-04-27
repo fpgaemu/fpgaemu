@@ -176,8 +176,16 @@ Connecting it All Together
 
 Similar to :ref:`section 2.4 <AXI MM PCIe MIG Replacement Design>`, we will now need to instantiate our block diagram into 
 the PCIe example design.  Since this process has several steps involved with it, we will include the design, 
-constraints, and simulation top file here. This next section will be a brief overview of the steps needed to combine the 
-PCIe example design, the MIG example design, and the block diagram.
+constraints, and simulation top file here. This next section will be a brief overview of the steps 
+needed to combine the PCIe example design, the MIG example design, and the block diagram.  This has already been done for you 
+in this case (just download the files), but it is highly recommended that you follow along and try to understand what modifications 
+were made in each step.
+
+.. Important:: You can download our design top file :download:`here </files/AXI_Sim_Envmnt/xilinx_axi_pcie_ep.v>`.
+
+.. Important:: You can download our constraints file :download:`here </files/AXI_Sim_Envmnt/xilinx_axi_pcie_7x_ep_x8g1_X1Y0.xdc>`.
+
+.. Important:: You can download our simulation top file :download:`here </files/AXI_Sim_Envmnt/board.v>`.
 
 First, we will need to correctly instantiate the block design wrapper file into the PCIe example top file. In order 
 to do this, we can locate where we commented out the old BRAM instantiation, and instead instantiate the block design.
@@ -186,16 +194,17 @@ to do this, we can locate where we commented out the old BRAM instantiation, and
    :alt: DUT instantiation part 1
    :align: center
 
-   Instantiating the BD [replace with code]
+   Instantiating the Block Diagram (1)
 
 .. figure:: /images/infrastructure/DUT_instantiation_part_2.PNG 
    :alt: dut instance pt2
    :align: center
 
-   [code here]
+   Instantiating the Block Diagram (2)
 
 Then, we will need to copy all of the relevant parameters, wires, functions, inputs, and outputs from the MIG example 
-design top file into the PCIe example design top file [INSERT CODE HERE].  
+design top file into the PCIe example design top file.  For more a deeper explanation on this, see :ref:`section 2.4 <AXI MM PCIe MIG Replacement Design>` 
+on the AXI MM to PCIe IP Overview tab.
 
 .. Note:: The following fields had to be changed because of already existing fields in the PCIe example design.
 
@@ -209,7 +218,7 @@ Make sure to copy over the statement that synchronizes the MIG reset:
    :alt: mig reset
    :align: center
    
-   [replace with code]
+   Copy over the MIG Reset Statement
 
 Then, we will need to copy over the top-level constraints from the MIG example design and paste them into the top-level 
 constraints file for the PCIe example design.  The top level constraints for each project can be found under the 
@@ -219,7 +228,7 @@ constraints file for the PCIe example design.  The top level constraints for eac
    :alt: mig constraints
    :align: center
 
-   [replace with code]
+   Copy over top-level constraints from MIG Example Design
 
 Once the top file and the constraints file have been modified, then we can run synthesis and implementation 
 to ensure that there are no errors in our design. Refer to the TCL console and the Xilinx forums for help with debugging, 
@@ -233,7 +242,7 @@ implementation are complete, we can now move on to the next section.
    :alt: MIG BRAM schematic
    :align: center
 
-   Example schematic of infrastructure BD
+   Example schematic of infrastructure Block Diagram (BD)
 
 .. _BASIC Modifying Simulation:
 
@@ -242,12 +251,18 @@ Modifying and Running the Simulation
 
 Just like the example in :ref:`section 2.5 <Simulating AXI MM PCIe MIG>` of the AXI MM to PCIE IP Overview, the first step 
 to running our simulation is to import the correct simulation files from the MIG example project (``ddr3_model.sv``, 
-``ddr3_model_parameters.vh``, and ``wiredly.v``).  For more information on how to import these files, please reference that section.
+``ddr3_model_parameters.vh``, and ``wiredly.v``).  For more information on how to import these files, please reference that section.  
+As an additional reference, these files have also been attached below. 
+
+.. Important:: ddr3_model.sv file available :download:`here </files/AXI_Sim_Envmnt/ddr3_model.sv>`.
+
+.. Important:: ddr3_model_parameters.vh file available :download:`here </files/AXI_Sim_Envmnt/ddr3_model_parameters.vh>`.
+
+.. Important:: wiredly.v file available :download:`here </files/AXI_Sim_Envmnt/wiredly.v>`.
 
 Now, we will need to edit our simulation top file to accommodate the MIG and DDR3 memory model, as well as include our 
-block diagram from earlier. 
-
-.. Important:: You can download the top file :download:`here </examplefile.v>` [upload top here].
+block diagram from earlier.  In this case, you can simply download the above files and import them into your design, but 
+it is again recommended that you read through and try to understand the modifications made below. 
 
 Some notes about the modifications made to the PCIe example design top file:
 
@@ -269,7 +284,7 @@ Some notes about the modifications made to the PCIe example design top file:
    :alt: Changing i to s
    :align: center
 
-   [change to code]
+   Changing variable 'i' to 's' due to duplicate name
 
 -  MIG input system and reference clocks:
    -  Due to timescale issue (MIG simulation top file is in picoseconds, PCIe simulation top file is in nanoseconds), 
@@ -281,7 +296,7 @@ Some notes about the modifications made to the PCIe example design top file:
    :alt: mig input system and ref clk
    :align: center 
 
-   [replace with code] 
+   Change system and reference clock to 250MHz
   
 -  Instantiations included:
 
@@ -296,15 +311,16 @@ Some notes about the modifications made to the PCIe example design top file:
    :alt: MIG Calibration Done
    :align: center 
 
-   Finished MIG calibration [replace with code]
+   Finished MIG calibration
 
 Now, if we were to click :guilabel:`Run Behavioral Simulation`, the standard PCIe example simulation would run, which would simply 
 perform a read and a write to address ``0x0000_0010``. For debugging purposes, it may be smart to try and run this simulation to make 
 sure that everything is set up properly.  However, we want to be able to read and write our own data to our own specific addresses.  
 In order to do this, we will need to edit the simulation header file called ``sample_tests1.vh``.  This file can be located in the 
-:guilabel:`Verilog Header` folder within :guilabel:`Simulation Sources`.
+:guilabel:`Verilog Header` folder within :guilabel:`Simulation Sources`.  As a reference, we have also attached our own ``sample_tests1.vh`` 
+file below for you to download.
 
-.. Important:: You can download the custom header file :download:`here </examplefile.v>` [upload header here].
+.. Important:: You can download our custom simulation header file :download:`here </files/AXI_Sim_Envmnt/sample_tests1.vh>`.
          
 Under the comment that says “MEM 32 SPACE” in the BAR Testing section, a 60us delay is included to allow for the MIG to 
 finish calibrating before attempting to read and write from it. The predefined tasks ``TSK_TX_BAR_WRITE`` and ``TSK_TX_BAR_READ``
@@ -318,7 +334,7 @@ on the MIG.  If the read data equals the written data, then the message *MIG Tes
    :alt: MIG Test Passed
    :align: center 
 
-   MIG Test Passed [replace with code]
+   MIG Test Passed
 
 In order to test the BRAM controller (aka the DUT), I sent the data ``0x1234_4321`` to address 0x0000_2000, which should correspond 
 to address ``0x0000_0000`` on the BRAM controller.  If the read data equals the written data, then the message “BRAM Test Passed” will 
@@ -328,12 +344,11 @@ appear in the TCL Console.
    :alt: BRAM custom test
    :align: center 
 
-   BRAM Custom Test [replace with code]
+   BRAM Custom Test
 
 Now that we have built our simulation environment, we can go ahead and Run Behavioral Simulation.  
 
-.. Note::  If the simulation fails to launch, the TCL console will direct you to the location of a log file that will provide more 
-specific error-related information for debugging.
+.. Note::  If the simulation fails to launch, the TCL console will direct you to the location of a log file that will provide more specific error-related information for debugging.
 
 The simulation should automatically pause itself after 1 nanosecond, and this is a good time to add the desired waveform signals 
 into the simulation window.  This can be done by navigating to the :guilabel:`Scope` window, right clicking on the signals you 
@@ -348,16 +363,16 @@ would like to see, and then clicking :guilabel:`Add to Wave Window`.  I would pe
 
 Once we’ve added the correct signals, we can click on the green play button at the top left corner of the screen to resume the simulation.
 
-.. Note::If the simulation stops early (before 100us) due to a timeout error from one of the PCIE root port files, we can go ahead and just 
-click the green play button to force the simulation to resume anyways.  If this becomes bothersome, we can comment out the timeout error 
-from occurring like this:
-.. figure:: /images/infrastructure/Inkedcomment_out_simulation_timeout_LI.PNG 
+.. Note::  If the simulation stops early (before 100us) due to a timeout error from one of the PCIE root port files, we can go ahead and just click the green play button to force the simulation to resume anyways.  If this becomes bothersome, we can comment out the timeout error from occurring like this:
+
+.. figure:: /images/infrastructure/Inkedcomment_out_simulation_timeout_LI.jpg
    :alt: Comment out timeout error
    :align: center 
 
    Comment out timeout error
 
 Finally, the simulation should conclude around 110 us, and if you see the following messages in the TCL console, then the simulation was a success!
+
 .. figure:: /images/infrastructure/mig_test_passed.PNG 
    :alt: MIG test Passed
    :align: center 
@@ -417,9 +432,7 @@ If any of these errors were preventing our design from meeting timing, we can us
 write clock constraints to fix these errors.  In order to access the wizard, open up the implemented design, click on the :guilabel:`Tools` menu 
 at the very top of the screen, and then click on ``Timing`` → ``Constraints Wizard``.  
 
-.. Note:: If you do decide to use the timing constraints wizard, it will automatically write the constraints for you based on the clocks you need 
-to define, and it will **OVERWRITE** any constraints that you already have in your target constraints file.  Personally, I would recommend copying 
-and pasting the text from your target constraints file somewhere safe before running the wizard.
+.. Note:: If you do decide to use the timing constraints wizard, it will automatically write the constraints for you based on the clocks you need to define, and it will **OVERWRITE** any constraints that you already have in your target constraints file.  Personally, I would recommend copying and pasting the text from your target constraints file somewhere safe before running the wizard.
 
 To check the :guilabel:`Vivado Power Report` for our design, click on the ``Power`` tab within the implemented design.
 
