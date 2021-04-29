@@ -117,10 +117,17 @@ Make ``counter_out`` a register and add in the counter logic.
 .. topic:: Counter Testbench
 
     Now that we have instantiated our design, we will simulate it using a simple testbench. 
+    
+    As a refresher, a test bench is HDL code that allows you to provide a documented, 
+    repeatable set of stimuli that is portable across different simulators. 
 
 After the project opens, go to :guilabel:`Add Sources` and select :guilabel:`Add or Create Simulation Sources`. 
 Create a new file, select the desired HDL (we will use SystemVerilog here), and name the file as counter_tb. 
 Our new testbench ``counter_tb.sv`` will be created. 
+
+Create a testbench that practices all functions of your custom DUT. For this simple counter example, 
+we will create a testbench that exercises the enable/disable, reset, increment/decrement, start value, and 
+lastly ensure that the counter rolls over correctly.
 
 .. code-block:: SystemVerilog
 
@@ -181,6 +188,12 @@ Our new testbench ``counter_tb.sv`` will be created.
 
 ..
 
+To run this very simple testbench, follow the instructions below:
+1. On the left sidebar, right click on :guilabel:`Run Simulation` and select :guilabel:`Run Behavioral Simulation`.
+
+2. The waveform should have automatically opened. It may be hard to see what you are looking at because the simulation might 
+    be very zoomed in. If this is the case, ensure to zoom out so you can see several clock cycles of aclk. 
+
 .. figure:: /images/DUT/behav_sim_diagram.JPG
     :alt: Working rollover
     :align: center
@@ -193,6 +206,8 @@ Our new testbench ``counter_tb.sv`` will be created.
 
     Working Reset
 
+Once the simple counter slave DUT is working as expected, ensure you know where to find to the project files in your computer.
+I recommend closing the project to avoid confusion while following the future instructions. 
 
 .. _Packaging Counter:
 
@@ -210,13 +225,19 @@ that ``aresetn`` will reset all the slave register values. This means that once 
 ``enable``, ``inc/dec``, ``start`` value, and ``count_out`` will all be set back to 0. An AXI Write is required 
 to change any values from 0 after a reset has occurred.
 
-Create a new project, and go to :guilabel:`Tools` and select :guilabel:`Create and Package New IP...` A new window 
-will open and explain the features. Click :guilabel:`Next` and select :guilabel:`Create AXI4Peripheral`. Name the 
-IP as desired and select :guilabel:`Next`. Adding and subtracting new interfaces can be done with the :guilabel:`+` and 
-:guilabel:`-` buttons. Remember to select the desired *Interface Type*, *Interface Mode*, *Data Width*, and 
-*Number of Registers*. For a counter, modify the parameters as shown in the image below. These parameters mean that 
-there will be only one interface - an AXI4Lite slave with 4 registers, each with a data width 32 bits. When finished, 
-click :guilabel:`Next`.
+Because our custom IP is very simple and does not generate any commands to send to another peripheral, we will be
+creating only a Slave IP. Sn example of when we would want to use both a slave and a master interface in the same IP
+would be if we wanted to have this same counter, but with the additional features of being able to read and write 
+to an external memory, as we will guide you through in this section :ref:`here <Descriptor Counter>`
+
+Create a new project and name as desired. This is the project that will be the main project for this simple counter IP.
+Select the same board and settings as selected previously. Once the new project is opened, go to :guilabel:`Tools` and 
+select :guilabel:`Create and Package New IP...` A new window will open and explain the features. Click :guilabel:`Next` and 
+select :guilabel:`Create AXI4Peripheral`. Name the IP as desired and select :guilabel:`Next`. Adding and subtracting new 
+interfaces can be done with the :guilabel:`+` and :guilabel:`-` buttons. Remember to select the desired 
+*Interface Type*, *Interface Mode*, *Data Width*, and *Number of Registers*. For a counter, modify the parameters 
+as shown in the image below. These parameters mean that there will be only one interface - an AXI4Lite slave with 4 registers, 
+each with a data width 32 bits. When finished, click :guilabel:`Next`.
 
 .. figure:: /images/DUT/23_add_interfaces.JPG
     :alt: Counter IP Parameters
@@ -236,8 +257,8 @@ successfully added to your Sources window.
 
     DUT successfully added to Design Sources
 
-The DUT needs to be correctly instantiated into the custom AXI IP. In order to do this, open the file with ``_S00_AXI`` 
-as its name. When we created this AXI Peripheral, we selected 4 registers with 32 bits of data. Those registers are 
+The DUT needs to be correctly instantiated into the custom AXI IP. In order to do this, open the file ending with ``_S00_AXI`` 
+as it's name. When we created this AXI Peripheral, we selected 4 registers with 32 bits of data. Those registers are 
 shown in this file as ``slv_reg0-3``. These are where we are going to store the necessary data for our instantiated DUT.
 The changes that should be made are listed below: 
 
@@ -298,7 +319,11 @@ made. Continue this with all of the necessary categories.
 
 Once at the :guilabel:`Review and Package` category, click :guilabel:`IP has been modified` and then click :guilabel:`Re-Package IP`
 at the bottom of the window. A new window will pop up and tell you the directory of your IP. Keep note of this directory in case
-you might need to add the repository to a new project.
+you might need to add the repository to a new project. 
+
+Once the IP has been correctly packaged, you will be prompted :guilabel:`Do you want to close the project`. Select :guilabel:`Yes`
+and the project that you were editing the IP will be closed, however, the "main project" that we created at the beginning of this section
+will still be open.
 
 .. _Add Custom IP to a Design:
 
@@ -331,12 +356,24 @@ block design is very straightforward.
 
     Add AXI VIP Parameters
 
--   Connect the Master port of the VIP to the slave of the counter. Make the ``clock``, ``reset``, and ``count_out`` ports external 
-    and hook up as required.
+-   Connect the Master port of the AXI VIP to the slave of the counter. 
+
+-   Make the ``clock``and ``reset``ports of the AXI VIP external. In order to do this, right click on the signal such as **aclk** of 
+    the AXI VIP and select :guilabel:`make external`. Once the clock and reset of the AXI VIP are external, drag the clock and reset 
+    of the counter IP to connect with the appropriate external signal.
+    
+-   On the counter IP, make the``count_out`` ports external.
+
+.. figure:: /images/DUT/39_block diagram.JPG
+    :alt: Simple Counter Block Diagram
+    :align: center
+
+    Simple Counter Block Diagram
 
 -   Go to the :guilabel:`Address Editor` tab and right-click on the custom AXI IP. Click :guilabel:`Assign`. This will
     automatically assign the address range for this IP. Keep note of it for the test bench; for example, the assigned base address may be 
-    a hex value like ``0x44A0_0000``.
+    a hex value like ``0x44A0_0000``. If the address editor is not apparent on your screen, complete the next step and you will recieve an
+    error to assign addresses, and the address editor will appear. 
 
 -   Go back to the block diagram and right-click on a blank spot in the design. Select :guilabel:`Validate Design`. 
 
@@ -370,10 +407,24 @@ The file hierarchy should be found from the sources tab.
 
     AXI VIP Component Hierarchy
 
+An example of the two imported packages for this hierarchy are shown below:
+.. figure:: /images/DUT/40_packages.JPG
+    :alt: Import Packages Example
+    :align: center
+
+    Import Packages Example
+
+Be sure to import these packages before the ``module your_testbench_name``.
+
 Next, after the autogenerated *module counter_ip_tb();* (counter_ip_tb will be replaced with what you named your testbench), make sure to
-add a clk and reset bit and initialize them both to zero. After this, create names for both the addresses and data that will be sent (this is optional,
-you can instead insert the addresses and data directly into the commands). Next, instantiate the block design from the wrapper file. From there, 
-it is necessary to create a master agent vip, create an agent, and start the agent (using appropriate hiarchy as well).
+add a clk and reset bit and initialize them both to zero. 
+
+After this, create names for both the addresses and data that will be sent (this is optional, you can instead insert the addresses and data 
+directly into the commands). 
+
+Next, instantiate the block design from the wrapper file. 
+
+From there, it is necessary to create a master agent vip, create an agent, and start the agent (using appropriate hiarchy as well).
 
 .. figure:: /images/DUT/53_vip_master_agent.JPG
     :alt: VIP Master Agent
@@ -510,9 +561,14 @@ Interpreting Simulation Waveforms For a Custom DUT
 
 This section will walk through how to understand the waveforms created from running your testbench for your custom DUT.
 
-1. Run the :guilabel:`Behavioral Simulation` in the Vivado right sidebar.
+1. On the left sidebar, right click on :guilabel:`Run Simulation` and select :guilabel:`Run Behavioral Simulation`.
 
-2. The waveform should have automatically opened. Add the desired signals that you would like to analyze to the waveform.
+.. Note:: If you recieve an error, the message will often tell you a file you can locate on your computer that will have more information.
+         I highly recommend looking at this text document because it is very helpful when debugging!
+         
+2. Ensure you are running the simulation long enough to see all actions performed in the testbench by using the TCL command ``run -all``!
+
+3. The waveform should have automatically opened. Add the desired signals that you would like to analyze to the waveform.
    For the simple counter simulation, there are some signals we want to add to the waveform. These are found in the left column under :guilabel:`Scope`. 
    The first signal is ``axi_vip_0``, this will show the reads and writes that we initiate from the ``axi_vip`` in our testbench. 
    In order to add a signal to the waveform, right click on the desired signal and choose :guilabel:`Add to Wave Window`. 
@@ -524,31 +580,31 @@ This section will walk through how to understand the waveforms created from runn
 
     Add Desired Signals to Waveform
 
-3. Once these signals are added to the waveform, zoom out of the waveform so you can see several clock cycles on the screen.
+4. Once these signals are added to the waveform, zoom out of the waveform so you can see several clock cycles on the screen.
     
-4. On the waveform, if you hover over the ``M_AXI`` it will tell you what master axi it is referring to (this will be important 
+5. On the waveform, if you hover over the ``M_AXI`` it will tell you what master axi it is referring to (this will be important 
    once you create more advanced DUTs). The ``M_AXI`` in this case is referring to the ``axi_vip``. This means that in the testbench 
    whenever you use the master agent to perform write or a read it will show up here in the waveform.
 
-5. For this simple counter DUT, the first command we had the ``axi_vip`` perform was to enable the counter. You can see in the 
-   that the ``axi_vip`` initiated a write to the address of ``44a0_0000`` and the data it sent was a 1, as shown in the figure below 
+6. For this simple counter DUT, the first command we had the ``axi_vip`` perform was to enable the counter. You can see in the 
+   that the ``axi_vip`` initiated a write to the address of ``44A0_0000`` and the data it sent was a 1, as shown in the figure below 
    outlined in red.
 
-.. figure:: /images/DUT/read_waveform.JPG
+.. figure:: /images/DUT/read_waveform.jpg
     :alt: Read Waveform
     :align: center
 
     Simple Counter Waveform of Enable
 
-6. From there, you can scroll down on the waveform to see the ``S_00`` signals. These are the signals for the slave simple counter. 
+7. From there, you can scroll down on the waveform to see the ``S_00`` signals. These are the signals for the slave simple counter. 
    It shows that in the slave, the write address is 0 and the data is 1, which is completed at about 220ns. This is what we 
    expect because that is what we need to do to start this simple counter IP. If you return to the previous image you can see 
    that the counter began counting at about 240ns. You can continue to read the waveforms in this manner. 
         
 .. Note:: Ensure you are running the simulation long enough to see all actions performed in the testbench by using the TCL command ``run -all``!
 
-.. figure:: /images/DUT/read_waveform_2.JPG
-    :alt: Read Waveform
+.. figure:: /images/DUT/read_waveform_2.jpg
+    :alt: Read Waveform2
     :align: center
 
     Simple Counter Waveform of Enable pt.2

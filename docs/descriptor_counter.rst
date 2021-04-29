@@ -924,7 +924,7 @@ Clock Memory Generator connected as shown.
 3. Navigate to the address editor and assign addresses to the custom DUT and the BRAM. In this 
 example we assigned the BRAM to address 0 and the DUT to 0x4000_0000.
         
-.. figure:: /images/DUT2/3_bd.JPG
+.. figure:: /images/DUT2/3_bd.jpg
     :alt: Address Editor
     :align: center
 
@@ -986,7 +986,7 @@ This section is based on the Interpreting Simulation Waveforms For a Custom DUT 
    the AXI VIP, as well as the commands the DUT performs to memory. And the last group of signals to add to 
    the waveform is ``axi_bram_ctrl_0``. This will allow you to see the data stored in memory.
 
-.. figure:: /images/DUT2/4_signals.JPG
+.. figure:: /images/DUT2/4_signals.jpg
     :alt: Add signals
     :align: center
 
@@ -996,7 +996,7 @@ This section is based on the Interpreting Simulation Waveforms For a Custom DUT 
 properly we need to simulate for 3ms. To do this, make sure that the top toolbar is set to at least 3ms and 
 then click the button highlighted in the photo below. 
 
-.. figure:: /images/DUT2/5.JPG
+.. figure:: /images/DUT2/5.jpg
     :alt: 3ms
     :align: center
 
