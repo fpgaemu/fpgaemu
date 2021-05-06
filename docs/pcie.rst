@@ -4,8 +4,6 @@
 Legacy PCI and PCI Express
 ==========================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
-
 .. Important:: This article covers the PCI and PCIe buses. You can read about the specific AXI PCIe MM IP :ref:`here <AXI PCIe Overview>`.
 
 .. _PCI Introduction:

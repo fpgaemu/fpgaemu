@@ -4,8 +4,6 @@
 Creating a Custom AXI IP Core
 =============================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
-
 .. _Packaging Custom IP:
 
 Packaging Custom IP

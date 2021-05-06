@@ -4,8 +4,6 @@
 DDR Memory and SDRAM
 ====================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
-
 .. _RAM Summary:
 
 What is RAM?

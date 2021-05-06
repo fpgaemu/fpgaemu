@@ -4,12 +4,10 @@
 DMA/Bridge for PCIe IP Overview
 ===============================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient!
+.. _DMA IP Overview:
 
-.. _IP Overview:
-
-IP Overview
------------
+DMA IP Overview
+---------------
 
 Xilinx’s DMA/Bridge Subsystem for PCI Express IP is an alternative to the AXI Memory Mapped 
 to PCI Express IP, which was used previously in the “AXI Memory Mapped to PCI Express” section. 
@@ -90,10 +88,10 @@ from the user side to the host machine.  These steps can be seen below:
 
     Figure 4: C2H Transaction
 
-.. _Configuring the IP:
+.. _Configuring the DMA IP:
 
-Configuring the IP
-------------------
+Configuring the DMA IP
+----------------------
 
 The user configuration of the DMA/Bridge Subsystem for PCI Express IP is very similar to the AXI Memory 
 Mapped to PCI Express IP.  It can be customized by either selecting the IP in the IP Integrator tool or 

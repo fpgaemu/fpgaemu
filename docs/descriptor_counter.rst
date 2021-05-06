@@ -4,8 +4,6 @@
 Creating an Advanced Custom AXI Descriptor IP
 =============================================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
-
 This documentation is a continuation of :ref:`Creating a Custom AXI IP Core <Counter>`. 
 The purpose of this documentation is to take the counter previously created and make it more advanced 
 by allowing it to communicate with memory. In this documentation the DUT will utilize BRAM through the 

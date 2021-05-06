@@ -4,7 +4,7 @@
 FPGAEmu: An Introduction to FPGA Emulation
 ==========================================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient! |docs|
+.. Note:: You can find a brief summary of this project :ref:`here <About>` and don't forget to check out our GitHub `repo <https://github.com/fpgaemu/fpgaemu>`_. |docs|
 
 .. Important:: New to FPGAs or just need a refresher? Jump :ref:`here <Emulation>` first!
 
@@ -17,6 +17,7 @@ FPGAEmu: An Introduction to FPGA Emulation
 
 .. toctree::
    :maxdepth: 2
+   :numbered:
    :caption: Hardware Basics
 
    emulation
@@ -27,16 +28,17 @@ FPGAEmu: An Introduction to FPGA Emulation
 
 .. toctree::
    :maxdepth: 2
+   :numbered:
    :caption: Software Basics
 
    drivers
+   pcie_drivers
    gui
-   interface
 
 
 .. toctree::
    :maxdepth: 2
-   :numbered: 
+   :numbered:
    :caption: Basic Environment Infrastructure
 
    mig
@@ -45,6 +47,15 @@ FPGAEmu: An Introduction to FPGA Emulation
 
 .. toctree::
    :maxdepth: 2
+   :numbered:
+   :caption: Device Under Test
+
+   counter
+   descriptor_counter
+
+.. toctree::
+   :maxdepth: 2
+   :numbered:
    :caption: Emulation Environment
 
    infrastructure
@@ -53,10 +64,10 @@ FPGAEmu: An Introduction to FPGA Emulation
 .. toctree::
    :maxdepth: 2
    :numbered:
-   :caption: Device Under Test
+   :caption: Miscellaneous
 
-   counter
-   descriptor_counter
+   about
+   resources
    
 Indices and tables
 ==================

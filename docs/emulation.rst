@@ -4,8 +4,6 @@
 FPGA Review and Emulation Overview
 ==================================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
-
 .. Important:: This section is intended for FPGA and digital design beginners, although some intermediate concepts are briefly discussed. 
 
 A One Minute Introduction to FPGAs
