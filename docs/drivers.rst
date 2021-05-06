@@ -33,7 +33,7 @@ Xilinx's DMA PCIe Drivers are available for both Windows and Linux. However, thr
 software tutorials, we will focus on the Linux OS and similar Unix distributions for its versatility and 
 open-source nature. 
 
-.. figure:: /images/driver/driver_bd.png
+.. figure:: /images/driver/driver_bd.jpg
     :alt: Simple Driver BD
     :align: center
 
@@ -64,7 +64,7 @@ maintain their drivers in-tree.
 Linux does not provide designated samples of device drivers, but the source code of existing production drivers is available 
 and can be used as a reference for developing new device drivers.
 
-.. figure:: /images/driver/os_bd.png
+.. figure:: /images/driver/os_bd.jpg
     :alt: OS Block Diagram
     :align: center
 
