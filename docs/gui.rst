@@ -4,8 +4,6 @@
 Creating a User-Friendly DUT GUI
 ================================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient!
-
 This section focuses on creating a messaging system between a Python GUI, a C++ server, and an example 
 C++ DUT replicating the functionality of our :ref:`FPGA AXI counter <Counter>` in software instead.
 
