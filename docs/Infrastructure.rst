@@ -4,8 +4,6 @@
 Building a Basic Simulation Environment (VC707)
 ===============================================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
-
 .. _BASIC PCIe and MIG Example Designs:
 
 Generating PCIe and MIG Example Designs

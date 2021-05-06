@@ -4,8 +4,6 @@
 AXI Protocol Overview
 =====================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
-
 .. _AXI Protocol:
 
 The AXI Protocol
@@ -77,6 +75,8 @@ burst type is as follows [1]_:
     :align: center
     :width: 65%
 
+    AXI Bursts
+
 AXI4-Lite has no burst protocol (only sending one piece of data at a time) while AXI4-Stream acts as a 
 single unidirectional channel for unlimited data flow between a master and slave, removing the need
 for addresses.
@@ -94,6 +94,8 @@ will now refer to, occurs over multiple channels, each one dedicated to a specif
 .. figure:: /images/axi4/AMBA_AXI_Handshake.svg
     :alt: AXI handshake
     :align: right
+
+    AXI Handshake Protocol
 
 The sender must always assert a VALID signal before the receiver and keep it HIGH until the 
 handshake is completed. By using handshakes, the speed and regularity of any data transfer 

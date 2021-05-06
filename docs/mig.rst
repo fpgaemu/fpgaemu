@@ -4,8 +4,6 @@
 MIG 7 Series IP Overview
 ========================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
-
 The MIG 7 Series IP is a ubiquitous core that is compatible with all 7 Series FPGAs, adding easy memory
 management into any design. For this article, we will discuss using the MIG with both a Kintex-7 and
 Virtex-7 board, such as the KC705 and VC707 respectively.  

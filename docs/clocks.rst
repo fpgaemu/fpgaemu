@@ -4,7 +4,7 @@
 Clocks, Clocking Wizard, and Timing
 ===================================
 
-.. Note:: All pages are under construction as we work to finalize this project. Please be patient! 
+.. Note:: This page is currently under construction. 
 
 Clocks and Clock Conversion
 ---------------------------
