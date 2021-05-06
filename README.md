@@ -1,3 +1,5 @@
+# FPGAEmu: An Introduction to FPGA Emulation
+
 [![Documentation Status](https://readthedocs.org/projects/fpgaemu/badge/?version=latest)](https://fpgaemu.readthedocs.io/en/latest/?badge=latest)
 
 It can be challenging for universities to provide applicable, real-world experience to undergraduate students. Utilizing development boards provided by Qualcomm, students will be able to explore fundamental HDL-based concepts not normally covered in an academic setting. 
