@@ -99,7 +99,7 @@ by inserting it into a block diagram.  Here are some of the new customization op
 
 **Basic** tab:
 
-.. figure:: /images/DMA/basic.png
+.. figure:: /images/DMA/basic.PNG
     :alt: Basic Tab
     :align: center
 
@@ -111,7 +111,7 @@ by inserting it into a block diagram.  Here are some of the new customization op
 
 **BARs** tab:
 
-.. figure:: /images/DMA/BARs.png
+.. figure:: /images/DMA/BARs.PNG
     :alt: BARs Tab
     :align: center
 
@@ -130,7 +130,7 @@ by inserting it into a block diagram.  Here are some of the new customization op
 
 **DMA** tab:
 
-.. figure:: /images/DMA/DMA.png
+.. figure:: /images/DMA/DMA.PNG
     :alt: DMA Tab
     :align: center
 

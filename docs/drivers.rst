@@ -140,11 +140,9 @@ Transferring Data Within the Kernel
 
 Both Linux and Windows support three ways of transferring data between user-level applications and kernel-level drivers:
 
-    - **Buffered Input-Output** which uses buffers managed by the kernel. For write operations, the kernel copies data from the user-space buffer into a 
-        kernel-allocated buffer and passes it to the device driver. Reads are the same, with kernel copying data from a kernel buffer into the buffer provided by the application. 
+    - **Buffered Input-Output** which uses buffers managed by the kernel. For write operations, the kernel copies data from the user-space buffer into a kernel-allocated buffer and passes it to the device driver. Reads are the same, with kernel copying data from a kernel buffer into the buffer provided by the application. 
 
-    - **Direct Input-Output** which does not involve copying. Instead, the kernel pins a user-allocated buffer in a physical memory so that it remains there without being 
-        swapped out while data is in progress. 
+    - **Direct Input-Output** which does not involve copying. Instead, the kernel pins a user-allocated buffer in a physical memory so that it remains there without being swapped out while data is in progress. 
 
     - **Memory Mapping** can also be arranged by the kernel so that the kernel and user-space applications can access the same pages of memory using distinct addresses. 
 

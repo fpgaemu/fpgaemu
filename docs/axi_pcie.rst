@@ -716,7 +716,7 @@ have every connection, as well as initialize the debug ports and calibration log
     `endif
 ..
 
-.. figure:: /images/pcie/pcie_mig_schematic.png
+.. figure:: /images/pcie/pcie_mig_schematic.PNG
     :alt: PCIe MIG Schematic
     :align: center
 

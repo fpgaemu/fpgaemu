@@ -63,10 +63,12 @@ simulate data transactions within virtual memory.
 Environment Setup
 -----------------
 
-This setup has been tested on both Ubuntu/Debian-based distributions and CentOS/Red Hat. Steps may vary based on the Linux distribution used.
+This setup has been tested on both Ubuntu/Debian-based distributions and CentOS/Red Hat. Steps may vary based on the Linux distribution used. Windows and MacOS not tested, although the system should function properly with all dependencies installed.
 
 Dependencies
 ============
+
+.. Important:: The GUI folder can be downloaded :download:`here </files/GUI.zip>`. 
 
 For this system to function properly, we need to install multiple dependencies. This includes Python, ZeroMQ, CMake, and other libraries. 
 Depending on your current environment, some steps may be skipped. Assume that all installation commands need ``sudo`` permission. 

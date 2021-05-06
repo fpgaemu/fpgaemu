@@ -117,7 +117,7 @@ Since the MIG needs time to calibrate and set up, no AXI reads/writes will occur
 pin goes HIGH after 100us.
 
 After running the MIG's Behavioral Simulation, you should observe that the AXI Address Width is 27 bits 
-and the AXI Data Width is 32 bits, which is expected.
+and the AXI Data Width is 32 bits, whfich is expected.
 
 .. Tip:: To find AXI parameter values such as Address or Data Width and Base Address, look for the comment *AXI4 Shim parameters* in the u_mig_7series_4_mig module.
 
@@ -401,14 +401,16 @@ this, we will use an AXI SmartConnect IP.
 
 .. Error:: Xilinx now recommends that all new AXI designs use the SmartConnect v1.0 core. It is not recommended to use the AXI Interconnect v2.1 core. 
 
-.. Note:: You can read more about the SmartConnect IP :ref: `here <AXI Interconnect SmartConnect>`.
+.. Note:: You can read more about the SmartConnect IP :ref:`here <AXI Interconnect SmartConnect>`.
 
-Begining with our modified MIG example design with one AXI VIP, create a new block diagram (BD). Add a 
+Beginning with our modified MIG example design with one AXI VIP, create a new block diagram (BD). Add a 
 SmartConnect IP and customize it as shown:
 
 .. figure:: /images/mig7/axi_sc.png
    :alt: MIG AXI SmartConnect
    :align: center
+
+   SmartConnect customization
 
 Add two Master AXI VIP IPs to the BD and customize them: 
 
@@ -420,11 +422,15 @@ Add two Master AXI VIP IPs to the BD and customize them:
    :alt: MIG AXI VIP 2
    :align: center
 
+   MIG AXI VIP customization
+
 Connect them together in the BD (make ``aclk``, ``aresetn``, and ``M00_AXI`` external to instanitate them later):
 
 .. figure:: /images/mig7/2axi_vip_blk.png
    :alt: MIG AXI 2 VIP BD
    :align: center
+
+   AXI VIP Block Diagram
 
 If you try to Validate the BD now, a warning message about an unmapped slave will appear. To fix this, go to 
 the **Address Editor** tab and right click on the two AXI Master VIPs to map the ``M00_AXI_0`` port to 
@@ -433,6 +439,8 @@ Offset Address 0x0000_0000 for both AXI VIPs.
 .. figure:: /images/mig7/2axi_vip_addr.png
    :alt: MIG AXI Address editor
    :align: center
+
+   MIG AXI Address Editor
 
 Make sure your design fully validates by right clicking the BD and selecting :guilabel:`Validate Design`.
 
