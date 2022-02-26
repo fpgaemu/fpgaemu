@@ -41,7 +41,7 @@ Figure 2).
 
     Figure 2: Example of CD ROM
 
-Most computers have both RAM and ROM components inside them, as RAM is needed for storing 
+Most computers have both [RAM and ROM](https://www.scaler.com/topics/difference-between-ram-and-rom/) components inside them, as RAM is needed for storing 
 program/application data and ROM is needed for storing permanent instructions (i.e: boot-up 
 instructions).  They both have their own advantages and disadvantages, and so there is always 
 a tradeoff between speed and volatility.  While RAM components are generally much faster than 
